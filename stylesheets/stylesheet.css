@@ -151,6 +151,19 @@ img {
   -ms-box-shadow: 0 0 5px #ebebeb;
 }
 
+img#m6Logo {
+  padding: 0 0 20px 0;
+  margin: 0 0 0 0;
+  border: none;
+  max-width: 400px;
+
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -ms-box-shadow: none;
+}
+
 pre, code {
   width: 100%;
   color: #222;
