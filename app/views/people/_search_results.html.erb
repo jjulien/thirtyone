@@ -1,0 +1,24 @@
+<div id="results" class="results <%if @people.length == 0%>hide<% end %>">
+  <ul data-dropdown-content>
+    <% @people.each_with_index do |person, index|
+      rowclass = 'oddrow '
+      rowclass = 'evenrow ' if index % 2 == 0
+      rowclass += 'last-element' if index == @people.length - 1
+    %>
+        <li onclick="showPersonDiv(this);" class="<%= rowclass %>">
+          <span> &#9658;&nbsp;<%= person.fullname %></span>
+          <div name="persondetails" class="persondetails hide">
+            <div class="row">
+              <div class="large-6 columns">
+                1500 North Airport Road<br />
+                Normal, IL 61761
+              </div>
+              <div class="large-6 columns">
+                <%= mail_to "contactus@eastviewcc.org" %><br />
+                (309) 451-5000
+              </div>
+            </div>
+        </li>
+    <% end %>
+  </ul>
+</div>
