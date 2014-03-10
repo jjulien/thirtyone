@@ -5,6 +5,7 @@ class PeopleController < ApplicationController
   # GET /people.json
   def index
     @people = Person.all
+    @new_person = Person.new
   end
 
   # GET /people/search
@@ -39,7 +40,7 @@ class PeopleController < ApplicationController
 
   # GET /people/new
   def new
-    @person = Person.new
+    @new_person = Person.new
   end
 
   # GET /people/1/edit
@@ -50,7 +51,6 @@ class PeopleController < ApplicationController
   # POST /people.json
   def create
     @person = Person.new(person_params)
-
     respond_to do |format|
       if @person.save
         format.html { redirect_to @person, notice: 'Person was successfully created.' }

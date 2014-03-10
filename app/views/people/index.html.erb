@@ -13,7 +13,10 @@
         </div>
         <div class="row">
             <div class="large-12 columns">
-                <div><button class="hide" id="newperson"></button></div>
+                <div><button onclick="showNewPersonDiv(this);" class="hide" id="newperson"></button></div>
+                <div class="hide" id="newperson_div">
+                   <%= render "form" %>
+                </div>
             </div>
             <div class="large-12 columns">
                 <%= render "search_results" %>
