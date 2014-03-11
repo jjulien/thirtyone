@@ -1,4 +1,5 @@
 class PeopleController < ApplicationController
+  require 'json'
   before_action :set_person, only: [:show, :edit, :update, :destroy]
 
   # GET /people
@@ -21,6 +22,7 @@ class PeopleController < ApplicationController
     sql_conditional = "AND" if search_keys.length > 1
 
     @people = Person.where("firstname LIKE ? #{sql_conditional} lastname LIKE ?", firstname_key, lastname_key).first(rowlimit.to_i)
+    @new_person = Person.new
     respond_to do |format|
       format.html {
         if params[:ajax]
@@ -53,7 +55,8 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
     respond_to do |format|
       if @person.save
-        format.html { redirect_to @person, notice: 'Person was successfully created.' }
+        search_keys = JSON.generate([@person.firstname, @person.lastname])
+        format.html { redirect_to action: 'search', notice: 'Person was successfully created.', search: search_keys}
         format.json { render action: 'show', status: :created, location: @person }
       else
         format.html { render action: 'new' }
