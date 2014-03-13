@@ -18,6 +18,10 @@ function showNewPersonDiv(input)  {
     //       and populate the firstname and lastname fields in the new form
 
     // TODO: Animations need to be a bit smoother
+    var search = $("#search").val();
+    var search_array = search.split(" ");
+    $("#person_firstname").val(search_array[0]);
+    $("#person_lastname").val(search_array[1]);
     $("#searcharea").slideUp();
     $("#results").slideUp( { complete: function() {
         $("#newperson_div").slideDown();
