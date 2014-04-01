@@ -1,6 +1,5 @@
 Thirtyone::Application.routes.draw do
 
-
   devise_for :users
 
 #  resources :inventory_orders
@@ -17,6 +16,11 @@ Thirtyone::Application.routes.draw do
 
 
   root  'static_pages#index'
+
+  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}, via: :all
+  end
+
+  resources :event
 
   resources :people do
     collection do

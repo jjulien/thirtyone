@@ -46,6 +46,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     erubis (2.7.0)
+    event-calendar (2.3.3)
     execjs (2.0.2)
     figaro (0.7.0)
       bundler (~> 1.0)
@@ -130,6 +131,7 @@ DEPENDENCIES
   devise
   figaro
   foundation-rails (~> 5.2.2.0)
+  event-calendar
   jbuilder (~> 1.2)
   jquery-rails
   rails (= 4.0.2)
