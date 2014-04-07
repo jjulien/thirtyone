@@ -2,6 +2,15 @@ Thirtyone::Application.routes.draw do
 
 
   devise_for :users
+
+  resources :inventory_orders
+
+  resources :inventory_order_items
+
+  resources :inventory_stock_records
+
+  resources :inventory_items
+
   root  'static_pages#index'
 
   resources :people do
