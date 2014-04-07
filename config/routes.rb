@@ -1,9 +1,7 @@
 Thirtyone::Application.routes.draw do
 
 
-  Thirtyone::Application.routes.draw do
-    root  'static_pages#index'
-  end
+  root  'static_pages#index'
 
   resources :people do
     collection do
