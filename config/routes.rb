@@ -3,13 +3,18 @@ Thirtyone::Application.routes.draw do
 
   devise_for :users
 
-  resources :inventory_orders
+#  resources :inventory_orders
 
-  resources :inventory_order_items
+  scope 'inventory' do
+    resources :items, as: 'inventory_items', controller: 'inventory_items'
+    resources :orders, controller: 'inventory_orders'
 
-  resources :inventory_stock_records
+    #TODO: Need to figure out what to name this
+    resources :inventory_stock_records
+  end
 
-  resources :inventory_items
+
+
 
   root  'static_pages#index'
 
