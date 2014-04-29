@@ -11,18 +11,39 @@
           </div>
           <div class="hide expanded_header">
             <span class="left">&#9660;&nbsp;<%= person.fullname %></span>
-            <span class="right"><button class="tiny secondary">Edit</button></span>
+            <span name="edit_button" class="right"><button onclick="editPerson(this);" class="tiny secondary">Edit</button></span>
+            <div name="editting_div" class="right hide">
+                <span><button onclick="savePerson(this);" class="tiny secondary">Save</button></span>
+                <span><button onclick="cancelEdit(this);" class="tiny secondary">Cancel</button></span>
+            </div>
             <span class="clearfix"></span>
           </div>
           <div name="persondetails" class="persondetails hide">
             <div class="row">
-              <div class="large-6 columns">
-                1500 North Airport Road<br />
+              <div name="raw1" class="large-6 columns">
+                <span tag="raw">1500 North Airport Road<br />
                 Normal, IL 61761
+                </span>
               </div>
-              <div class="large-6 columns">
-                <%= mail_to "contactus@eastviewcc.org" %><br />
-                (309) 451-5000
+              <div name="edit_fields1" class="large-8 columns hide">
+                    <span tag="editable1" class="hide">
+                        <br />
+                        ADDRS1: &nbsp;&nbsp;&nbsp; <input name="line1" size="40" /><br />
+                        ADDRS2: &nbsp;&nbsp;&nbsp; <input name="line2" size="40" /><br />
+                        CITY, STATE ZIP <input name="city" size="20" />, <input name="state" size="3" /> <input name="zip"size="5" />
+                    </span>
+              </div>
+              <div name="raw2" class="large-6 columns">
+                <span tag="raw">
+                    <%= mail_to "contactus@eastviewcc.org" %><br />
+                    (309) 451-5000
+                </span>
+              </div>
+              <div name="edit_fields2" class="large-4 columns hide">
+                    <span tag="editable" class="hide">
+                        EMAIL:  <input name="email" />
+                        PHONE:  <input name="phone" />
+                    </span>
               </div>
             </div>
         </li>

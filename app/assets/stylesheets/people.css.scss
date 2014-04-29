@@ -27,8 +27,13 @@
         cursor: hand;
         cursor: pointer;
       }
+
     }
   }
+}
+.expanded_li:hover {
+  //background-color: transparent !important;
+  color:#0000cc !important;
 }
 
 .existing_household {

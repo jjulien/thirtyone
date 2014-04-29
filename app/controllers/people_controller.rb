@@ -31,7 +31,7 @@ class PeopleController < ApplicationController
         if params[:ajax]
           render :partial => 'search_results'
         else
-          render action: 'index'
+          render :action => 'index'
         end
       }
       format.json { render action: 'index.json' }
