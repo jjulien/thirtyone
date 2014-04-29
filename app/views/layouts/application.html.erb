@@ -11,24 +11,40 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-  <nav class="top-bar" data-topbar>
-    <section class="top-bar-section">
-    <ul class="left">
-      <li class="name"><h1><%= link_to "ThirtyOne", root_path %></h1></li>
-    <li><a href="<%= people_path %>">Start Serving</a></li>
-    <li><a href="#">Scheduling</a></li>
-    <li><a href="#">Inventory</a></li>
-    <li><a href="#">Reports</a></li>
-    <li><a href="#">Users</a></li>
-    </ul>
-      <ul class="right">
-        <li><a href="#">My Account</a></li>
-      </ul>
-    </section>
-  </nav>
-  <%= yield %>
 
-  <%= javascript_include_tag "application" %>
+      <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+          <li class="name">
+            <h1><%= link_to "ThirtyOne", root_path %></h1>
+          </li>
+          <li class="toggle-topbar menu-icon">
+            <a href="#">Menu</a>
+          </li>
+        </ul>
+        <section class="top-bar-section">
+          <ul class="left">
+              <li class="divider"></li>
+              <li><a href="<%= people_path %>">Start Serving</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Scheduling</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Inventory</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Reports</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Users</a></li>
+              <li class="divider"></li>
+          </ul>
+          <ul class="right">
+              <li class="divider"></li>
+              <li><a href="#">My Account</a></li>
+          </ul>
+        </section>
+      </nav>
+
+    <%= yield %>
+
+    <%= javascript_include_tag "application" %>
 
   </body>
 </html>

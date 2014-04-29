@@ -1,9 +1,8 @@
 Thirtyone::Application.routes.draw do
 
 
-  Thirtyone::Application.routes.draw do
-    root  'static_pages#index'
-  end
+  devise_for :users
+  root  'static_pages#index'
 
   resources :people do
     collection do
