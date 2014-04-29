@@ -1,6 +1,16 @@
 <!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
 <%= stylesheet_link_tag "event_calendar" %>
 
-<h1>Calendar</h1>
+
+<div style="width:400px;">
+  <div style="float: left; width: 130px">
+    <div style="padding-top:10px"><a class="button small" href="<%= new_event_path %>">New Event</a></div>
+  </div>
+  <div style="float: right; width: 225px">
+
+    <div style="padding-top:10px"><a class="button small" href="<%= events_path %>">Events List</a></div>
+  </div>
+</div>
 
 <%= raw(event_calendar) %>
+

@@ -12,15 +12,11 @@ Thirtyone::Application.routes.draw do
     resources :inventory_stock_records
   end
 
-
-
-
   root  'static_pages#index'
 
   match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}, via: :all
-  end
 
-  resources :event
+  resources :event, as: "events", controller: "event", via: :all
 
   resources :people do
     collection do
