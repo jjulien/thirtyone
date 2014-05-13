@@ -1,5 +1,4 @@
 class PeopleController < ApplicationController
-  require 'json'
   before_action :set_person, only: [:show, :edit, :update, :destroy]
   # before_action :authenticate_user!
   # GET /people
