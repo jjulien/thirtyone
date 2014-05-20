@@ -12,9 +12,12 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-  <%= render "static_pages/topnav" %>
+  <%= if(user_signed_in?)
+    render "static_pages/topnav"
+  else 
+    render "static_pages/unauthTopnav"
+  end %>
 
     <%= yield %>
-
   </body>
 </html>
