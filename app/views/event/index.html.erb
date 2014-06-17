@@ -2,23 +2,26 @@
 <h1>Event</h1>
 <p>Welcome to the events page</p>
 <table>
-  <tr>
-    <th>Name</th>
-    <th>Start</th>
-    <th>End</th>
-    <th>Delete</th>
-  </tr>
-
-<% @events.each do |event| %>
-<tr>
-  <td><%= event.name %></td>
-  <td><%= event.start_at.to_date %></td>
-  <td><%= event.end_at.to_date %></td>
-  <td>
-    <%= button_to "Delete", {:controller => :event,
-                               :action => 'destroy', :id => event.id }, :method => :delete %></td>
-</tr>
-<% end %>
+  <thead>
+      <tr>
+        <th>Name</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Delete</th>
+      </tr>
+  </thead>
+  <tbody>
+    <% @events.each do |event| %>
+    <tr>
+      <td><%= event.name %></td>
+      <td><%= event.start_at.to_date %></td>
+      <td><%= event.end_at.to_date %></td>
+      <td>
+        <%= button_to "Delete", {:controller => :event,
+                                   :action => 'destroy', :id => event.id }, :method => :delete %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 <div style="padding-top:10px">
   <a class="button small" href="<%= new_event_path %>">New Event</a>
