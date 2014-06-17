@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415011551) do
+ActiveRecord::Schema.define(version: 20140610031047) do
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -54,6 +54,33 @@ ActiveRecord::Schema.define(version: 20140415011551) do
     t.datetime "updated_at"
   end
 
+  create_table "note_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notes", force: true do |t|
+    t.string   "note"
+    t.integer  "note_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notes_people", force: true do |t|
+    t.integer  "note_id"
+    t.integer  "person_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "notes_visits", force: true do |t|
+    t.integer  "note_id"
+    t.integer  "visit_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "people", force: true do |t|
     t.string   "firstname"
     t.string   "lastname"
@@ -80,5 +107,13 @@ ActiveRecord::Schema.define(version: 20140415011551) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+
+  create_table "visits", force: true do |t|
+    t.integer  "person_id"
+    t.date     "visit_date"
+    t.integer  "host_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

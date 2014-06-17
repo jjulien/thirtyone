@@ -11,7 +11,8 @@
 #
 
 class Person < ActiveRecord::Base
-
+#  has_notes
+  has_and_belongs_to_many :notes
   def fullname
     firstname if not lastname else "#{firstname} #{lastname}"
   end
