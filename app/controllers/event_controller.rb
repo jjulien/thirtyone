@@ -5,7 +5,13 @@ class EventController < ApplicationController
 
   def new
     @new_event=Event.new
-
+    year = params[:year].to_s()
+    if year.length > 0
+      t=(params[:year].to_s() + '/' + params[:month].to_s() + '/' + params[:day].to_s())
+      @new_event.start_at = t.to_date
+    else
+      @new_event.start_at=(Date.today())
+    end
   end
 
 
@@ -14,8 +20,14 @@ class EventController < ApplicationController
     @edit_event.name = params[:event][:name]
     @edit_event.start_at = params[:event][:start_at]
     @edit_event.end_at = params[:event][:end_at]
-    @edit_event.save
-    render action: 'edit'
+    #@edit_event.save
+    respond_to do |format|
+      if @edit_event.save
+        format.html { redirect_to action: 'index'}
+      else
+        format.html { redirect_to action: 'new' }
+      end
+    end
   end
 
   def edit
@@ -41,6 +53,8 @@ class EventController < ApplicationController
     @event.name = params[:event][:name]
     @event.start_at = params[:event][:start_at]
     @event.end_at = params[:event][:end_at]
+    @event.event_type = params[:event][:event_type]
+
 
     respond_to do |format|
       if @event.save

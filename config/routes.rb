@@ -14,7 +14,12 @@ Thirtyone::Application.routes.draw do
 
   root  'static_pages#index'
 
-  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}, via: :all
+  match '/calendar(/:year(/:month))' => 'calendar#index',
+        :as => :calendar,
+        :constraints => {:year => /\d{4}/, :month => /\d{1,2}/},
+        via: :all
+
+  match '/calendar/:year/:month/:day', :controller => "calendar", :action => "day", via: :all
 
   resources :event, as: "events", controller: "event", via: :all
 

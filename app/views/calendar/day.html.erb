@@ -1,0 +1,24 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+
+  <% @events.each do |event| %>
+      <tr>
+        <td><%= event.name %></td>
+        <td><%= event.start_at %></td>
+        <td><%= event.end_at.to_date %></td>
+        <td><%= button_to "Edit",
+                          {:controller => :event, :action => 'show', :id => event.id },
+                          :method => :get, class: "button tiny"%></td>
+        <td><%= button_to "Delete",
+                          {:controller => :event, :action => 'destroy', :id => event.id },
+                          :method => :delete, class: "button tiny"%></td>
+
+      </tr>
+  <% end %>
+</table>

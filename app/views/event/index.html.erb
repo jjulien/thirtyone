@@ -6,6 +6,7 @@
     <th>Name</th>
     <th>Start</th>
     <th>End</th>
+    <th>Type</th>
     <th>Delete</th>
   </tr>
 
@@ -14,6 +15,7 @@
   <td><%= event.name %></td>
   <td><%= event.start_at %></td>
   <td><%= event.end_at.to_date %></td>
+  <td><%= event.event_type %></td>
   <td>
     <%= button_to "Delete", {:controller => :event,
                                :action => 'destroy', :id => event.id }, :method => :delete %></td>
