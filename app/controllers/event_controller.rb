@@ -53,7 +53,6 @@ class EventController < ApplicationController
     @event.name = params[:event][:name]
     @event.start_at = params[:event][:start_at]
     @event.end_at = params[:event][:end_at]
-    @event.event_type = params[:event][:event_type]
 
 
     respond_to do |format|

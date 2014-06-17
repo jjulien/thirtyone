@@ -129,9 +129,9 @@ DEPENDENCIES
   annotate (>= 2.6.0)
   coffee-rails (~> 4.0.0)
   devise
+  event-calendar
   figaro
   foundation-rails (~> 5.2.2.0)
-  event-calendar
   jbuilder (~> 1.2)
   jquery-rails
   rails (= 4.0.2)
