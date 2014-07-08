@@ -31,6 +31,13 @@ ActiveRecord::Schema.define(version: 20140805012847) do
     t.datetime "updated_at"
   end
 
+  create_table "households", force: true do |t|
+    t.string   "name"
+    t.integer  "person_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inventory_items", force: true do |t|
     t.string   "name"
     t.integer  "quantity"
@@ -97,6 +104,7 @@ ActiveRecord::Schema.define(version: 20140805012847) do
     t.string   "phone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "household_id"
   end
 
   create_table "roles", force: true do |t|
