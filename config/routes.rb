@@ -1,8 +1,27 @@
 Thirtyone::Application.routes.draw do
 
-
   devise_for :users
+
+#  resources :inventory_orders
+
+  scope 'inventory' do
+    resources :items, as: 'inventory_items', controller: 'inventory_items'
+    resources :orders, controller: 'inventory_orders'
+
+    #TODO: Need to figure out what to name this
+    resources :inventory_stock_records
+  end
+
   root  'static_pages#index'
+
+  match '/calendar(/:year(/:month))' => 'calendar#index',
+        :as => :calendar,
+        :constraints => {:year => /\d{4}/, :month => /\d{1,2}/},
+        via: :all
+
+  match '/calendar/:year/:month/:day', :controller => "calendar", :action => "day", via: :all
+
+  resources :event, as: "events", controller: "event", via: :all
 
   resources :people do
     collection do

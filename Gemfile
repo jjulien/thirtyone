@@ -44,6 +44,11 @@ group :development do
   gem 'annotate', ">=2.6.0"
 end
 
+gem 'event-calendar', :require => 'event_calendar'
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.1.2'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

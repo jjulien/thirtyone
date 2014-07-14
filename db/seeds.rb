@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+types = ['Prayer Request', 'Comment', 'Needs', 'Follow Up']
+types.each do |type|
+  NoteType.create(name: type)
+end
+
+  
