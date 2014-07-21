@@ -11,7 +11,7 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def show?
-    false
+    true
   end
 
   def create?

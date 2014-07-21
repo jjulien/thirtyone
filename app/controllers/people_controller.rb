@@ -52,6 +52,7 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
+    authorize Person
     @person = Person.new(person_params)
     respond_to do |format|
       if @person.save
