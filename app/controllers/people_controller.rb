@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   # GET /people
   # GET /people.json
   def index
@@ -37,6 +37,7 @@ class PeopleController < ApplicationController
   # GET /people/1
   # GET /people/1.json
   def show
+    authorize @person
   end
 
   # GET /people/new
@@ -51,6 +52,7 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
+    authorize Person
     @person = Person.new(person_params)
     respond_to do |format|
       if @person.save

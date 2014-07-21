@@ -12,8 +12,14 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-  <%= render "static_pages/topnav" %>
-    <%= yield %>
+  <%= if(user_signed_in?)
+    render "static_pages/topnav"
+  else 
+    render "static_pages/unauthTopnav"
+  end %>
+  <p id="notice"><%= notice %></p>
+  <p id="error"><%= alert %></p>
 
+    <%= yield %>
   </body>
 </html>
