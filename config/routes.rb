@@ -1,5 +1,7 @@
 Thirtyone::Application.routes.draw do
 
+  resources :user_roles
+
   devise_for :users
 
 #  resources :inventory_orders
@@ -13,6 +15,9 @@ Thirtyone::Application.routes.draw do
   end
 
   root  'static_pages#index'
+
+  resources :user, as: "users", controller: "users", via: :all
+  resources :role, as: "roles", controller: "roles", via: :all
 
   match '/calendar(/:year(/:month))' => 'calendar#index',
         :as => :calendar,
