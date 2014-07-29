@@ -1,3 +1,6 @@
+<div id="selectHouseholdModal" class="reveal-modal" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
 <%= form_for(@new_person) do |f| %>
   <% if @new_person.errors.any? %>
     <div id="error_explanation">
@@ -18,6 +21,21 @@
   <div class="field">
     <label for="person_lastname">Last Name</label><br />
     <%= f.text_field :lastname %>
+  </div>
+  <div class="field">
+    <label for="person_household">Household</label><br />
+    <div id="select_household">
+      <span id="household_summary"><i>None, you must select or create a household</i></span>
+      <button type="button" onclick="$('#selectHouseholdModal')
+                                .foundation('reveal',
+                                            'open',
+                                            {url: '<%= household_index_path %>',
+                                             data: {ajax: true},
+                                             complete: function(xhr, status) {
+                                                      $('#selectHouseholdModal')
+                                                              .append('<a class=\'close-reveal-modal\'>&#215;</a>');
+                                             } });" class="tiny" >Select or Create Household</button>
+    </div>
   </div>
   <div class="field">
     <%= f.label :phone %><br>

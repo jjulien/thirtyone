@@ -2,12 +2,13 @@
 #
 # Table name: people
 #
-#  id         :integer          not null, primary key
-#  firstname  :string(255)
-#  lastname   :string(255)
-#  phone      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer          not null, primary key
+#  firstname    :string(255)
+#  lastname     :string(255)
+#  phone        :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  household_id :integer
 #
 
 class Person < ActiveRecord::Base
@@ -19,4 +20,10 @@ class Person < ActiveRecord::Base
     firstname if not lastname else "#{firstname} #{lastname}"
   end
 
+  def formal_name
+    fn = lastname if lastname
+    fn += ", " if fn and firstname
+    fn += firstname if firstname
+    fn
+  end
 end
