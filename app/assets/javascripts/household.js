@@ -27,4 +27,5 @@ function selectHousehold(row) {
 
     $('#selectHouseholdModal').foundation('reveal', 'close');
     $('#household_summary').html(household_summary);
+    $('#person_household_id').val(household_id);
 }

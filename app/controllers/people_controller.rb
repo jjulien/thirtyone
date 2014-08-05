@@ -43,6 +43,7 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @new_person = Person.new
+    @new_household = Household.new
   end
 
   # GET /people/1/edit
