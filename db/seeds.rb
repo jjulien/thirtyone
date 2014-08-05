@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 types = ['Prayer Request', 'Comment', 'Needs', 'Follow Up']
 types.each do |type|
-  NoteType.create(name: type)
+  NoteType.find_or_create_by(name: type)
 end
 
 states = [{ :name => 'Alabama', :abbreviation => 'AL' },
