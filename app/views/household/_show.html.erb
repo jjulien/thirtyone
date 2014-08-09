@@ -1,0 +1,17 @@
+<div class="small-12 columns">
+  <div class="existing_household">
+        <strong>Name</strong><br />
+        <%= @household.name %><br /><br />
+        <strong>Members</strong><br />
+        <%= @household.members.map {|person| person.formal_name}.join('; ') %><br /><br />
+        <strong>Address</strong><br />
+        <% if @household.address %>
+            <%= @household.address.line1 %><br />
+            <% if @household.address.line2 %><%= @household.address.line2 %><br /><% end %>
+            <%= @household.address.city_state_zip %>
+        <%else%>
+            None on file
+        <% end %>
+    <input type="hidden" name="person[household_id]" value="<%= @household.id %>" />
+  </div>
+</div>

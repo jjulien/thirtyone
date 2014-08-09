@@ -19,9 +19,15 @@ Thirtyone::Application.routes.draw do
         :constraints => {:year => /\d{4}/, :month => /\d{1,2}/},
         via: :all
 
-  match '/calendar/:year/:month/:day', :controller => "calendar", :action => "day", via: :all
+  match '/calendar/:year/:month/:day', :controller => 'calendar', :action => 'day', via: :all
 
-  resources :event, as: "events", controller: "event", via: :all
+  resources :event, as: 'events', controller: 'event', via: :all
+
+  resources :households, controller: 'household' do
+    collection do
+      get :search
+    end
+  end
 
   resources :people do
     collection do

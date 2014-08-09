@@ -6,6 +6,10 @@ class PeopleController < ApplicationController
   def index
     @people = Person.all
     @new_person = Person.new
+    @all_states = State.all
+    #@new_household = Household.new
+    #@new_household.address = Address.new
+    #@new_household.address.state = State.new
   end
 
   # GET /people/search
@@ -43,6 +47,7 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @new_person = Person.new
+    @new_household = Household.new
   end
 
   # GET /people/1/edit
@@ -52,8 +57,20 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
-    authorize Person
+    #authorize Person
     @person = Person.new(person_params)
+    if params[:person][:household_id]
+      @person.household_id = params[:person][:household_id]
+    else
+      household = Household.new
+      household.address = Address.new(line1: params[:address][:line1],
+                                      line2: params[:address][:line2],
+                                      city: params[:address][:city],
+                                      zip: params[:address][:zip],
+                                      state_id: params[:state][:id])
+      @person.household = household
+    end
+
     respond_to do |format|
       if @person.save
         search_keys = JSON.generate([@person.firstname, @person.lastname])
