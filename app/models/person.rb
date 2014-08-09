@@ -22,8 +22,8 @@ class Person < ActiveRecord::Base
 
   def formal_name
     fn = lastname if lastname
-    fn += ", " if fn and firstname
-    fn += firstname if firstname
+    fn += ', ' if fn and firstname and fn.length > 0 and firstname.length > 0
+    fn += firstname if firstname and firstname.length > 0
     fn
   end
 end

@@ -2,11 +2,13 @@
 #
 # Table name: households
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  person_id  :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  person_id    :integer
+#  created_at   :datetime
+#  updated_at   :datetime
+#  household_id :integer
+#  address_id   :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

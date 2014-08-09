@@ -6,9 +6,9 @@
         rowclass = 'evenrow ' if index % 2 == 0
         rowclass += 'last-element' if index == @households.length - 1
       %>
-      <tr onclick="selectHousehold(this);" class="<%= rowclass %>">
+      <tr onclick="selectHousehold(this, '<%= household_url(household) %>');" class="<%= rowclass %>">
         <td>
-          <%= household.head.formal_name %>
+          <%= household.summary %>
           <input type="hidden" name="household_summary" value="<%= household.summary %>" />
           <input type="hidden" name="household_id" value="<%= household.id %>" />
         </td>

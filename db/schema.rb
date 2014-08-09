@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805012847) do
+ActiveRecord::Schema.define(version: 20140807172616) do
 
   create_table "addresses", force: true do |t|
     t.string   "line1"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20140805012847) do
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "household_id"
+    t.integer  "address_id"
   end
 
   create_table "inventory_items", force: true do |t|

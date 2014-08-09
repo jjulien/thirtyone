@@ -5,7 +5,7 @@ function updateHouseholdSearch(input) {
     var search_keys = JSON.stringify(search_key_array);
 
     var request = $.ajax({
-        url: "household/search",
+        url: "households/search",
         type: "GET",
         data: { search : search_keys,
             ajax   : true },
@@ -21,11 +21,30 @@ function updateHouseholdSearch(input) {
     });
 }
 
-function selectHousehold(row) {
-    var household_summary = $(row).find('input[name=household_summary]').val();
+function selectHousehold(row, url) {
     var household_id = $(row).find('input[name=household_id]').val();
+    //var url = base_url + "/" + household_id;
+    $.ajax({url: url,
+        data: {ajax: true}
+    }).fail(function( jqXHR, textStatus, errorThrown ) {
+            alert("Sorry, a failure occured");
+        })
+        .done(function(data, status, xhr) {
+            $('#selectHouseholdModal').foundation('reveal', 'close');
+            $('#household_div').html(data);
+            $('#select_household_message').hide();
+        });
+}
 
-    $('#selectHouseholdModal').foundation('reveal', 'close');
-    $('#household_summary').html(household_summary);
-    $('#person_household_id').val(household_id);
+function newHouseholdAjax(url) {
+    $.ajax({url: url,
+        data: {ajax: true}
+    }).fail(function( jqXHR, textStatus, errorThrown ) {
+            alert("Sorry, a failure occured");
+        })
+        .done(function(data, status, xhr) {
+            $('#selectHouseholdModal').foundation('reveal', 'close');
+            $('#household_div').html(data);
+            $('#select_household_message').hide();
+        });
 }

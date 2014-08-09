@@ -23,7 +23,7 @@ Thirtyone::Application.routes.draw do
 
   resources :event, as: 'events', controller: 'event', via: :all
 
-  resources :household do
+  resources :households, controller: 'household' do
     collection do
       get :search
     end

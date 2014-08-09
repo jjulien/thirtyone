@@ -7,6 +7,51 @@ class HouseholdController < ApplicationController
     end
   end
 
+  def show
+    @household = Household.find(params[:id])
+    @all_states = State.all
+    respond_to do |format|
+      format.html {
+        if params[:ajax]
+          render :partial => 'show'
+        else
+          render 'show'
+        end
+      }
+      #format.json { render action: 'show.json' }
+    end
+  end
+
+  def edit
+    @household = Household.find(params[:id])
+    @all_states = State.all
+    respond_to do |format|
+      format.html {
+        if params[:ajax]
+          render :partial => 'edit'
+        else
+          render 'edit'
+        end
+      }
+    end
+  end
+
+  def new
+    @household = Household.new
+    @household.address = Address.new
+    @household.address.state = State.first
+    @all_states = State.all
+    respond_to do |format|
+      format.html {
+        if params[:ajax]
+          render :partial => 'new'
+        else
+          render 'new'
+        end
+      }
+      #format.json { render action: 'new.json' }
+    end
+  end
   def search
     wild_card_query_fields = %w(people.firstname people.lastname)
     sql_params = []

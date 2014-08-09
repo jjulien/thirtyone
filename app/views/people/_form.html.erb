@@ -14,7 +14,7 @@
     </div>
   <% end %>
 <div class="row">
-  <div class="small-12 columns"><h3>New Person Details</h3></div>
+  <div class="small-12 columns"><h3>Create a New Person</h3></div>
   <div class="field">
        <div class="small-12 columns">
           <label for="person_firstname">First Name</label>
@@ -40,35 +40,28 @@
     </div>
   </div>
   <div class="small-12 columns"><h3>Household</h3></div>
-  <div class="field">
-    <div id="select_household">
-      <span id="household_summary"><i>None, you must select or create a household</i></span>
-      <button type="button" onclick="$('#selectHouseholdModal')
-                                .foundation('reveal',
-                                            'open',
-                                            {url: '<%= household_index_path %>',
-                                             data: {ajax: true},
-                                             complete: function(xhr, status) {
-                                                      $('#selectHouseholdModal')
-                                                              .append('<a class=\'close-reveal-modal\'>&#215;</a>');
-                                             } });" class="tiny" >Select or Create Household</button>
-    </div>
-    <%= form_for(@new_household) do |h| %>
-        <div class="field">
-          <div class="small-12 columns">
-            <label for="person_lastname">Last Name</label>
-          </div>
-          <div class="small-12 columns">
-            <%= h.fields_for :address do |a| %>
-            <% end %>
-          </div>
+</div>
+    <div id="household_div" class="row"></div>
+<div class="row">
+      <div class="field">
+        <div class="small-12 columns">
+            <div id="select_household_message" class="field">
+                You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
+            </div>
+          <button type="button" onclick="$('#selectHouseholdModal')
+                  .foundation('reveal',
+                  'open',
+                  {url: '<%= households_path  %>',
+                          data: {ajax: true},
+                          complete: function(xhr, status) {
+                                  $('#selectHouseholdModal')
+                                          .append('<a class=\'close-reveal-modal\'>&#215;</a>');
+                                  } });" class="tiny" >Select or Create Household</button>
+
         </div>
-        <input type="hidden" id="person_household_id" name="person[household_id]" value="" />
-        <input type="hidden" id="new_person_household" name="person[household_id]" value="false" />
-    <% end %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
 </div>
 <% end %>
