@@ -63,11 +63,7 @@ class PeopleController < ApplicationController
       @person.household_id = params[:person][:household_id]
     else
       household = Household.new
-      household.address = Address.new(line1: params[:address][:line1],
-                                      line2: params[:address][:line2],
-                                      city: params[:address][:city],
-                                      zip: params[:address][:zip],
-                                      state_id: params[:state][:id])
+      household.address = Address.new(address_params)
       @person.household = household
     end
 
@@ -116,5 +112,8 @@ class PeopleController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def person_params
       params.require(:person).permit(:firstname, :lastname, :phone)
+    end
+    def address_params
+      params.require(:address).permit(:line1, :line2, :city, :state, :zip, :stateid)
     end
 end
