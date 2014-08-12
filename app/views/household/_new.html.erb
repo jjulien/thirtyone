@@ -1,0 +1,34 @@
+<%= fields_for @household do |h| %>
+    <div class="field">
+      <div class="small-12 columns">
+        <label for="household_name">Household Name</label>
+        <input disabled="disabled" type="text" id="household_summary" value="" />
+      </div>
+      <div class="small-12 columns">
+        <%= fields_for :address, @household.address do |a| %>
+            <div class="field">
+              <label for="household_address_line1">Address Line 1</label>
+              <%= a.text_field :line1 %>
+            </div>
+            <div class="field">
+              <label for="household_address_line2">Address Line 2</label>
+              <%= a.text_field :line2 %>
+            </div>
+            <div class="field">
+              <label for="household_address_city">City</label>
+              <%= a.text_field :city %>
+            </div>
+            <div class="field">
+              <label for="household_address_state">State</label>
+              <select name="state[id]">
+                <%= options_from_collection_for_select(@all_states, :id, :name) %>
+              </select>
+            </div>
+            <div class="field">
+              <label for="household_address_zip">Zipcode</label>
+              <%= a.text_field :zip %>
+            </div>
+        <% end %>
+      </div>
+    </div>
+<% end %>

@@ -1,24 +1,22 @@
 # == Schema Information
 #
-# Table name: people
+# Table name: households
 #
 #  id           :integer          not null, primary key
-#  firstname    :string(255)
-#  lastname     :string(255)
-#  phone        :string(255)
+#  name         :string(255)
+#  person_id    :integer
 #  created_at   :datetime
 #  updated_at   :datetime
 #  household_id :integer
+#  address_id   :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  firstname: MyString
-  lastname: MyString
-  phone: MyString
+  name: MyString
+  person_id: 1
 
 two:
-  firstname: MyString
-  lastname: MyString
-  phone: MyString
+  name: MyString
+  person_id: 1
