@@ -25,13 +25,15 @@ function showNewPersonDiv(input)
     $("#person_firstname").val(search_array[0]);
     $("#person_lastname").val(search_array[1]);
     $("#searcharea").slideUp();
-    $("#results").slideUp( { complete: function() {
-        $("#newperson_div").slideDown();
-        $(input).hide();
-    }});
-
-
+    $("#results").slideUp(
+    { complete: function()
+        {
+            $("#newperson_div").slideDown();
+            $(input).hide();
+        }
+    });
 }
+
 function updatePersonSearch(input)
 {
     updateNewPersonButton(input);
@@ -56,17 +58,16 @@ function updatePersonSearch(input)
     });
 }
 
-
 function showPersonDiv(li)
 {
-    var editting_div = $(li).find("[name='editting_div']");
+    var editting_div = $(li).find(".editting_div");
     if($(editting_div).is(':visible'))
     {
         //alert("Save & Cancel Buttons are visible.");
         return;
     }
 
-    var div = $(li).find("[name='persondetails']");
+    var div = $(li).find(".persondetails");
     var allitems = $(li).parent().find("li");
     var collapsed_div = $(li).find(".collapsed_header");
     var expanded_div = $(li).find(".expanded_header");
@@ -81,7 +82,8 @@ function showPersonDiv(li)
                 //$(li).parent().slideUp();
                 //$(item).fadeOut({queue: false});
             }
-        })
+        });
+
         var save_position = $(li).position().top;
         var slide_up_to = parseFloat(save_position) - 1;
         $("#searcharea").slideUp({complete: function () {
@@ -99,7 +101,7 @@ function showPersonDiv(li)
                     if (item != li) {
                         $(item).hide();
                     }
-                })
+                });
                 $(li).css("position", "");
                 $(li).css("top", "");
                 $(li).parent().css("height", "auto");
@@ -118,7 +120,7 @@ function showPersonDiv(li)
                 //$(li).parent().slideUp();
                 //$(item).fadeOut({queue: false});
             }
-        })
+        });
         var save_position = $(li).position().top + 45;
         var slide_up_to = parseFloat(save_position) + 1;
         $("#searcharea").slideDown({complete: function () {
@@ -136,7 +138,7 @@ function showPersonDiv(li)
                     if (item != li) {
                         $(item).show();
                     }
-                })
+                });
                 $(li).css("position", "");
                 $(li).css("top", "");
                 $(li).parent().css("height", "auto");
@@ -151,18 +153,23 @@ function editPerson(button)
     //alert("Edit Person engaged.");
 
     var li = $(button).closest("li");
-    var editting_div = $(li).find("[name='editting_div']");
+    var editting_div = $(li).find(".editting_div");
     editting_div.show();
-    var edit_button = $(li).find("[name='edit_button']");
+    var edit_button = $(li).find(".edit_button");
     edit_button.hide();
-    var raw1 = $(li).find("[name='raw1']");
+    var raw1 = $(li).find(".raw1");
     raw1.hide();
-    var raw2 = $(li).find("[name='raw2']");
+    var raw2 = $(li).find(".raw2");
     raw2.hide();
-    var edit_fields1 = $(li).find("[name='edit_fields1']");
+    var edit_fields1 = $(li).find(".edit_fields1");
     edit_fields1.show();
-    var edit_fields2 = $(li).find("[name='edit_fields2']");
+    var edit_fields2 = $(li).find(".edit_fields2");
     edit_fields2.show();
+}
+
+function savePerson(button)
+{
+    alert("You clicked the Save button.  Conglatumations!")
 }
 
 function cancelEdit(button)
@@ -170,16 +177,16 @@ function cancelEdit(button)
     //alert("Cancel Button engaged.");
 
     var li = $(button).closest("li");
-    var editting_div = $(li).find("[name='editting_div']");
+    var editting_div = $(li).find(".editting_div");
     editting_div.hide();
-    var edit_button = $(li).find("[name='edit_button']");
+    var edit_button = $(li).find(".edit_button");
     edit_button.show();
-    var raw1 = $(li).find("[name='raw1']");
+    var raw1 = $(li).find(".raw1");
     raw1.show();
-    var raw2 = $(li).find("[name='raw2']");
+    var raw2 = $(li).find(".raw2");
     raw2.show();
-    var edit_fields1 = $(li).find("[name='edit_fields1']");
+    var edit_fields1 = $(li).find(".edit_fields1");
     edit_fields1.hide();
-    var edit_fields2 = $(li).find("[name='edit_fields2']");
+    var edit_fields2 = $(li).find(".edit_fields2");
     edit_fields2.hide();
 }

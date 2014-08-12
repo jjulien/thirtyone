@@ -55,6 +55,30 @@ li.oddrow {
 }
 
 .persondetails {
-  padding-left:15px;
+  padding-left:10px;
     background-color: #dfffdf;
+}
+
+.editable1 {
+  input[type=text] {
+    width: auto;
+    display: inline;
+  }
+
+  table {
+    background-color: #DFFFDF;
+    margin: 0px;
+    cellpadding: 0px;
+    cellspacing: 0px;
+    text-spacing: none;
+    white-space: 0px;
+    border-spacing: 0px;
+    text-spacing: none;
+    border: none;
+    font-size: 10px;
+  }
+
+  td {
+    background: #DFFFDF;
+  }
 }
