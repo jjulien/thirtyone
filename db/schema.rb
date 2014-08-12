@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20140807172616) do
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "household_id"
     t.integer  "address_id"
   end
 
@@ -112,11 +111,19 @@ ActiveRecord::Schema.define(version: 20140807172616) do
   create_table "roles", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "states", force: true do |t|
     t.string   "name"
     t.string   "abbreviation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_roles", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -135,6 +142,7 @@ ActiveRecord::Schema.define(version: 20140807172616) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.integer  "roles_mask"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

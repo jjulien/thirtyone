@@ -12,13 +12,13 @@
         <li class="divider"></li>
         <li class="<%= "active" if current_page?(people_path) %>"><a href="<%= people_path %>">Start Serving</a></li>
         <li class="divider"></li>
-        <li><a href="<%= calendar_path %>">Scheduling</a></li>
+        <li class="<%= "active" if current_page?(calendar_path) %>"><a href="<%= calendar_path %>">Scheduling</a></li>
         <li class="divider"></li>
-        <li><a href="<%= inventory_items_path %>">Inventory</a></li>
+        <li class="<%= "active" if current_page?(inventory_items_path) %>"><a href="<%= inventory_items_path %>">Inventory</a></li>
         <li class="divider"></li>
         <li><a href="#">Reports</a></li>
         <li class="divider"></li>
-        <li><a href="#">Users</a></li>
+        <li class="<%= "active" if current_page?(users_path) %>"><a href="<%= users_path %>">Users</a></li>
         <li class="divider"></li>
     </ul>
     <ul class="right">
