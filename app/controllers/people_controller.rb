@@ -31,6 +31,11 @@ class PeopleController < ApplicationController
         if params[:ajax]
           render :partial => 'search_results'
         else
+          @search_string = ''
+          search_keys.each do |key|
+            @search_string << ' ' if not @search_string.empty?
+            @search_string << key
+          end
           render :action => 'index'
         end
       }
