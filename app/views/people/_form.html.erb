@@ -41,14 +41,14 @@
   </div>
   <div class="small-12 columns"><h3>Household</h3></div>
 </div>
-    <div id="household_div" class="row"></div>
+
 <div class="row">
       <div class="field">
         <div class="small-12 columns">
             <div id="select_household_message" class="field">
                 You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
             </div>
-          <button type="button" onclick="$('#selectHouseholdModal')
+          <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
                   .foundation('reveal',
                   'open',
                   {url: '<%= households_path  %>',
@@ -60,8 +60,11 @@
 
         </div>
       </div>
-      <div class="actions">
-        <%= f.submit %>
-      </div>
+  </div>
+  <div id="household_div" class="row"></div>
+<div class="row">
+    <div class="small-12 columns">
+      <%= f.submit class: 'button' %>
+    </div>
 </div>
 <% end %>
