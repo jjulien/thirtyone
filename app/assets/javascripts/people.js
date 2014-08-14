@@ -42,7 +42,7 @@ function updatePersonSearch(input)
     var search_keys = JSON.stringify(search_key_array);
 
     var request = $.ajax({
-        url: "people/search",
+        url: "/people/search",
         type: "GET",
         data: { search : search_keys,
                 ajax   : true },
