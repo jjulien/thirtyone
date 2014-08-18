@@ -31,7 +31,12 @@ class PeopleController < ApplicationController
         if params[:ajax]
           render :partial => 'search_results'
         else
-          render action: 'index'
+          @search_string = ''
+          search_keys.each do |key|
+            @search_string << ' ' if not @search_string.empty?
+            @search_string << key
+          end
+          render :action => 'index'
         end
       }
       format.json { render action: 'index.json' }
@@ -61,14 +66,22 @@ class PeopleController < ApplicationController
     @person = Person.new(person_params)
     if params[:person][:household_id]
       @person.household_id = params[:person][:household_id]
+      errors = true if not @person.save
     else
       household = Household.new
       household.address = Address.new(address_params)
+      household.address.state = State.find(params[:state][:id])
       @person.household = household
+      if @person.save
+        household.person = @person
+        household.save
+      else
+        errors = true
+      end
     end
 
     respond_to do |format|
-      if @person.save
+      if not errors
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to action: 'search', notice: 'Person was successfully created.', search: search_keys}
         format.json { render action: 'show', status: :created, location: @person }
@@ -114,6 +127,6 @@ class PeopleController < ApplicationController
       params.require(:person).permit(:firstname, :lastname, :phone)
     end
     def address_params
-      params.require(:address).permit(:line1, :line2, :city, :state, :zip, :stateid)
+      params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
     end
 end
