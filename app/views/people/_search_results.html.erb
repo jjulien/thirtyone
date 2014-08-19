@@ -5,73 +5,12 @@
       rowclass = 'evenrow ' if index % 2 == 0
       rowclass += 'last-element' if index == @people.length - 1
     %>
-        <li onclick="showPersonDiv(this);" class="<%= rowclass %>">
-          <div class="collapsed_header">
-            <span> &#9658;&nbsp;<%= person.fullname %></span>
-          </div>
-          <div class="hide expanded_header">
-            <span class="left">&#9660;&nbsp;<%= person.fullname %></span>
-            <span class="edit_button right"><button onclick="editPerson(this);" class="tiny secondary">Edit</button></span>
-            <div class="editting_div right hide">
-                <span><button onclick="savePerson(this);" class="tiny secondary">Save</button></span>
-                <span><button onclick="cancelEdit(this);" class="tiny secondary">Cancel</button></span>
-            </div>
-            <span class="clearfix"></span>
-          </div>
-          <div class="persondetails hide">
-            <div class="row">
-              <div class="raw1 large-6 columns">
-                <span class="raw">1500 North Airport Road<br />
-                Normal, IL 61761
-                </span>
-              </div>
-              <div class="edit_fields1 large-5 columns hide">
-                    <span class="editable1 hide">
-                      <!--
-                        <br />
-                        ADDRS1: &nbsp;&nbsp;&nbsp; <input type="text" name="line1" size="40" /><br />
-                        ADDRS2: &nbsp;&nbsp;&nbsp; <input type="text" name="line2" size="40" /><br />
-                        CITY, STATE ZIP <input type="text" name="city" size="20" />, <input type="text" name="state" size="3" /> <input type="text" name="zip" size="5" />
-                        -->
-                      <table cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                          <td colspan="3" height="10">
-                            ADDRESS: <br>
-                            <input type="text" name="line1" size="40" /> <br>
-                            <input type="text" name="line2" size="40" />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            CITY: <br>
-                            <input type="text" name="city" size="20" />
-                          </td>
-                          <td>
-                            STATE: <br>
-                            <input type="text" name="state" size="3" />
-                          </td>
-                          <td>
-                            ZIP: <br>
-                            <input type="text" name="zip" size="5" />
-                          </td>
-                        </tr>
-                      </table>
-                    </span>
-              </div>
-              <div class="raw2 large-6 columns">
-                <span class="raw">
-                    <%= mail_to "contactus@eastviewcc.org" %><br />
-                    (309) 451-5000
-                </span>
-              </div>
-              <div class="edit_fields2 large-4 columns hide">
-                    <span class="editable hide">
-                        EMAIL:  <input type="text" name="email" />
-                        PHONE:  <input type="text" name="phone" />
-                    </span>
+        <li class="<%= rowclass %>">
+            <div><%= person.fullname %>
+              <div class="right">
+                <%= link_to 'Edit', edit_person_path(person) %>
               </div>
             </div>
-          </div>
         </li>
     <% end %>
   </ul>

@@ -1,20 +1,15 @@
-<div id="selectHouseholdModal" class="reveal-modal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
-</div>
-<%= form_for(@new_person) do |f| %>
-  <% if @new_person.errors.any? %>
+<%= form_for(@person) do |f| %>
+  <% if @person.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
 
       <ul>
-      <% @new_person.errors.full_messages.each do |msg| %>
+      <% @person.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
-<div class="row">
-  <div class="small-12 columns"><h3>Create a New Person</h3></div>
   <div class="field">
        <div class="small-12 columns">
           <label for="person_firstname">First Name</label>
@@ -40,6 +35,10 @@
     </div>
   </div>
   <div class="small-12 columns"><h3>Household</h3></div>
+</div>
+
+<div id="selectHouseholdModal" class="reveal-modal" data-reveal>
+  <a class="close-reveal-modal">&#215;</a>
 </div>
 
 <div class="row">
