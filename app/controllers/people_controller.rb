@@ -51,12 +51,13 @@ class PeopleController < ApplicationController
 
   # GET /people/new
   def new
-    @new_person = Person.new
+    @person = Person.new
     @new_household = Household.new
   end
 
   # GET /people/1/edit
   def edit
+
   end
 
   # POST /people
@@ -83,7 +84,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if not errors
         search_keys = JSON.generate([@person.firstname, @person.lastname])
-        format.html { redirect_to action: 'search', notice: 'Person was successfully created.', search: search_keys}
+        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
       else
         format.html { render action: 'new' }
