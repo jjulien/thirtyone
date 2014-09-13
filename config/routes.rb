@@ -1,5 +1,7 @@
 Thirtyone::Application.routes.draw do
 
+  resources :visits
+
   resources :user_roles
 
   devise_for :users

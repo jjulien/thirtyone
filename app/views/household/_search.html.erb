@@ -1,5 +1,5 @@
 <div style="margin-top:20px;" class="row">
-  <div class="small-12 medium-10 large-8 columns small-centered">
+  <div class="small-12 medium-9 large-8 columns small-centered">
     <div class="searchbox">
       <div id="searcharea">
         <h3>Search/Add Household</h3>
@@ -11,12 +11,13 @@
       </div>
       <div class="row">
         <div class="large-12 columns">
-          <%= render 'search_results' %>
+          <button type="button" onclick="newHouseholdAjax('<%= new_household_url %>');" class="button tiny">New Household</button>
         </div>
       </div>
+
       <div class="row">
         <div class="large-12 columns">
-          <button type="button" onclick="newHouseholdAjax('<%= new_household_url %>');" class="button tiny">New Household</button>
+          <%= render 'search_results' %>
         </div>
       </div>
     </div>

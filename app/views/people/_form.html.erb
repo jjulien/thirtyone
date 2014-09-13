@@ -11,58 +11,42 @@
     </div>
   <% end %>
   <div class="field">
-       <div class="small-12 columns">
           <label for="person_firstname">First Name</label>
-       </div>
-       <div class="small-12 columns">
           <%= f.text_field :firstname %>
-       </div>
   </div>
   <div class="field">
-    <div class="small-12 columns">
         <label for="person_lastname">Last Name</label>
-    </div>
-    <div class="small-12 columns">
         <%= f.text_field :lastname %>
-    </div>
   </div>
   <div class="field">
-    <div class="small-12 columns">
         <%= f.label :phone %>
-    </div>
-    <div class="small-12 columns">
       <%= f.text_field :phone %>
-    </div>
   </div>
-  <div class="small-12 columns"><h3>Household</h3></div>
+  <h3>Household</h3>
 
   <div id="selectHouseholdModal" class="reveal-modal" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 
-  <div class="row">
     <div class="field">
-      <div class="small-12 columns">
-          <div id="select_household_message" class="field">
-              You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
-          </div>
-          <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
-                  .foundation('reveal',
-                  'open',
-                  {url: '<%= households_path  %>',
-                          data: {ajax: true},
-                          complete: function(xhr, status) {
-                                  $('#selectHouseholdModal')
-                                          .append('<a class=\'close-reveal-modal\'>&#215;</a>');
-                                  } });" class="tiny" >Select or Create Household</button>
-
+      <div id="select_household_message" class="field">
+          You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
       </div>
-    </div>
-  </div>
+      <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
+        .foundation('reveal',
+        'open',
+        {url: '<%= households_path  %>',
+          data: {ajax: true},
+          complete: function(xhr, status) {
+            $('#selectHouseholdModal')
+              .append('<a class=\'close-reveal-modal\'>&#215;</a>');
+            } });" class="tiny" >Select or Create Household</button>
+      </div>
   <div id="household_div" class="row"></div>
-  <div class="row">
-      <div class="small-12 columns">
-        <%= f.submit class: 'button' %>
-      </div>
+  <div class="field">
+    <%= f.submit class: 'button' %>
   </div>
+  <% if (@household) %>
+    <script> selectHousehold(this, '<%= household_url(@household) %>');</script>
+  <% end %>
 <% end %>
