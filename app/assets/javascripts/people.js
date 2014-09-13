@@ -58,94 +58,9 @@ function updatePersonSearch(input)
     });
 }
 
-function showPersonDiv(li)
+function showPersonDiv(id)
 {
-    var editting_div = $(li).find(".editting_div");
-    if($(editting_div).is(':visible'))
-    {
-        //alert("Save & Cancel Buttons are visible.");
-        return;
-    }
-
-    var div = $(li).find(".persondetails");
-    var allitems = $(li).parent().find("li");
-    var collapsed_div = $(li).find(".collapsed_header");
-    var expanded_div = $(li).find(".expanded_header");
-
-    if($(expanded_div).is(':hidden'))
-    {
-        //alert("Expanded Div will be shown now.");
-
-        allitems.each(function (index, item) {
-            if (item != li) {
-                $(item).animate({opacity: 0});
-                //$(li).parent().slideUp();
-                //$(item).fadeOut({queue: false});
-            }
-        });
-
-        var save_position = $(li).position().top;
-        var slide_up_to = parseFloat(save_position) - 1;
-        $("#searcharea").slideUp({complete: function () {
-            collapsed_div.hide();
-            expanded_div.show();
-            div.slideDown();
-        }});
-        //li.move
-        //div.slideDown( { queue: true });
-        $(li).css("position", "relative");
-        $(li).animate({ 'top': '-' + slide_up_to.toString() + 'px' });
-        $(li).parent().animate({ 'height': $(li).height()},
-            { complete: function () {
-                allitems.each(function (index, item) {
-                    if (item != li) {
-                        $(item).hide();
-                    }
-                });
-                $(li).css("position", "");
-                $(li).css("top", "");
-                $(li).parent().css("height", "auto");
-            }
-            });
-        $(li).addClass("expanded_li");
-    }
-
-    if($(collapsed_div).is(':hidden'))
-    {
-        //alert("Collapsed Div will be shown now.");
-
-        allitems.each(function (index, item) {
-            if (item != li) {
-                $(item).animate({opacity: 1});
-                //$(li).parent().slideUp();
-                //$(item).fadeOut({queue: false});
-            }
-        });
-        var save_position = $(li).position().top + 45;
-        var slide_up_to = parseFloat(save_position) + 1;
-        $("#searcharea").slideDown({complete: function () {
-            collapsed_div.show();
-            expanded_div.hide();
-            div.slideUp();
-        }});
-        //li.move
-        //div.slideDown( { queue: true });
-        $(li).css("position", "relative");
-        $(li).animate({ 'top': '+' + slide_up_to.toString() + 'px' });
-        $(li).parent().animate({ 'height': $(li).height()},
-            { complete: function () {
-                allitems.each(function (index, item) {
-                    if (item != li) {
-                        $(item).show();
-                    }
-                });
-                $(li).css("position", "");
-                $(li).css("top", "");
-                $(li).parent().css("height", "auto");
-            }
-            });
-        $(li).addClass("expanded_li");
-    }
+    alert(id);
 }
 
 function editPerson(button)

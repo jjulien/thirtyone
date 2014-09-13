@@ -36,16 +36,16 @@
   </div>
   <div class="small-12 columns"><h3>Household</h3></div>
 
-<div id="selectHouseholdModal" class="reveal-modal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
-</div>
+  <div id="selectHouseholdModal" class="reveal-modal" data-reveal>
+    <a class="close-reveal-modal">&#215;</a>
+  </div>
 
-<div class="row">
-      <div class="field">
-        <div class="small-12 columns">
-            <div id="select_household_message" class="field">
-                You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
-            </div>
+  <div class="row">
+    <div class="field">
+      <div class="small-12 columns">
+          <div id="select_household_message" class="field">
+              You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
+          </div>
           <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
                   .foundation('reveal',
                   'open',
@@ -56,13 +56,13 @@
                                           .append('<a class=\'close-reveal-modal\'>&#215;</a>');
                                   } });" class="tiny" >Select or Create Household</button>
 
-        </div>
       </div>
+    </div>
   </div>
   <div id="household_div" class="row"></div>
-<div class="row">
-    <div class="small-12 columns">
-      <%= f.submit class: 'button' %>
-    </div>
-</div>
+  <div class="row">
+      <div class="small-12 columns">
+        <%= f.submit class: 'button' %>
+      </div>
+  </div>
 <% end %>

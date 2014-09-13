@@ -84,7 +84,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if not errors
         search_keys = JSON.generate([@person.firstname, @person.lastname])
-        format.html { redirect_to action: 'search', notice: 'Person was successfully created.', search: search_keys}
+        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
       else
         format.html { render action: 'new' }

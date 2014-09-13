@@ -5,12 +5,8 @@
       rowclass = 'evenrow ' if index % 2 == 0
       rowclass += 'last-element' if index == @people.length - 1
     %>
-        <li class="<%= rowclass %>">
-            <div><%= person.fullname %>
-              <div class="right">
-                <%= link_to 'Edit', edit_person_path(person) %>
-              </div>
-            </div>
+        <li class="<%= rowclass %>" onclick="window.location = '<%= url_for person_path(person) %>';">
+            <div><%= person.fullname %></div>
         </li>
     <% end %>
   </ul>
