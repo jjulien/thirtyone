@@ -58,11 +58,6 @@ function updatePersonSearch(input)
     });
 }
 
-function showPersonDiv(id)
-{
-    alert(id);
-}
-
 function editPerson(button)
 {
     //alert("Edit Person engaged.");
