@@ -111,6 +111,22 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
+    if params[:person][:household_id]
+      @person.household_id = params[:person][:household_id]
+      errors = true if not @person.save
+    else
+      household = Household.new
+      household.address = Address.new(address_params)
+      household.address.state = State.find(params[:state][:id])
+      @person.household = household
+      if @person.save
+        household.person = @person
+        household.save
+      else
+        errors = true
+      end
+    end
+
     respond_to do |format|
       if @person.update(person_params)
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
