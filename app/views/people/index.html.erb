@@ -16,7 +16,7 @@
         </div>
         <div class="row">
             <div class="large-12 columns">
-                <div><%= link_to '+ Add New Person', new_person_path() %></div>
+                <div><button onclick="window.location = '<%= url_for new_person_path() %>'" class="small hide" id="newperson"></button></div>
             </div>
             <div class="large-12 columns">
                 <%= render "search_results" %>

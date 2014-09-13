@@ -72,7 +72,7 @@ class PeopleController < ApplicationController
 
   # GET /people/1/edit
   def edit
-
+    @household = Household.find(@person.household_id);
   end
 
   # POST /people

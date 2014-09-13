@@ -1,19 +1,18 @@
 <div>
-  <div id="household_results" class="<% if @households.length == 0 %>hide<% end %>">
-    <table>
+  <div id="household_results" class="results <% if @households.length == 0 %>hide<% end %>">
+    <ul data-dropdown-content>
       <% @households.each_with_index do |household, index|
         rowclass = 'oddrow '
         rowclass = 'evenrow ' if index % 2 == 0
         rowclass += 'last-element' if index == @households.length - 1
       %>
-      <tr onclick="selectHousehold(this, '<%= household_url(household) %>');" class="<%= rowclass %>">
-        <td>
-          <%= household.summary %>
+
+      <li onclick="selectHousehold(this, '<%= household_url(household) %>');" class="<%= rowclass %>">
+          <div><%= household.summary %></div>
           <input type="hidden" name="household_summary" value="<%= household.summary %>" />
           <input type="hidden" name="household_id" value="<%= household.id %>" />
-        </td>
-      </tr>
+      </li>
       <% end %>
-    </table>
+    </ul>
   </div>
 </div>

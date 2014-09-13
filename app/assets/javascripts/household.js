@@ -1,24 +1,43 @@
 
 function updateHouseholdSearch(input) {
 
-    var search_key_array = input.value.split(" ");
-    var search_keys = JSON.stringify(search_key_array);
+    if(input.value.length > 0){
+        var search_key_array = input.value.split(" ");
+        var search_keys = JSON.stringify(search_key_array);
 
-    var request = $.ajax({
-        url: "households/search",
-        type: "GET",
-        data: { search : search_keys,
-            ajax   : true },
-        dataType: "html"
-    });
+        var request = $.ajax({
+            url: "/households/search",
+            type: "GET",
+            data: { search : search_keys,
+                ajax   : true },
+            dataType: "html"
+        });
 
-    request.done(function( html ) {
-        $( "#household_results" ).html( html );
-    });
+        request.done(function( html ) {
+            $( "#household_results" ).html( html );
+        });
 
-    request.fail(function( jqXHR, textStatus ) {
-        alert( "Search update failed: " + textStatus );
-    });
+        request.fail(function( jqXHR, textStatus ) {
+            alert( "Search update failed: " + textStatus );
+        });
+    }
+    else{
+        var request = $.ajax({
+            url: "/households/search",
+            type: "GET",
+            data: { ajax   : true },
+            dataType: "html"
+        });
+
+        request.done(function( html ) {
+            $( "#household_results" ).html( html );
+        });
+
+        request.fail(function( jqXHR, textStatus ) {
+            alert( "Search update failed: " + textStatus );
+        });
+
+    }
 }
 
 function selectHousehold(row, url) {

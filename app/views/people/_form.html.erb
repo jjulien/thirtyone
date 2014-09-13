@@ -43,8 +43,13 @@
                                   } });" class="tiny" >Select or Create Household</button>
 
       </div>
-  <div id="household_div" class="row"></div>
+  <div id="household_div" class="row">
+    
+  </div>
   <div class="field">
         <%= f.submit class: 'button' %>
   </div>
+  <% if (@household) %>
+  <script> selectHousehold(this, '<%= household_url(@household) %>');</script>
+  <% end %>
 <% end %>
