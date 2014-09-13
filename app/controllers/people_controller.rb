@@ -16,30 +16,45 @@ class PeopleController < ApplicationController
   # GET /people/search.json
   def search
     rowlimit = params[:rowlimit] || 10
-    search_keys = JSON.parse(params[:search]).to_a
-    search_keys[0] = '' if search_keys.length == 0
-    firstname_key = (search_keys.first || '') + '%'
-    lastname_key  = (search_keys.last  || '') + '%'
+    if (params[:search])
+      search_keys = JSON.parse(params[:search]).to_a
+      search_keys[0] = '' if search_keys.length == 0
+      firstname_key = (search_keys.first || '') + '%'
+      lastname_key  = (search_keys.last  || '') + '%'
 
-    sql_conditional = "OR"
-    sql_conditional = "AND" if search_keys.length > 1
+      sql_conditional = "OR"
+      sql_conditional = "AND" if search_keys.length > 1
 
-    @people = Person.where("firstname LIKE ? #{sql_conditional} lastname LIKE ?", firstname_key, lastname_key).first(rowlimit.to_i)
-    @new_person = Person.new
-    respond_to do |format|
-      format.html {
-        if params[:ajax]
-          render :partial => 'search_results'
-        else
-          @search_string = ''
-          search_keys.each do |key|
-            @search_string << ' ' if not @search_string.empty?
-            @search_string << key
+      @people = Person.where("firstname LIKE ? #{sql_conditional} lastname LIKE ?", firstname_key, lastname_key).first(rowlimit.to_i)
+      @new_person = Person.new
+      respond_to do |format|
+        format.html {
+          if params[:ajax]
+            render :partial => 'search_results'
+          else
+            @search_string = ''
+            search_keys.each do |key|
+              @search_string << ' ' if not @search_string.empty?
+              @search_string << key
+            end
+            render :action => 'index'
           end
-          render :action => 'index'
-        end
-      }
-      format.json { render action: 'index.json' }
+        }
+        format.json { render action: 'index.json' }
+      end
+    else
+      @people = Person.all
+      @new_person = Person.new
+      respond_to do |format|
+        format.html {
+          if params[:ajax]
+            render :partial => 'search_results'
+          else
+            render :action => 'index'
+          end
+        }
+        format.json { render action: 'index.json' }
+      end
     end
   end
 
