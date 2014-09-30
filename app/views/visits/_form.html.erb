@@ -22,9 +22,8 @@
 
   <div class="field">
     <label for="visit_date">Date</label>
-    <%= f.date_field :visit_date , value: DateTime.current().to_formatted_s(:long) %>
+    <%= f.date_field :visit_date , value: Date.current().to_formatted_s(:long), id:"datepicker" %>
   </div>
-
 
   <div class="actions">
     <%= f.submit class: 'button' %>
