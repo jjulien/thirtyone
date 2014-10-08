@@ -17,14 +17,22 @@
 #  current_sign_in_ip     :string(255)
 #  last_sign_in_ip        :string(255)
 #
-
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :trackable, :validatable
 
   has_many :user_roles
   has_many :roles, :through => :user_roles
-  
+
+  def send_new_account_instructions
+     token = set_reset_password_token
+     send_new_account_instructions_notification(token)
+     token
+  end
+  def send_new_account_instructions_notification(token)
+     send_devise_notification(:new_account_instructions, token, {})
+  end  
+
 end
