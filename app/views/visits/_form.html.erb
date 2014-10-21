@@ -22,7 +22,7 @@
 
   <div class="field">
     <label for="visit_date">Date</label>
-    <%= f.date_field :visit_date , value: Date.current().to_formatted_s(:long), id:"datepicker" %>
+    <%= date_select(:visit, :visit_date)%>
   </div>
 
   <div class="actions">
