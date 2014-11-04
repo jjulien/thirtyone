@@ -16,5 +16,5 @@
 </p>
 
 <%= link_to 'Edit', edit_person_path(@person) %> |
-<%= link_to 'New Visit', new_visit_path(:person_id => @person) %> |
+<%= link_to 'New Visit', new_visit_path(:person_id => @person, :host_id => current_user.id) %> |
 <%= link_to 'Back', people_path %>
