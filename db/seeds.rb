@@ -65,3 +65,17 @@ states = [{ :name => 'Alabama', :abbreviation => 'AL' },
 states.each do |s|
  State.find_or_create_by(s)
 end
+
+roles = [{ :name => 'Admin', :permissions => PERM_RO_PERSON | PERM_RW_PERSON | PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_USER | PERM_RW_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RO_PRAYER_REQUEST | PERM_RW_PRAYER_REQUEST },
+         { :name => 'Add All', :permissions => PERM_RW_PERSON | PERM_RW_SCHEDULE | PERM_RW_USER | PERM_RW_RESOURCE | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST },
+         { :name => 'View All', :permissions => PERM_RO_PERSON | PERM_RO_SCHEDULE | PERM_RO_USER | PERM_RO_RESOURCE | PERM_RO_VISIT | PERM_RO_PRAYER_REQUEST },
+         { :name => 'Prayer Warrior', :permissions => PERM_RO_PRAYER_REQUEST | PERM_RW_PRAYER_REQUEST },
+         { :name => 'Organizer', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_VISIT | PERM_RW_VISIT },
+         { :name => 'Manager', :permissions => PERM_RO_PERSON | PERM_RW_PERSON | PERM_RO_USER | PERM_RW_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE },
+         { :name => 'User', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST }
+]
+
+roles.each do |r|
+  Role.find_or_create_by(r)
+end
+
