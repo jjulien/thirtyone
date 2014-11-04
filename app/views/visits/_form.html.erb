@@ -12,7 +12,7 @@
   <% end %>
   <div class="field">
     <label for="person_id">Person</label>
-    <%= collection_select(:visit, :person_id, Person.all, :id, :fullname) %>
+    <%= collection_select(:visit, :person_id, Person.all, :id, :fullname, :selected => params[:person_id]) %>
   </div>
 
   <div class="field">
