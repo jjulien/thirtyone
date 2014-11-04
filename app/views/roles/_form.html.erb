@@ -8,10 +8,29 @@
         <li><%= msg %></li>
       <% end %>
       </ul>
+
     </div>
   <% end %>
+
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+
+    <%= render 'permissions' %>
+
+    <!--
+    <div class="field">
+      <%= check_box_tag(:person_read_only) %>
+      <%= label_tag(:person_read_only, "Person_Read_Only") %>
+      <%= f.label :permissions %>
+      <%= f.number_field :permissions %>
+    </div>
+    -->
 
   <div class="actions">
     <%= f.submit %>
   </div>
+
 <% end %>
+

@@ -1,4 +1,19 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <h1>View Role</h1>
 
-<%= link_to 'Edit', edit_role_path(@role) %> |
-<%= link_to 'Back', roles_path %>
+    <h4> &nbsp; &nbsp; &nbsp; <%= @role.name %></h4>
+
+    <%= render 'permissions' %>
+
+    <%= link_to 'Edit', edit_role_path(@role) %> |
+    <%= link_to 'Back', roles_path %>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+  </div>
+</div>
