@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @back_url = users_path
   end
 
   # GET /users/new
@@ -31,7 +32,18 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         @user.send_new_account_instructions
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html {
+          message = ['User was successfully created']
+          if Rails.env.development?
+            link_to_edit_password = edit_password_url(@user, reset_password_token: @user.reset_password_token)
+            message << 'Since you are in the development environment and email is likely not possible,'
+            message << "the link being sent to #{@user.email} for setting their password is:\n"
+            message << view_context.link_to(link_to_edit_password, link_to_edit_password)
+            message << ''
+            message << 'You will need to logout before you can use this link to set the users password'
+          end
+          redirect_to @user, notice: message
+        }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }

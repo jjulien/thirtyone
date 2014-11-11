@@ -1,0 +1,10 @@
+.clickable_results {
+    tr:hover {
+      td {
+        color: #ffffff;
+      }
+        background-color: #008CBA;
+        cursor: hand;
+        cursor: pointer;
+      }
+}

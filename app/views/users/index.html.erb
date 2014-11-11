@@ -2,7 +2,7 @@
   <div class="small-12 medium-9 large-8 columns small-centered">
     <h3>Users</h3>
 
-<table style="width:100%">
+<table class="clickable_results" style="width:100%">
     <% @users.each do |user| %>
       <tr onclick="window.location='<%= user_path(user) %>';">
         <td><%= user.name %></td>

@@ -33,6 +33,6 @@ class User < ActiveRecord::Base
   end
   def send_new_account_instructions_notification(token)
      send_devise_notification(:new_account_instructions, token, {})
-  end  
+  end
 
 end

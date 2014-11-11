@@ -19,19 +19,28 @@
     <label for="user_email">Email</label>
     <%= f.text_field :email %>
   </div>
+    <div class="field">
+      <%= f.label :password, "Password (Optional, leave blank to remain unchanged)" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation, "Confirm Password" %>
+      <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "off" %>
+    </div>
   <div class="actions">
     <div class="left">
         <%= f.submit 'Save', :class => 'button tiny' %>
         <button type="button" class="button tiny" onclick="window.location='<%= @back_url %>';">Cancel</button>
     </div>
-    <% if @user.id? %>
-        <div class="right">
-            <%= button_to "Delete", {:controller => :users,
-                                   :action => 'destroy', :id => @user.id },
-                                   :method => :delete,
-                                   :class => "button tiny",
-                                   :onclick => "confirm('Are you sure you want to delete this user?');" %>
-        </div>
+
     <% end %>
+<% if @user.id? %>
+    <div class="right">
+      <%= button_to "Delete", {:controller => :users,
+                               :action => 'destroy', :id => @user.id },
+                    :method => :delete,
+                    :class => "button tiny",
+                    :onclick => "return confirm('Are you sure you want to delete this user?');" %>
+    </div>
   </div>
 <% end %>
