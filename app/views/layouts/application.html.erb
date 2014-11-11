@@ -17,7 +17,15 @@
   else 
     render "static_pages/unauthTopnav"
   end %>
-  <p id="notice"><%= notice %></p>
+  <p id="notice">
+     <% if notice and notice.is_a?(Array)
+          notice.each do |n| %>
+             <%= n %><br />
+          <% end %>
+     <% else %>
+        <%= notice %>
+     <% end %>
+  </p>
   <p id="error"><%= alert %></p>
 
     <%= yield %>
