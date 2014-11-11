@@ -42,7 +42,8 @@ class UsersController < ApplicationController
             message << ''
             message << 'You will need to logout before you can use this link to set the users password'
           end
-          redirect_to @user, notice: message
+          flash[:notice] = message
+          redirect_to action: 'index'
         }
         format.json { render action: 'show', status: :created, location: @user }
       else
@@ -57,7 +58,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html {
+           flash[:notice] = 'User was successfully updated.'
+          redirect_to action: 'index'
+        }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

@@ -13,6 +13,11 @@
     </div>
     <div class="left">
       <button type="button" class="button tiny" onclick="window.location='<%= edit_user_path(@user) %>'">Edit</button>
+      <%= button_to "Delete", {:controller => :users,
+                               :action => 'destroy', :id => @user.id },
+                    :method => :delete,
+                    :class => "button tiny",
+                    :onclick => "return confirm('Are you sure you want to delete this user?');" %>
     </div>
     <div class="right">
         <button type="button" class="button tiny" onclick="window.location='<%= users_path %>'">Back</button>
