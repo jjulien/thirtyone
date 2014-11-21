@@ -12,19 +12,18 @@
   <% end %>
   <div class="field">
     <label for="person_id">Person</label>
-    <%= collection_select(:visit, :person_id, Person.all, :id, :fullname) %>
+    <%= collection_select(:visit, :person_id, Person.all, :id, :fullname, :selected => params[:person_id]) %>
   </div>
 
   <div class="field">
     <label for="host_id">Host</label>
-    <%= collection_select(:visit, :host_id, User.all, :id, :name) %>
+    <%= collection_select(:visit, :host_id, User.all, :id, :name, :selected => params[:host_id]) %>
   </div>
 
   <div class="field">
     <label for="visit_date">Date</label>
-    <%= f.date_field :visit_date , value: DateTime.current().to_formatted_s(:long) %>
+    <%= date_select(:visit, :visit_date)%>
   </div>
-
 
   <div class="actions">
     <%= f.submit class: 'button' %>

@@ -4,12 +4,16 @@ class VisitsController < ApplicationController
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.all
+    @visits = Visit.order("visit_date").all
+    @people = Person.all
+    @users = User.all
   end
 
   # GET /visits/1
   # GET /visits/1.json
   def show
+    @people = Person.all
+    @users = User.all
   end
 
   # GET /visits/new
@@ -69,6 +73,6 @@ class VisitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def visit_params
-      params[:visit]
+      params.require(:visit).permit(:person_id, :host_id, :visit_date)
     end
 end
