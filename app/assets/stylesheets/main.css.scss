@@ -1,0 +1,18 @@
+.clickable_results {
+    tr:hover {
+      td {
+        color: #ffffff;
+      }
+        background-color: #008CBA;
+        cursor: hand;
+        cursor: pointer;
+      }
+}
+
+.button_to {
+  display: inline;
+}
+
+.button_to div {
+  display: inline;
+}

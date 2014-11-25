@@ -1,0 +1,5 @@
+<p>Hello <%= @resource.email %>!</p>
+
+<p>Someone has created an account for you to access the ThirtyOne Pantry App.  Please use the link below to set your password</p>
+
+<p><%= link_to 'Set my password', edit_password_url(@resource, reset_password_token: @token) %></p>

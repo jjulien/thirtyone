@@ -10,25 +10,41 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @back_url = users_path
   end
 
   # GET /users/new
   def new
     @user = User.new
+    @back_url = users_path
   end
 
   # GET /users/1/edit
   def edit
+    @back_url = user_path(params[:id])
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
-
+    @user.password = Devise.friendly_token.first(8)
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User role was successfully created.' }
+        @user.send_new_account_instructions
+        format.html {
+          message = ['User was successfully created']
+          if Rails.env.development?
+            link_to_edit_password = edit_password_url(@user, reset_password_token: @user.reset_password_token)
+            message << 'Since you are in the development environment and email is likely not possible,'
+            message << "the link being sent to #{@user.email} for setting their password is:\n"
+            message << view_context.link_to(link_to_edit_password, link_to_edit_password)
+            message << ''
+            message << 'You will need to logout before you can use this link to set the users password'
+          end
+          flash[:notice] = message
+          redirect_to action: 'index'
+        }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -42,7 +58,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User role was successfully updated.' }
+        format.html {
+           flash[:notice] = 'User was successfully updated.'
+          redirect_to action: 'index'
+        }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
