@@ -26,9 +26,6 @@ class Household < ActiveRecord::Base
     person.lastname
   end
 
-  def person=
-
-  end
   #alias_method :people, :persons
   #alias_method :members, :persons
 
