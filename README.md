@@ -13,7 +13,8 @@ Development
 To setup your development environment after cloning the repo run:
 ```
 bundle install
-rake db:migrate RAILS_ENV=development
+rake db:migrate
+rake db:seed
 rails server
 ```
 
