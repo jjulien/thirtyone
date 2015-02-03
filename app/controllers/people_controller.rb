@@ -62,6 +62,7 @@ class PeopleController < ApplicationController
   # GET /people/1.json
   def show
     authorize @person
+    @household = @person.household
   end
 
   # GET /people/new

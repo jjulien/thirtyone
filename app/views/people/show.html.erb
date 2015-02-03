@@ -1,3 +1,56 @@
+<style>
+
+
+
+</style>
+
+<div class="row">
+  <div class="large-8 radius large-centered columns grey">
+    <div class="row title dark-grey">
+      <div class="large-12 columns">
+        <p>
+          <%= @person.fullname %>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns">
+        <p>
+          <%= @person.household.address.line1 %><br>
+          <% unless @person.household.address.line2.blank? %><%= @person.household.address.line2 %><br>
+          <% end %>
+          <%= @person.household.address.city_state_zip %>
+        </p>
+      </div>
+      <div class="large-6 columns">
+        <p>
+          <%= @person.phone %><br>
+          biggtrav05@gmail.com
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row space-above">
+  <div class="large-8 radius large-centered columns yellow">
+    <div class="row title">
+      <div class="large-12 columns">
+        <p>Household Information</p>
+      </div>
+    </div>
+    <div class="row">
+      <%= render :partial => '/household/show' %>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 <p id="notice"><%= notice %></p>
 
 <p>
