@@ -1,0 +1,19 @@
+<div id="results" class="results <%if @people.length == 0%>hide<% end %>">
+  <ul data-dropdown-content>
+    <% @people.each_with_index do |person, index|
+      rowclass = 'oddrow '
+      rowclass = 'evenrow ' if index % 2 == 0
+      rowclass += 'last-element' if index == @people.length - 1
+    %>
+        <li onclick="people/showPersonDiv(this);" class="<%= rowclass %>">
+          <div class="collapsed_header">
+            <span> &#9658;&nbsp;<%= person.fullname %></span>
+          </div>
+          <div class="hide expanded_header">
+            <span class="left">&#9660;&nbsp;<%= person.fullname %></span>
+            <span class="right"><button class="tiny secondary">Edit</button></span>
+            <span class="clearfix"></span>
+          </div>
+    <% end %>
+  </ul>
+</div>
