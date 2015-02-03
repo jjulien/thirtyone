@@ -158,4 +158,13 @@ ActiveRecord::Schema.define(version: 20140913010941) do
     t.datetime "end_at"
   end
 
+  create_table "work_schedules", force: true do |t|
+    t.integer  "staff_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string   "note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
 end

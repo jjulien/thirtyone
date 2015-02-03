@@ -35,6 +35,11 @@ Thirtyone::Application.routes.draw do
       get :search
     end
   end
+  match '/calendar/:person_id', :controller => "calendar", :action => "person", via: :all
+
+  resources :event, as: "events", controller: "event", via: :all
+
+  resources :work_schedule, as: "work_schedules", controller: "work_schedule", via: :all
 
   resources :people do
     collection do

@@ -20,7 +20,7 @@ module CalendarHelper
     # args is an argument hash containing :event, :day, and :options
     calendar event_calendar_opts do |args|
       event = args[:event]
-      %(<a href="/event/#{event.id}" title="#{h(event.name)}">#{h(event.name)}</a>)
+      %(<a href="/work_schedule/#{event.id}" title="#{h(event.person.fullname)}">#{h(event.person.fullname)}</a>)
     end
   end
 end
