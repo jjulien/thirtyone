@@ -30,8 +30,12 @@ div {
   }
 }
 
-#notice {
-  color: green;
+#notice div, #error div{
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  opacity: .9;
 }
 
 .field_with_errors {
