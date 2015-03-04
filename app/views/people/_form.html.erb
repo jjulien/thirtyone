@@ -43,6 +43,22 @@
             } });" class="tiny" >Select or Create Household</button>
       </div>
   <div id="household_div" class="row"></div>
+  <div>
+  <h3>Allow User to Login</h3>
+  <div>Do you want to allow this user to login as a volunteer?
+          <input type="radio" name="create_user" value="yes" id="create_user_yes"/><label for="create_user_yes">Yes</label>
+          <input type="radio" name="create_user" value="no" id="create_user_no" checked="checked" /><label for="create_user_no">No</label>
+  </div>
+  <div id="user_info" style="display:none;">
+          <strong>Select one or more roles for the user</strong>
+          <div class="12-small columns">
+                <% @roles.each do |role| %>
+                   <div>
+                     <input id="role_checkbox_<%= role.id %>" <%= ' checked="checked" ' if Role.default_role == role %>type="checkbox" name="role" /><label for="role_checkbox_<%= role.id %>"><%= role.name %></label>
+                   </div>
+                <% end %>
+          </div>
+  </div>
   <div class="field">
     <%= f.submit class: 'button' %>
   </div>
@@ -50,3 +66,15 @@
     <script>selectHousehold(this, '<%= household_url(@household) %>');</script>
   <% end %>
 <% end %>
+<script>
+    $(document).ready(function() {
+        $('input[type=radio][name=create_user]').change(function() {
+            if (this.value == 'yes') {
+                $('#user_info').show();
+            }
+            else if (this.value == 'no') {
+                $('#user_info').hide();
+            }
+        });
+    });
+</script>

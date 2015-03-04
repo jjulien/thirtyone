@@ -69,15 +69,16 @@ class PeopleController < ApplicationController
   def new
     @person = Person.new
     @new_household = Household.new
-
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
+    @roles = Role.all
   end
 
   # GET /people/1/edit
   def edit
     @household = Household.find(@person.household_id);
+    @roles = Role.all
   end
 
   # POST /people
