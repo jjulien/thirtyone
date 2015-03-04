@@ -52,6 +52,8 @@ class WorkScheduleController < ApplicationController
   end
 
   def create
+    # TODO: (Clete Blackwell) Fix the "please enter valid name" appearing after submitting with invalid staffer.
+    # Also take out disabling of the button..
     @work_schedule_temp=WorkSchedule.new
     @work_schedule_temp.start_at =
         DateTime.parse(params[:work_schedule][:start_at]).change(hour: params[:work_schedule]['start_at(4i)'].to_i,
