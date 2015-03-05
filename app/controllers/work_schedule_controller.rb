@@ -52,8 +52,6 @@ class WorkScheduleController < ApplicationController
   end
 
   def create
-    # TODO: (Clete Blackwell) Fix the "please enter valid name" appearing after submitting with invalid staffer.
-    # Also take out disabling of the button..
     @work_schedule_temp=WorkSchedule.new
     @work_schedule_temp.start_at =
         DateTime.parse(params[:work_schedule][:start_at]).change(hour: params[:work_schedule]['start_at(4i)'].to_i,
@@ -82,14 +80,13 @@ class WorkScheduleController < ApplicationController
         if @work_schedule.save
           format.html { redirect_to action: 'index'}
         else
-          format.html { redirect_to action: 'new', notice: 'Please enter valid staff name' }
+          format.html { redirect_to action: 'new', alert: 'Please enter valid staff name' }
         end
       end
     else
       @people = Person.all
-      flash[:notice] = 'Please enter valid staff name'
+      flash[:alert] = 'Please enter valid staff name'
       render action: 'new'
-
     end
   end
 end

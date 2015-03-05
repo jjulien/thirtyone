@@ -14,8 +14,9 @@
       <%= f.label :Staff %> <br>
 
       <div class="ui-widget" id="person_div">
-        <input id="person">
+        <input id="person"><br/>
         <input name="person_id" id="person_id" value="" type="hidden"/>
+        <span id="person_error" hidden="true">Please enter valid staff name</span>
       </div>
     </div>
     <div class="field">
@@ -24,7 +25,7 @@
     </div>
     <%= f.label :start_time %> <br>
     <%= f.time_select :start_at, {ampm: true, minute_step: 5},
-                      {class: "time-select", :value => @work_schedule.start_at} %>
+                      {class: "time-select", :value => @work_schedule.start_at.t} %>
     <%= f.label :end_time %> <br>
     <%= f.time_select :end_at, {ampm: true, minute_step: 5},
                       {class: "time-select", :value => @work_schedule.end_at} %>

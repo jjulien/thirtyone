@@ -1,4 +1,5 @@
 // TODO: (Clete Blackwell) Do something if the field never gets set after losing focus.
+
 var labelField = "#person";
 var idField = "#person_id";
 
@@ -35,10 +36,10 @@ $(function () {
                 // TODO: (Clete Blackwell) We probably shouldn't disable the button.
                 $(idField).val("");
                 $("#person_div").addClass("field_with_errors");
-                $("#submit").attr("disabled", "disabled");
+                $("#person_error").removeAttr("hidden");
             } else {
                 $("#person_div").removeClass("field_with_errors");
-                $("#submit").removeAttr("disabled");
+                $("#person_error").attr("hidden", "true");
             }
             return false;
         }
