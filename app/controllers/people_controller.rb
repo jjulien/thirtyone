@@ -101,6 +101,15 @@ class PeopleController < ApplicationController
         errors = true
       end
     end
+    if not errors and params[:create_user] = 'yes'
+      if not @person.user
+        @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+
+        params[:roles].each do |role_id|
+          @person.user.roles.push(Role.find(role_id))
+        end
+      end
+    end
 
     respond_to do |format|
       if not errors
@@ -130,6 +139,15 @@ class PeopleController < ApplicationController
         household.save
       else
         errors = true
+      end
+    end
+    if not errors and params[:create_user] = 'yes'
+      if not @person.user
+        @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+
+        params[:roles].each do |role_id|
+          @person.user.roles.push(Role.find(role_id))
+        end
       end
     end
 

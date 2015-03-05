@@ -58,7 +58,7 @@
           <div class="12-small columns">
                 <% @roles.each do |role| %>
                    <div>
-                     <input id="role_checkbox_<%= role.id %>" <%= ' checked="checked" ' if Role.default_role == role %>type="checkbox" name="role" /><label for="role_checkbox_<%= role.id %>"><%= role.name %></label>
+                     <input id="role_checkbox_<%= role.id %>" <%= ' checked="checked" ' if Role.default_role == role %>type="checkbox" name="roles[]" value="<%= role.id %>" /><label for="role_checkbox_<%= role.id %>"><%= role.name %></label>
                    </div>
                 <% end %>
           </div>
