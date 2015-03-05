@@ -25,7 +25,7 @@
     </div>
     <%= f.label :start_time %> <br>
     <%= f.time_select :start_at, {ampm: true, minute_step: 5},
-                      {class: "time-select", :value => @work_schedule.start_at.t} %>
+                      {class: "time-select", :value => @work_schedule.start_at} %>
     <%= f.label :end_time %> <br>
     <%= f.time_select :end_at, {ampm: true, minute_step: 5},
                       {class: "time-select", :value => @work_schedule.end_at} %>
