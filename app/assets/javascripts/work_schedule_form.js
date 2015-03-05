@@ -1,5 +1,3 @@
-// TODO: (Clete Blackwell) Do something if the field never gets set after losing focus.
-
 var labelField = "#person";
 var idField = "#person_id";
 
@@ -33,7 +31,6 @@ $(function () {
 
             // Wipe the field if they failed to choose a real one
             if (!didSet) {
-                // TODO: (Clete Blackwell) We probably shouldn't disable the button.
                 $(idField).val("");
                 $("#person_div").addClass("field_with_errors");
                 $("#person_error").removeAttr("hidden");
