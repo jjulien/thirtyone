@@ -1,6 +1,9 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<%= javascript_include_tag "ion.rangeSlider.min" %>
+<%= stylesheet_link_tag "ionRangeSlider" %>
+<%= stylesheet_link_tag "ionRangeSliderSkinHTML5" %>
 <%= javascript_tag do %>
     window.availableTags = [
     <% @people.each do |person| %>
@@ -23,7 +26,8 @@
       <%= f.label :date %> <br>
       <%= f.date_field :start_at, {class: "time-select", :value => @work_schedule.start_at.to_date} %>
     </div>
-    <%= f.label :start_time %> <br>
+    <%= f.label :start_time %> <br />
+    <input type="text" id="start-time-slider" /><br />
     <%= f.time_select :start_at, {ampm: true, minute_step: 5},
                       {class: "time-select", :value => @work_schedule.start_at} %>
     <%= f.label :end_time %> <br>

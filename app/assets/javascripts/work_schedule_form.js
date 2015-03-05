@@ -41,4 +41,46 @@ $(function () {
             return false;
         }
     });
+
+    $("#start-time-slider").ionRangeSlider({
+        type: "double",
+        min: 0,
+        max: 1440,
+        step: 5,
+        from: 480, // 8AM
+        to: 960, // 4PM
+        grid: true,
+        grid_num: 12,
+        prettify: function (num) {
+            var date = new Date();
+            date.setHours(num / 60);
+            date.setMinutes(num % 60);
+
+            var am_pm = "";
+            var hours = date.getHours();
+
+            if (hours < 12) {
+                am_pm = "AM";
+            } else {
+                am_pm = "PM";
+            }
+
+            if (hours == 0) {
+                hours = 12;
+            }
+            if (hours > 12) {
+                hours = hours - 12;
+            }
+
+            var minutes = date.getMinutes();
+
+            minutes = minutes + "";
+
+            if (minutes.length == 1) {
+                minutes = "0" + minutes;
+            }
+
+            return hours + ':' + minutes + ' ' + am_pm;
+        }
+    });
 });
