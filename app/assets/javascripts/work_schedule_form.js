@@ -51,19 +51,13 @@ $(function () {
         to: 960, // 4PM
         grid: true,
         grid_num: 12,
-        prettify: function (num) {
+        prettify: function(num) {
             var date = new Date();
             date.setHours(num / 60);
             date.setMinutes(num % 60);
 
-            var am_pm = "";
             var hours = date.getHours();
-
-            if (hours < 12) {
-                am_pm = "AM";
-            } else {
-                am_pm = "PM";
-            }
+            var am_pm = (hours < 12) ? "AM" : "PM";
 
             if (hours == 0) {
                 hours = 12;
@@ -72,15 +66,34 @@ $(function () {
                 hours = hours - 12;
             }
 
-            var minutes = date.getMinutes();
-
-            minutes = minutes + "";
+            var minutes = date.getMinutes() +"";
 
             if (minutes.length == 1) {
                 minutes = "0" + minutes;
             }
 
             return hours + ':' + minutes + ' ' + am_pm;
+        },
+        onFinish: function(data) {
+            var startTime = data.from;
+            var endTime = data.to;
+            var date = $("#date").val();
+            $("#work_schedule_start_at").val(date +" "+ toTimestamp(startTime));
+            $("#work_schedule_end_at").val(date +" "+ toTimestamp(endTime));
         }
     });
+
+    var toTimestamp = function(minutes) {
+        var hours = Math.floor(minutes / 60) +"";
+        if(hours.length == 1) {
+            hours = "0" + hours;
+        }
+
+        var minutes = minutes % 60 +"";
+        if(minutes.length == 1) {
+            minutes = "0" + minutes;
+        }
+
+        return hours +':'+ minutes +':00';
+    }
 });

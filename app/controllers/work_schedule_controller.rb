@@ -25,7 +25,7 @@ class WorkScheduleController < ApplicationController
 
     respond_to do |format|
       if @edit_work_scehdule.save
-        format.html { redirect_to action: 'index'}
+        format.html { redirect_to action: 'index' }
       else
         format.html { redirect_to action: 'new' }
       end
@@ -52,33 +52,18 @@ class WorkScheduleController < ApplicationController
   end
 
   def create
-    @work_schedule_temp=WorkSchedule.new
-    @work_schedule_temp.start_at =
-        DateTime.parse(params[:work_schedule][:start_at]).change(hour: params[:work_schedule]['start_at(4i)'].to_i,
-                                   min: params[:work_schedule]['start_at(5i)'].to_i)
-    @work_schedule_temp.end_at =
-        DateTime.parse(params[:work_schedule][:start_at]).change(hour: params[:work_schedule]["end_at(4i)"].to_i,
-                                 min: params[:work_schedule]["end_at(5i)"].to_i)
-
     @work_schedule=WorkSchedule.new
-    @work_schedule=@work_schedule_temp
-    #@work_schedule.start_at = DateTime.civil(params[:work_schedule]["start_at(1i)"].to_i,
-    #                                         params[:work_schedule]["start_at(2i)"].to_i,
-    #                                         params[:work_schedule]["start_at(3i)"].to_i,
-    #                                         params[:work_schedule]["start_at(4i)"].to_i,
-    #                                         params[:work_schedule]["start_at(5i)"].to_i)
-    #@work_schedule.end_at = DateTime.civil(params[:work_schedule]["start_at(1i)"].to_i,
-    #                                       params[:work_schedule]["start_at(2i)"].to_i,
-    #                                       params[:work_schedule]["start_at(3i)"].to_i,
-    #                                       params[:work_schedule]["end_at(4i)"].to_i,
-    #                                       params[:work_schedule]["end_at(5i)"].to_i)
     @work_schedule.note = params[:work_schedule][:note]
+    dateFormat = '%Y-%m-%d %H:%M:%S %z'
+    zone = ' '+ Time.now.strftime('%z')
+    @work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + zone, dateFormat)
+    @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + zone, dateFormat)
 
     if params[:person_id] != '' and Person.find(params[:person_id])
       @work_schedule.staff_id = params[:person_id]
       respond_to do |format|
         if @work_schedule.save
-          format.html { redirect_to action: 'index'}
+          format.html { redirect_to action: 'index' }
         else
           format.html { redirect_to action: 'new', alert: 'Please enter valid staff name' }
         end

@@ -24,21 +24,18 @@
     </div>
     <div class="field">
       <%= f.label :date %> <br>
-      <%= f.date_field :start_at, {class: "time-select", :value => @work_schedule.start_at.to_date} %>
+      <input id="date" class="time-select" type="date" value="<%= @work_schedule.start_at.to_date %>">
     </div>
-    <%= f.label :start_time %> <br />
-    <input type="text" id="start-time-slider" /><br />
-    <%= f.time_select :start_at, {ampm: true, minute_step: 5},
-                      {class: "time-select", :value => @work_schedule.start_at} %>
-    <%= f.label :end_time %> <br>
-    <%= f.time_select :end_at, {ampm: true, minute_step: 5},
-                      {class: "time-select", :value => @work_schedule.end_at} %>
+    <%= f.label :time %> <br/>
+    <input type="text" id="start-time-slider"/><br/>
+    <%= f.hidden_field :start_at, {:value => @work_schedule.start_at} %>
+    <%= f.hidden_field :end_at, {:value => @work_schedule.end_at} %>
     <div class="field">
       <%= f.label :notes %> <br>
       <%= f.text_field :note, :value => @work_schedule.note %>
     </div>
     <div class="actions">
-      <%= submit_tag("Schedule", class: "button tiny", id: "submit") %>
+      <%= submit_tag('Schedule', class: 'button tiny', id: 'submit') %>
     </div>
 <% end %>
 </div>
