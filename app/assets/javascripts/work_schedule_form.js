@@ -42,7 +42,7 @@ $(function () {
         }
     });
 
-    $("#start-time-slider").ionRangeSlider({
+    $("#time-slider").ionRangeSlider({
         type: "double",
         min: 0,
         max: 1440,
@@ -74,14 +74,23 @@ $(function () {
 
             return hours + ':' + minutes + ' ' + am_pm;
         },
-        onFinish: function(data) {
-            var startTime = data.from;
-            var endTime = data.to;
-            var date = $("#date").val();
-            $("#work_schedule_start_at").val(date +" "+ toTimestamp(startTime));
-            $("#work_schedule_end_at").val(date +" "+ toTimestamp(endTime));
+        onFinish: function() {
+           updateDates();
         }
     });
+
+    $("#date").change(function(data) {
+        updateDates();
+    });
+
+    var updateDates = function() {
+        var timeSliderData = $("#time-slider").val().split(";");
+        var startTime = timeSliderData[0];
+        var endTime = timeSliderData[1];
+        var date = $("#date").val();
+        $("#work_schedule_start_at").val(date +" "+ toTimestamp(startTime));
+        $("#work_schedule_end_at").val(date +" "+ toTimestamp(endTime));
+    }
 
     var toTimestamp = function(minutes) {
         var hours = Math.floor(minutes / 60) +"";

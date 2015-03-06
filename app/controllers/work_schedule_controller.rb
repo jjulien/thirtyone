@@ -52,7 +52,7 @@ class WorkScheduleController < ApplicationController
   end
 
   def create
-    @work_schedule=WorkSchedule.new
+    @work_schedule=WorkSchedule.new()
     @work_schedule.note = params[:work_schedule][:note]
     dateFormat = '%Y-%m-%d %H:%M:%S %z'
     zone = ' '+ Time.now.strftime('%z')

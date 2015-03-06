@@ -27,7 +27,7 @@
       <input id="date" class="time-select" type="date" value="<%= @work_schedule.start_at.to_date %>">
     </div>
     <%= f.label :time %> <br/>
-    <input type="text" id="start-time-slider"/><br/>
+    <input type="text" id="time-slider"/><br/>
     <%= f.hidden_field :start_at, {:value => @work_schedule.start_at} %>
     <%= f.hidden_field :end_at, {:value => @work_schedule.end_at} %>
     <div class="field">
