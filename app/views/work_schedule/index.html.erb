@@ -18,8 +18,8 @@
       <% @work_schedules.each do |schedule| %>
           <tr>
             <td><%= schedule.person.fullname %></td>
-            <td><%= schedule.start_at.strftime("%m/%d/%Y %I:%M%p") %></td>
-            <td><%= schedule.end_at.strftime("%m/%d/%Y %I:%M%p") %></td>
+            <td><%= schedule.start_at.strftime('%m/%d/%Y %I:%M%p') %></td>
+            <td><%= schedule.end_at.strftime('%m/%d/%Y %I:%M%p') %></td>
             <td><%= schedule.note %></td>
             <td><%= button_to "Edit",
                               {:controller => :work_schedule, :action => 'show', :id => schedule.id},

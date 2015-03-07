@@ -55,7 +55,7 @@ $(function () {
         to: window.end_time,
         grid: true,
         grid_num: 12,
-        prettify: function(num) {
+        prettify: function (num) {
             var date = new Date();
             date.setHours(num / 60);
             date.setMinutes(num % 60);
@@ -70,7 +70,7 @@ $(function () {
                 hours = hours - 12;
             }
 
-            var minutes = date.getMinutes() +"";
+            var minutes = date.getMinutes() + "";
 
             if (minutes.length == 1) {
                 minutes = "0" + minutes;
@@ -78,35 +78,40 @@ $(function () {
 
             return hours + ':' + minutes + ' ' + am_pm;
         },
-        onFinish: function() {
-           updateDates();
+        onFinish: function () {
+            updateDates();
         }
     });
 
-    $("#date").change(function(data) {
-        updateDates();
-    });
+    $("#date")
+        .datepicker({
+            minDate: 0,
+            showAnim: "blind"
+        })
+        .change(function () {
+            updateDates();
+        });
 
-    var updateDates = function() {
+    var updateDates = function () {
         var timeSliderData = $("#time-slider").val().split(";");
         var startTime = timeSliderData[0];
         var endTime = timeSliderData[1];
         var date = $("#date").val();
-        $("#work_schedule_start_at").val(date +" "+ toTimestamp(startTime));
-        $("#work_schedule_end_at").val(date +" "+ toTimestamp(endTime));
+        $("#work_schedule_start_at").val(date + " " + toTimestamp(startTime));
+        $("#work_schedule_end_at").val(date + " " + toTimestamp(endTime));
     }
 
-    var toTimestamp = function(minutes) {
-        var hours = Math.floor(minutes / 60) +"";
-        if(hours.length == 1) {
+    var toTimestamp = function (minutes) {
+        var hours = Math.floor(minutes / 60) + "";
+        if (hours.length == 1) {
             hours = "0" + hours;
         }
 
-        var minutes = minutes % 60 +"";
-        if(minutes.length == 1) {
+        var minutes = minutes % 60 + "";
+        if (minutes.length == 1) {
             minutes = "0" + minutes;
         }
 
-        return hours +':'+ minutes +':00';
+        return hours + ':' + minutes + ':00';
     }
 });
