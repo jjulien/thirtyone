@@ -16,7 +16,6 @@ class WorkScheduleController < ApplicationController
   def update
     @edit_work_schedule = WorkSchedule.find(params[:id])
     @edit_work_schedule.staff_id = params[:person_id]
-    @date_format = '%Y-%m-%d %H:%M:%S %:z'
     @zone = ' '+ DateTime.strptime(params[:work_schedule][:start_at][0..9], '%Y-%m-%d').end_of_day.in_time_zone.zone
     @edit_work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @@date_format)
     @edit_work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@date_format)
