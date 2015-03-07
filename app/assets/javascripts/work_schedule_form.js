@@ -47,8 +47,8 @@ $(function () {
         min: 0,
         max: 1440,
         step: 5,
-        from: 480, // 8AM
-        to: 960, // 4PM
+        from: window.start_time,
+        to: window.end_time,
         grid: true,
         grid_num: 12,
         prettify: function(num) {
