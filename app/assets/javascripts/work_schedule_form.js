@@ -8,17 +8,17 @@ var idField = "#person_id";
 var setFields = function (label, value) {
     $(labelField).val(label);
     $(idField).val(value);
-}
+};
 
 $(function () {
     $(labelField).autocomplete({
         source: window.availableTags,
         select: function (event, ui) {
-            setFields(ui.item.label, ui.item.value)
+            setFields(ui.item.label, ui.item.value);
             return false;
         },
         focus: function (event, ui) {
-            setFields(ui.item.label, ui.item.value)
+            setFields(ui.item.label, ui.item.value);
             return false;
         },
         change: function (event, ui) {
@@ -99,7 +99,7 @@ $(function () {
         var date = $("#date").val();
         $("#work_schedule_start_at").val(date + " " + toTimestamp(startTime));
         $("#work_schedule_end_at").val(date + " " + toTimestamp(endTime));
-    }
+    };
 
     var toTimestamp = function (minutes) {
         var hours = Math.floor(minutes / 60) + "";
