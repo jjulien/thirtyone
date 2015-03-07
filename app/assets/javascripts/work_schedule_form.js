@@ -1,4 +1,4 @@
-//= require ion.rangeSlider.min
+//= require ionrangeslider
 //= require jquery
 //= require jquery-ui
 

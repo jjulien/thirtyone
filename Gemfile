@@ -61,3 +61,9 @@ gem 'event-calendar', :require => 'event_calendar'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'bundler', '>= 1.7.0'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-ionrangeslider'
+end

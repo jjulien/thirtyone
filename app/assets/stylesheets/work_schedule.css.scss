@@ -1,5 +1,6 @@
 // Place all the styles related to the WorkSchedule controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-@import 'ionRangeSlider.css';
-@import 'ionRangeSliderSkinHTML5.css';
+@import 'ionrangeslider/ion.rangeSlider';
+@import 'ionrangeslider/ion.rangeSlider.skinHTML5';
+@import 'ionrangeslider/normalize';
