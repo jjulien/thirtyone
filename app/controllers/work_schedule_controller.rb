@@ -1,4 +1,6 @@
 class WorkScheduleController < ApplicationController
+  @@date_format = '%Y-%m-%d %H:%M:%S %:z'
+
   def index
     @work_schedules = WorkSchedule.all
   end
@@ -16,8 +18,8 @@ class WorkScheduleController < ApplicationController
     @edit_work_schedule.staff_id = params[:person_id]
     @date_format = '%Y-%m-%d %H:%M:%S %:z'
     @zone = ' '+ DateTime.strptime(params[:work_schedule][:start_at][0..9], '%Y-%m-%d').end_of_day.in_time_zone.zone
-    @edit_work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @date_format)
-    @edit_work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @date_format)
+    @edit_work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @@date_format)
+    @edit_work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@date_format)
     @edit_work_schedule.note = params[:work_schedule][:note]
 
     respond_to do |format|
@@ -51,10 +53,9 @@ class WorkScheduleController < ApplicationController
   def create
     @work_schedule=WorkSchedule.new()
     @work_schedule.note = params[:work_schedule][:note]
-    @date_format = '%Y-%m-%d %H:%M:%S %:z'
     @zone = ' '+ DateTime.strptime(params[:work_schedule][:start_at][0..9], '%Y-%m-%d').end_of_day.in_time_zone.zone
-    @work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @date_format)
-    @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @date_format)
+    @work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @@date_format)
+    @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@date_format)
 
     if params[:person_id] != '' and Person.find(params[:person_id])
       @work_schedule.staff_id = params[:person_id]
