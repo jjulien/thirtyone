@@ -13,7 +13,7 @@
 <% end %>
 
 <%= form_for(@work_schedule) do |f| %>
-    <div class="field small-12 medium-10 large-10">
+    <div class="field">
       <%= f.label :Staff %> <br>
 
       <div class="ui-widget" id="person_div">
@@ -22,17 +22,17 @@
         <span id="person_error" hidden="true">Please enter valid staff name</span>
       </div>
     </div>
-    <div class="field small-8 medium-2 large-2">
+    <div class="field small-6 medium-4 large-2">
       <%= f.label :date %> <br>
       <input id="date" class="time-select" type="date" value="<%= @work_schedule.start_at.to_date %>">
     </div>
-    <div class="field small-12 medium-10 large-10">
+    <div class="field">
       <%= f.label :time %> <br/>
-      <span class="small-10 medium-10 large-11 push-1"><input type="text" id="time-slider"/></span>
+      <input type="text" id="time-slider"/>
       <%= f.hidden_field :start_at, {:value => @work_schedule.start_at} %>
       <%= f.hidden_field :end_at, {:value => @work_schedule.end_at} %>
     </div>
-    <div class="field small-12 medium-10 large-10">
+    <div class="field">
       <%= f.label :notes %> <br>
       <%= f.text_area :note, :value => @work_schedule.note %>
     </div>
