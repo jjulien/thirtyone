@@ -1,3 +1,7 @@
+//= require ion.rangeSlider.min
+//= require jquery
+//= require jquery-ui
+
 var labelField = "#person";
 var idField = "#person_id";
 

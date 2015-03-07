@@ -1,11 +1,5 @@
 <% @selected_person = @work_schedule.staff_id ? @people.find(@work_schedule.staff_id) : nil %>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-<%= javascript_include_tag "ion.rangeSlider.min" %>
-<%= stylesheet_link_tag "ionRangeSlider" %>
-<%= stylesheet_link_tag "ionRangeSliderSkinHTML5" %>
 <%= javascript_tag do %>
     window.availableTags = [
     <% @people.each do |person| %>
