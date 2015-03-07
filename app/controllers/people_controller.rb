@@ -85,34 +85,42 @@ class PeopleController < ApplicationController
   # POST /people.json
   def create
     #authorize Person
+    error = false
     @person = Person.new(person_params)
-    if params[:person][:household_id]
-      @person.household_id = params[:person][:household_id]
-      errors = true if not @person.save
-    else
-      household = Household.new
-      household.address = Address.new(address_params)
-      household.address.state = State.find(params[:state][:id])
-      @person.household = household
-      if @person.save
-        household.person = @person
-        household.save
-      else
-        errors = true
-      end
-    end
-    if not errors and params[:create_user] == 'yes'
-      if not @person.user
-        @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
-
-        params[:roles].each do |role_id|
-          @person.user.roles.push(Role.find(role_id))
+    @roles = Role.all
+    @person.transaction do
+      begin
+        if params[:person][:household_id]
+          @person.household_id = params[:person][:household_id]
+          raise ActiveRecord::Rollback
+        else
+          household = Household.new
+          household.address = Address.new(address_params)
+          household.address.state = State.find(params[:state][:id])
+          @person.household = household
+          if @person.save
+            household.person = @person
+            household.save
+          else
+            raise ActiveRecord::Rollback
+          end
         end
+        if params[:create_user] == 'yes'
+          if not @person.user
+            @person.user = User.create!({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            params[:roles].each do |role_id|
+              @person.user.roles.push(Role.find(role_id))
+            end
+          end
+        end
+      rescue Exception => e
+        flash[:alert] = "Failed to create person with error: #{e.message}"
+        error = true
+        raise ActiveRecord::Rollback
       end
     end
-
     respond_to do |format|
-      if not errors
+      if not error
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
