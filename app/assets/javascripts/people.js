@@ -39,42 +39,28 @@ function showNewPersonDiv(input)
 function updatePersonSearch(input)
 {
     updateNewPersonButton(input);
+    var data = {ajax: true}
+
     if(input.value.length > 0){
         var search_key_array = input.value.split(" ");
         var search_keys = JSON.stringify(search_key_array);
-
-        var request = $.ajax({
-            url: "/people/search",
-            type: "GET",
-            data: { search : search_keys,
-                    ajax   : true },
-            dataType: "html"
-        });
-
-        request.done(function( html ) {
-            $( "#results" ).html( html );
-        });
-
-        request.fail(function( jqXHR, textStatus ) {
-            alert( "Search update failed: " + textStatus );
-        });
+        data['search'] = search_keys;
     }
-    else{
-        var request = $.ajax({
-            url: "/people/search",
-            type: "GET",
-            data: { ajax   : true },
-            dataType: "html"
-        });
 
-        request.done(function( html ) {
-            $( "#results" ).html( html );
-        });
+    var request = $.ajax({
+        url: "/people/search",
+        type: "GET",
+        data: data,
+        dataType: "html"
+    });
 
-        request.fail(function( jqXHR, textStatus ) {
-            alert( "Search update failed: " + textStatus );
-        });
-    }
+    request.done(function( html ) {
+        $( "#results" ).html( html );
+    });
+
+    request.fail(function( jqXHR, textStatus ) {
+        alert( "Search update failed: " + textStatus );
+    });
 }
 
 function editPerson(button)

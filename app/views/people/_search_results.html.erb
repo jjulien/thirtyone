@@ -1,13 +1,15 @@
-<div id="results" class="results <%if @people.length == 0%>hide<% end %>">
-  <ul data-dropdown-content>
-    <% @people.each_with_index do |person, index|
-      rowclass = 'oddrow '
-      rowclass = 'evenrow ' if index % 2 == 0
-      rowclass += 'last-element' if index == @people.length - 1
-    %>
-        <li class="<%= rowclass %>" onclick="window.location = '<%= url_for person_path(person) %>';">
-            <div><%= person.fullname %></div>
-        </li>
-    <% end %>
-  </ul>
-</div>
+<% if @people.length > 0 %>
+    <div id="results-list" class="results">
+      <ul data-dropdown-content>
+        <% @people.each_with_index do |person, index|
+          rowclass = 'oddrow '
+          rowclass = 'evenrow ' if index % 2 == 0
+          rowclass += 'last-element' if index == @people.length - 1
+        %>
+            <li class="<%= rowclass %>" onclick="window.location = '<%= url_for person_path(person) %>';">
+              <div><%= person.fullname %></div>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
