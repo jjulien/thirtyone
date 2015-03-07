@@ -4,9 +4,11 @@ function updateNewPersonButton(input)
     var add_button = $('#newperson');
     if ( value != "" ) {
         add_button.removeClass('hide');
-        add_button.html('+ Add ' + value);
+        add_button.addClass('button');
+        add_button.val('+ Add ' + value);
     } else {
         add_button.addClass('hide');
+        add_button.removeClass('button');
         add_button.html('');
     }
 }

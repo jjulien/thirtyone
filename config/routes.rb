@@ -46,6 +46,8 @@ Thirtyone::Application.routes.draw do
       get 'search'
     end
   end
+
+  match '/people/new', :controller => 'people', :action => 'new', via: :post
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
