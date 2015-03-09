@@ -73,12 +73,18 @@ class PeopleController < ApplicationController
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
     @roles = Role.all
+    @selected_roles = [Role.default_role]
   end
 
   # GET /people/1/edit
   def edit
     @household = Household.find(@person.household_id);
     @roles = Role.all
+    if @person.user
+      @selected_roles = @person.user.roles
+    else
+      @selected_roles = [Role.default_role]
+    end
   end
 
   # POST /people
@@ -88,11 +94,11 @@ class PeopleController < ApplicationController
     error = false
     @person = Person.new(person_params)
     @roles = Role.all
+    @selected_roles = [Role.default_role]
     @person.transaction do
       begin
         if params[:person][:household_id]
           @person.household_id = params[:person][:household_id]
-          raise ActiveRecord::Rollback
         else
           household = Household.new
           household.address = Address.new(address_params)
@@ -102,6 +108,7 @@ class PeopleController < ApplicationController
             household.person = @person
             household.save
           else
+            error = true
             raise ActiveRecord::Rollback
           end
         end
@@ -113,6 +120,7 @@ class PeopleController < ApplicationController
             end
           end
         end
+        @person.save!
       rescue Exception => e
         flash[:alert] = "Failed to create person with error: #{e.message}"
         error = true
@@ -134,33 +142,42 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    if params[:person][:household_id]
-      @person.household_id = params[:person][:household_id]
-      errors = true if not @person.save
-    else
-      household = Household.new
-      household.address = Address.new(address_params)
-      household.address.state = State.find(params[:state][:id])
-      @person.household = household
-      if @person.save
-        household.person = @person
-        household.save
-      else
-        errors = true
-      end
-    end
-    if not errors and params[:create_user] == 'yes'
-      if not @person.user
-        @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
-
-        params[:roles].each do |role_id|
-          @person.user.roles.push(Role.find(role_id))
+    error = false
+    @person.transaction do
+      begin
+        if params[:person][:household_id]
+          @person.household_id = params[:person][:household_id]
+          errors = true if not @person.save
+        else
+          household = Household.new
+          household.address = Address.new(address_params)
+          household.address.state = State.find(params[:state][:id])
+          @person.household = household
+          if @person.save
+            household.person = @person
+            household.save
+          else
+            errors = true
+          end
         end
+        if params[:create_user] == 'yes'
+          if not @person.user
+            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+          end
+          params[:roles].each do |role_id|
+            @person.user.roles.push(Role.find(role_id))
+          end
+        end
+        @person.update(person_params)
+      rescue Exception => e
+        flash[:alert] = "Failed to update person with error: #{e.message}"
+        error = true
+        raise ActiveRecord::Rollback
       end
     end
 
     respond_to do |format|
-      if @person.update(person_params)
+      if not error
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
