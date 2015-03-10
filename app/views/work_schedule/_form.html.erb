@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="field small-6 medium-4 large-2">
-      <%= f.label :date %> <br />
+      <%= f.label :date %> <br/>
       <input id="date" class="time-select" type="text" value="<%= @work_schedule.start_at.strftime('%m/%d/%Y') %>">
     </div>
     <div class="field">
@@ -35,8 +35,12 @@
       <%= f.text_area :note, :value => @work_schedule.note %>
     </div>
     <div class="actions">
-      <%= @selected_person ? button_to('Update', {:controller => :work_schedule, :action => 'update', :id => @work_schedule.id}, {:method => :post ,class: 'button tiny', id: 'submit'}) : nil %>
-      <%= @selected_person ? button_to('Delete', {:controller => :work_schedule, :action => 'destroy', :id => @work_schedule.id}, {:method => :delete, :class => 'button tiny'}) : nil %>
-      <%= @selected_person ? nil : submit_tag('Schedule', class: 'button tiny', id: 'submit') %>
+      <div class="left">
+        <%= @selected_person ? f.submit(:Update, :class => 'button tiny') : f.submit(:Schedule, class: 'button tiny') %>
+        <button class="button tiny" onclick="window.history.back()">Cancel</button>
+      </div>
+      <div class="right">
+        <%= @selected_person ? link_to('Delete', @work_schedule, {:method => :delete, :class => 'button tiny'}) : nil %>
+      </div>
     </div>
 <% end %>
