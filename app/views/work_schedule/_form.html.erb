@@ -1,85 +1,46 @@
+<% @selected_person = @work_schedule.staff_id ? @people.find(@work_schedule.staff_id) : nil %>
 
-
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-  <script>
-      $(function() {
-          var availableTags = [
-              <% @people.each do |person|  %>
-              { label: '<%= person.fullname %>', value: '<%= person.id %>'},
-              <% end %>
-          ];
-          $( "#tags" ).autocomplete({
-              source: availableTags,
-              select: function (event, ui) {
-                $(this).val(ui.item.label);
-                $("#person_id").val(ui.item.value)
-                return false;
-              },
-              focus: function (event, ui) {
-                  /*alert("You hit focus1")*/
-                  $(this).val(ui.item.label);
-                  $("#person_id").val(ui.item.value)
-                  /*alert("You hit focus2")*/
-                  return false;
-              },
-              close: function (event, ui) {
-                  alert("You have hit close");
-                  alert($("#person_id").val())
-                  alert($("#person").val())
-                  alert($(this).val())
-                  if (ui.item != null) {
-                      $(this).val(ui.item.label);
-                      $("#person_id").val(ui.item.value)
-                      return false;
-                  } else {
-                      alert("Sorry, the volunteer " + $(this).val() + " was not found");
-                  }
-              },
-              change: function (event, ui) {
-                  alert("You have hit change");
-                  alert($("#person_id").val())
-                  alert($(this).val())
-                  $.each(availableTags, function(index, item) {
-                      if ( item.label == $(this).val() ) { alert("setting to " + item.label); ui.item = item; }
-                  });
-                  if (ui.item != null) {
-                    $(this).val(ui.item.label);
-                    $("#person_id").val(ui.item.value)
-                    return false;
-                  } else {
-                      alert("Sorry, the volunteer " + $(this).val() + " was not found");
-                  }
-              }
-          });
-      });
-  </script>
-
-    <%= form_for(@work_schedule) do |f| %>
-     <div class="field">
-       <%= f.label :Staff %> <br>
-           <div class="ui-widget">
-             <input id="tags">
-             <input name="person_id" id="person_id" value="" type="hidden"/>
-           </div>
-     </div>
-     <div class="field">
-       <%= f.label :date %> <br>
-       <%= f.date_field :start_at, {class: "time-select", :value => @work_schedule.start_at.to_date} %>
-     </div>
-       <%= f.label :start_time %> <br>
-       <%= f.time_select :start_at, {ampm:true, minute_step: 5},
-                         {class: "time-select", :value => @work_schedule.start_at} %>
-       <%= f.label :end_time %> <br>
-       <%= f.time_select :end_at, {ampm:true, minute_step:  5},
-                         {class: "time-select", :value => @work_schedule.end_at} %>
-      <div class="field">
-        <%= f.label :notes %> <br>
-        <%= f.text_field :note, :value => @work_schedule.note%>
-      </div>
-        <div class="actions">
-       <%= submit_tag("Schedule", class: "button tiny") %>
-     </div>
+<%= javascript_tag do %>
+    window.availableTags = [
+    <% @people.each do |person| %>
+        { label: '<%= person.fullname %>', value: '<%= person.id %>'},
     <% end %>
-</div>
+    ];
+    window.start_time = <%= @selected_person ? (@work_schedule.start_at.hour * 60) + @work_schedule.start_at.min : 480 %>;
+    window.end_time = <%= @selected_person ? (@work_schedule.end_at.hour * 60) + @work_schedule.end_at.min : 960 %>;
+<% end %>
+
+<%= form_for(@work_schedule) do |f| %>
+    <div class="field">
+      <%= f.label :Staff %> <br>
+
+      <div class="ui-widget" id="person_div">
+        <input id="person" value="<%= @selected_person ? @selected_person.fullname : nil %>"><br/>
+        <input name="person_id" id="person_id" value="<%= @selected_person ? @work_schedule.staff_id : nil %>" type="hidden"/>
+        <span id="person_error" hidden="true">Please enter valid staff name</span>
+      </div>
+    </div>
+    <div class="field small-6 medium-4 large-2">
+      <%= f.label :date %> <br/>
+      <input id="date" class="time-select" type="text" value="<%= @work_schedule.start_at.strftime('%m/%d/%Y') %>">
+    </div>
+    <div class="field">
+      <%= f.label :time %> <br/>
+      <input type="text" id="time-slider"/>
+      <%= f.hidden_field :start_at, {:value => @work_schedule.start_at} %>
+      <%= f.hidden_field :end_at, {:value => @work_schedule.end_at} %>
+    </div>
+    <div class="field">
+      <%= f.label :notes %> <br>
+      <%= f.text_area :note, :value => @work_schedule.note %>
+    </div>
+    <div class="actions">
+      <div class="left">
+        <%= @selected_person ? f.submit(:Update, :class => 'button tiny') : f.submit(:Schedule, class: 'button tiny') %>
+        <button class="button tiny" onclick="window.history.back()">Cancel</button>
+      </div>
+      <div class="right">
+        <%= @selected_person ? link_to('Delete', @work_schedule, {:method => :delete, :class => 'button tiny'}) : nil %>
+      </div>
+    </div>
+<% end %>

@@ -1,8 +1,10 @@
+<div class="row">
+  <div class="large-10 medium-10 small-10 columns small-centered">
+    <h1>Schedule</h1>
 
-<h1>Schedule</h1>
-<p>Welcome to the work schedule</p>
-<table>
-  <thead>
+    <p>Welcome to the work schedule</p>
+    <table>
+      <thead>
       <tr>
         <th>Name</th>
         <th>Start</th>
@@ -11,24 +13,26 @@
         <th>Edit</th>
         <th>Delete</th>
       </tr>
-  </thead>
-  <tbody>
-    <% @work_schedules.each do |schedule| %>
-    <tr>
-      <td><%= schedule.person.fullname %></td>
-      <td><%= schedule.start_at %></td>
-      <td><%= schedule.end_at %></td>
-      <td><%= schedule.note %></td>
-      <td><%= button_to "Edit",
-                        {:controller => :work_schedule, :action => 'show', :id => schedule.id },
-                        :method => :get, class: "button tiny"%></td>
-      <td><%= button_to "Delete",
-                        {:controller => :work_schedule, :action => 'destroy', :id => schedule.id },
-                        :method => :delete, class: "button tiny"%></td>
-    </tr>
-    <% end %>
-  </tbody>
-</table>
-<div style="padding-top:10px">
-  <a class="button small" href="<%= new_work_schedule_path %>">New Schedule</a>
+      </thead>
+      <tbody>
+      <% @work_schedules.each do |schedule| %>
+          <tr>
+            <td><%= schedule.person.fullname %></td>
+            <td><%= schedule.start_at.strftime('%m/%d/%Y %I:%M%p %Z') %></td>
+            <td><%= schedule.end_at.strftime('%m/%d/%Y %I:%M%p %Z') %></td>
+            <td><%= schedule.note %></td>
+            <td><%= button_to "Edit",
+                              {:controller => :work_schedule, :action => 'show', :id => schedule.id},
+                              :method => :get, class: "button tiny" %></td>
+            <td><%= button_to "Delete",
+                              {:controller => :work_schedule, :action => 'destroy', :id => schedule.id},
+                              :method => :delete, class: "button tiny" %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+    <div style="padding-top:10px">
+      <a class="button small" href="<%= new_work_schedule_path %>">New Schedule</a>
+    </div>
+  </div>
 </div>
