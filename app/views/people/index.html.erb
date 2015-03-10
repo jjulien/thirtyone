@@ -1,8 +1,10 @@
 <div style="margin-top:20px;" class="row">
   <div class="small-12 medium-9 large-8 columns small-centered">
     <div class="searchbox">
-        <div id="searcharea">
+      <div id="searcharea">
+        <%= form_tag '/people/new' do %>
             <h3>Search/Add Person</h3>
+
             <div class="row">
               <div class="large-12 columns">
                 <input id="search" onkeyup="updatePersonSearch(this);"
@@ -10,19 +12,22 @@
                        size="30"
                        name="search"
                        placeholder="Firstname Lastname"
-                       value="<%= @search_string %>" />
+                       value="<%= @search_string %>"/>
               </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="large-12 columns">
-                <div><button onclick="window.location = '<%= url_for new_person_path() %>'" class="small hide" id="newperson"></button></div>
             </div>
-            <div class="large-12 columns">
+            <div class="row">
+              <div class="large-12 columns">
+                <div>
+                  <%= submit_tag nil, class: 'small hide', id: 'newperson' %>
+                </div>
+              </div>
+              <div id="results" class="large-12 columns">
                 <%= render "search_results" %>
+              </div>
             </div>
+            <% end %>
         </div>
-    </div>
   </div>
 </div>
 

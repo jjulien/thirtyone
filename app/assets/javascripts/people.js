@@ -1,82 +1,44 @@
-function updateNewPersonButton(input)
-{
+function updateNewPersonButton(input) {
     var value = input.value;
     var add_button = $('#newperson');
-    if ( value != "" ) {
+    if (value != "") {
         add_button.removeClass('hide');
-        add_button.html('+ Add ' + value);
+        add_button.addClass('button');
+        add_button.val('+ Add ' + value);
     } else {
         add_button.addClass('hide');
+        add_button.removeClass('button');
         add_button.html('');
     }
 }
 
-function showNewPersonDiv(input)
-{
-    var value = input.value;
-    var names = value.split(" ");
+function updatePersonSearch(input) {
+    updateNewPersonButton(input);
+    var data = {ajax: true}
 
-    // TODO: Need to extract first and last name from the input value
-    //       and populate the firstname and lastname fields in the new form
+    if (input.value.length > 0) {
+        var search_key_array = input.value.split(" ");
+        var search_keys = JSON.stringify(search_key_array);
+        data['search'] = search_keys;
+    }
 
-    // TODO: Animations need to be a bit smoother
-    var search = $("#search").val();
-    var search_array = search.split(" ");
-    $("#person_firstname").val(search_array[0]);
-    $("#person_lastname").val(search_array[1]);
-    $("#searcharea").slideUp();
-    $("#results").slideUp(
-    { complete: function()
-        {
-            $("#newperson_div").slideDown();
-            $(input).hide();
-        }
+    var request = $.ajax({
+        url: "/people/search",
+        type: "GET",
+        data: data,
+        dataType: "html"
+    });
+
+    request.done(function (html) {
+        $("#results").html(html)
+    });
+
+    request.fail(function (jqXHR, textStatus) {
+        alert("Search update failed: " + textStatus);
     });
 }
 
-function updatePersonSearch(input)
-{
-    updateNewPersonButton(input);
-    if(input.value.length > 0){
-        var search_key_array = input.value.split(" ");
-        var search_keys = JSON.stringify(search_key_array);
-
-        var request = $.ajax({
-            url: "/people/search",
-            type: "GET",
-            data: { search : search_keys,
-                    ajax   : true },
-            dataType: "html"
-        });
-
-        request.done(function( html ) {
-            $( "#results" ).html( html );
-        });
-
-        request.fail(function( jqXHR, textStatus ) {
-            alert( "Search update failed: " + textStatus );
-        });
-    }
-    else{
-        var request = $.ajax({
-            url: "/people/search",
-            type: "GET",
-            data: { ajax   : true },
-            dataType: "html"
-        });
-
-        request.done(function( html ) {
-            $( "#results" ).html( html );
-        });
-
-        request.fail(function( jqXHR, textStatus ) {
-            alert( "Search update failed: " + textStatus );
-        });
-    }
-}
-
-function editPerson(button)
-{
+function editPerson(button) {
     //alert("Edit Person engaged.");
 
     var li = $(button).closest("li");
@@ -94,13 +56,11 @@ function editPerson(button)
     edit_fields2.show();
 }
 
-function savePerson(button)
-{
+function savePerson(button) {
     alert("You clicked the Save button.  Conglatumations!")
 }
 
-function cancelEdit(button)
-{
+function cancelEdit(button) {
     //alert("Cancel Button engaged.");
 
     var li = $(button).closest("li");

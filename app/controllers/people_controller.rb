@@ -20,7 +20,7 @@ class PeopleController < ApplicationController
       search_keys = JSON.parse(params[:search]).to_a
       search_keys[0] = '' if search_keys.length == 0
       firstname_key = (search_keys.first || '') + '%'
-      lastname_key  = (search_keys.last  || '') + '%'
+      lastname_key = (search_keys.last || '') + '%'
 
       sql_conditional = "OR"
       sql_conditional = "AND" if search_keys.length > 1
@@ -69,6 +69,10 @@ class PeopleController < ApplicationController
   def new
     @person = Person.new
     @new_household = Household.new
+
+    if params[:search]
+      @person.firstname, @person.lastname = params[:search].split(' ', 2)
+    end
   end
 
   # GET /people/1/edit
@@ -150,16 +154,17 @@ class PeopleController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_person
-      @person = Person.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_person
+    @person = Person.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def person_params
-      params.require(:person).permit(:firstname, :lastname, :phone, :household_id)
-    end
-    def address_params
-      params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def person_params
+    params.require(:person).permit(:firstname, :lastname, :phone, :household_id)
+  end
+
+  def address_params
+    params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
+  end
 end
