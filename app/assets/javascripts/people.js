@@ -30,12 +30,7 @@ function updatePersonSearch(input) {
     });
 
     request.done(function (html) {
-        var $newHTML = $('<div style="position : absolute; left : -99999px;">' + html + '</div>').appendTo('body'),
-            theHeight = $newHTML.height();
-        $("#results-list").animate({'height': theHeight}, 250, function () {
-            $("#results").html(html)
-        });
-        $newHTML.html("");
+        $("#results").html(html)
     });
 
     request.fail(function (jqXHR, textStatus) {
