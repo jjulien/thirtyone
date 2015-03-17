@@ -1,6 +1,8 @@
 class WorkScheduleController < ApplicationController
-  @@date_format = '%m/%d/%Y'
+  @@date_format = '%Y-%m-%d'
   @@datetime_format = @@date_format +' %H:%M:%S %:z'
+
+  @@staff_invalid_error = 'Please enter a valid name'
 
   def index
     @work_schedules = WorkSchedule.all
@@ -17,14 +19,6 @@ class WorkScheduleController < ApplicationController
   def update
     @work_schedule = WorkSchedule.find(params[:id])
     populate_work_schedule()
-
-    respond_to do |format|
-      if @work_schedule.save
-        format.html { redirect_to action: 'index' }
-      else
-        format.html { redirect_to action: 'new' }
-      end
-    end
   end
 
   def edit
@@ -49,21 +43,6 @@ class WorkScheduleController < ApplicationController
   def create
     @work_schedule = WorkSchedule.new()
     populate_work_schedule()
-
-    if params[:person_id] != '' and Person.find(params[:person_id])
-      @work_schedule.staff_id = params[:person_id]
-      respond_to do |format|
-        if @work_schedule.save
-          format.html { redirect_to action: 'index' }
-        else
-          format.html { redirect_to action: 'new', alert: 'Please enter valid staff name' }
-        end
-      end
-    else
-      @people = Person.all
-      flash[:alert] = 'Please enter valid staff name'
-      render action: 'new'
-    end
   end
 
   private
@@ -75,5 +54,20 @@ class WorkScheduleController < ApplicationController
     # Now append it to each of the dates.
     @work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @@datetime_format)
     @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@datetime_format)
+
+    if params[:person_id] != '' and Person.find(params[:person_id])
+      @work_schedule.staff_id = params[:person_id]
+      respond_to do |format|
+        if @work_schedule.save
+          format.html { redirect_to action: 'index' }
+        else
+          format.html { redirect_to action: 'new', alert: @@staff_invalid_error }
+        end
+      end
+    else
+      @people = Person.all
+      flash.now[:alert] = @@staff_invalid_error
+      render action: 'new'
+    end
   end
 end
