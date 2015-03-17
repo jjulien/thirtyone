@@ -43,4 +43,8 @@ class User < ActiveRecord::Base
     end
     return permissions
   end
+
+  def has_access(permission)
+    permissions & PERM_ADMIN || permissions & permission
+  end
 end

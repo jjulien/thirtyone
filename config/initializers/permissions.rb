@@ -10,3 +10,4 @@ PERM_RO_VISIT          = 1 << 8
 PERM_RW_VISIT          = 1 << 9
 PERM_RO_PRAYER_REQUEST = 1 << 10
 PERM_RW_PRAYER_REQUEST = 1 << 11
+PERM_ADMIN             = 1 << 12
