@@ -143,6 +143,8 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1.json
   def update
     error = false
+    @roles = Role.all
+    @selected_roles = [Role.default_role]
     @person.transaction do
       begin
         if params[:person][:household_id]
@@ -166,6 +168,10 @@ class PeopleController < ApplicationController
           end
           params[:roles].each do |role_id|
             @person.user.roles.push(Role.find(role_id))
+          end
+        else
+          if @person.user
+            @person.user.delete
           end
         end
         @person.update(person_params)
