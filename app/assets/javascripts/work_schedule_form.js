@@ -36,11 +36,9 @@ $(function () {
             // Wipe the field if they failed to choose a real one
             if (!didSet) {
                 $(idField).val("");
-                $("#person_div").addClass("field_with_errors");
-                $("#person_error").removeAttr("hidden");
+                $("#person_error").removeClass("invisible");
             } else {
-                $("#person_div").removeClass("field_with_errors");
-                $("#person_error").attr("hidden", "true");
+                $("#person_error").addClass("invisible");
             }
             return false;
         }
@@ -96,7 +94,7 @@ $(function () {
         var timeSliderData = $("#time-slider").val().split(";");
         var startTime = timeSliderData[0];
         var endTime = timeSliderData[1];
-        var date = $("#date").val();
+        var date = $.datepicker.formatDate("yy-mm-dd", new Date($("#date").val()));
         $("#work_schedule_start_at").val(date + " " + toTimestamp(startTime));
         $("#work_schedule_end_at").val(date + " " + toTimestamp(endTime));
     };
