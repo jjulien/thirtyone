@@ -1,31 +1,29 @@
-<style>
-
-
-
-</style>
-
 <div class="row">
   <div class="large-8 radius large-centered columns grey">
     <div class="row title dark-grey">
       <div class="large-12 columns">
-        <p>
           <%= @person.fullname %>
-        </p>
       </div>
     </div>
     <div class="row">
       <div class="large-6 columns">
-        <p>
-          <%= @person.household.address.line1 %><br>
-          <% unless @person.household.address.line2.blank? %><%= @person.household.address.line2 %><br>
-          <% end %>
+        <div class="small-12 columns">
+          <%= @person.household.address.line1 %>
+        </div>
+        <div class="small-12 colums">
+            <%= @person.household.address.line2 unless @person.household.address.line2.blank? %>
+        </div>
+        <div class="small-12 columns">
           <%= @person.household.address.city_state_zip %>
-        </p>
+        </div>
       </div>
       <div class="large-6 columns">
-        <p>
-          <%= @person.phone %><br>
-          biggtrav05@gmail.com
+        <div class="small-12 columns">
+          <%= @person.phone %>
+        </div>
+        <div class="small-12 columns">
+          <%= @person.email %>
+        </div>
         </p>
       </div>
     </div>
