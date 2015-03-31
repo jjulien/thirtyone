@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    #@users = User.all
+    @people = Person.all
+    @new_person = Person.new
+    @all_states = State.all
+    render 'people/index'
   end
 
   # GET /users/1

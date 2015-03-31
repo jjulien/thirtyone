@@ -69,40 +69,66 @@ class PeopleController < ApplicationController
   def new
     @person = Person.new
     @new_household = Household.new
-
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
+    @roles = Role.all
+    @selected_roles = [Role.default_role]
   end
 
   # GET /people/1/edit
   def edit
     @household = Household.find(@person.household_id);
+    @roles = Role.all
+    if @person.user
+      @selected_roles = @person.user.roles
+    else
+      @selected_roles = [Role.default_role]
+    end
   end
 
   # POST /people
   # POST /people.json
   def create
     #authorize Person
+    error = false
     @person = Person.new(person_params)
-    if params[:person][:household_id]
-      @person.household_id = params[:person][:household_id]
-      errors = true if not @person.save
-    else
-      household = Household.new
-      household.address = Address.new(address_params)
-      household.address.state = State.find(params[:state][:id])
-      @person.household = household
-      if @person.save
-        household.person = @person
-        household.save
-      else
-        errors = true
+    @roles = Role.all
+    @selected_roles = [Role.default_role]
+    @person.transaction do
+      begin
+        if params[:person][:household_id]
+          @person.household_id = params[:person][:household_id]
+        else
+          household = Household.new
+          household.address = Address.new(address_params)
+          household.address.state = State.find(params[:state][:id])
+          @person.household = household
+          if @person.save
+            household.person = @person
+            household.save
+          else
+            error = true
+            raise ActiveRecord::Rollback
+          end
+        end
+        if params[:create_user] == 'yes'
+          if not @person.user
+            @person.user = User.create!({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            params[:roles].each do |role_id|
+              @person.user.roles.push(Role.find(role_id))
+            end
+          end
+        end
+        @person.save!
+      rescue Exception => e
+        flash[:alert] = "Failed to create person with error: #{e.message}"
+        error = true
+        raise ActiveRecord::Rollback
       end
     end
-
     respond_to do |format|
-      if not errors
+      if not error
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
@@ -116,24 +142,50 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    if params[:person][:household_id]
-      @person.household_id = params[:person][:household_id]
-      errors = true if not @person.save
-    else
-      household = Household.new
-      household.address = Address.new(address_params)
-      household.address.state = State.find(params[:state][:id])
-      @person.household = household
-      if @person.save
-        household.person = @person
-        household.save
-      else
-        errors = true
+    error = false
+    @roles = Role.all
+    @selected_roles = [Role.default_role]
+    @person.transaction do
+      begin
+        if params[:person][:household_id]
+          @person.household_id = params[:person][:household_id]
+          errors = true if not @person.save
+        else
+          household = Household.new
+          household.address = Address.new(address_params)
+          household.address.state = State.find(params[:state][:id])
+          @person.household = household
+          if @person.save
+            household.person = @person
+            household.save
+          else
+            errors = true
+          end
+        end
+        if params[:create_user] == 'yes'
+          if not @person.user
+            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+          end
+          roles_to_add = []
+          params[:roles].each do |role_id|
+            roles_to_add.push(Role.find(role_id))
+          end
+          @person.user.roles = roles_to_add
+        else
+          if @person.user
+            @person.user.delete
+          end
+        end
+        @person.update(person_params)
+      rescue Exception => e
+        flash[:alert] = "Failed to update person with error: #{e.message}"
+        error = true
+        raise ActiveRecord::Rollback
       end
     end
 
     respond_to do |format|
-      if @person.update(person_params)
+      if not error
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
@@ -161,7 +213,7 @@ class PeopleController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def person_params
-    params.require(:person).permit(:firstname, :lastname, :phone, :household_id)
+    params.require(:person).permit(:firstname, :lastname, :phone, :household_id, :email)
   end
 
   def address_params

@@ -14,4 +14,7 @@ class Role < ActiveRecord::Base
   has_many :user_roles
   has_many :users, :through => :user_roles
 
+  def self.default_role
+    Role.find_by({name: 'User'})
+  end
 end
