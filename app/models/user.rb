@@ -36,4 +36,11 @@ class User < ActiveRecord::Base
      send_devise_notification(:new_account_instructions, token, {})
   end
 
+  def permissions
+    permissions = 0
+    roles.each do |r|
+      permissions |= r.permissions
+    end
+    return permissions
+  end
 end
