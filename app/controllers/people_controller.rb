@@ -166,9 +166,11 @@ class PeopleController < ApplicationController
           if not @person.user
             @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
           end
+          roles_to_add = []
           params[:roles].each do |role_id|
-            @person.user.roles.push(Role.find(role_id))
+            roles_to_add.push(Role.find(role_id))
           end
+          @person.user.roles = roles_to_add
         else
           if @person.user
             @person.user.delete
@@ -211,7 +213,7 @@ class PeopleController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def person_params
-    params.require(:person).permit(:firstname, :lastname, :phone, :household_id)
+    params.require(:person).permit(:firstname, :lastname, :phone, :household_id, :email)
   end
 
   def address_params
