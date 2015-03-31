@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
 
   has_many :user_roles
   has_many :roles, :through => :user_roles
+  belongs_to :person
 
   def send_new_account_instructions
      token = set_reset_password_token
@@ -35,4 +36,11 @@ class User < ActiveRecord::Base
      send_devise_notification(:new_account_instructions, token, {})
   end
 
+  def permissions
+    permissions = 0
+    roles.each do |r|
+      permissions |= r.permissions
+    end
+    return permissions
+  end
 end

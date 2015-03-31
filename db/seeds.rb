@@ -79,3 +79,7 @@ roles.each do |r|
   Role.find_or_create_by(r)
 end
 
+# This may look weird, but it neccessary to jump around all the devise validation code.  Without it the user would not save as the email is invalid and the password is too short
+user = User.find_or_initialize_by({email: 'admin'})
+user.password = 'admin'
+user.save!({validate: false})

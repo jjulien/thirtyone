@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140913010941) do
+ActiveRecord::Schema.define(version: 20150304013524) do
 
   create_table "addresses", force: true do |t|
     t.string   "line1"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20140913010941) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "household_id"
+    t.string   "email"
   end
 
   create_table "roles", force: true do |t|
@@ -143,6 +144,7 @@ ActiveRecord::Schema.define(version: 20140913010941) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.integer  "person_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
