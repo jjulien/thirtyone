@@ -19,3 +19,5 @@ rails server
 ```
 
 You can now navigate to `localhost:3000` on your workstation and begin demoing the code
+
+The default username and password is `admin` `admin`
