@@ -23,7 +23,7 @@
     </ul>
     <ul class="right">
         <li class="divider"></li>
-        <li><a href="#">My Account</a></li>
+        <li><a href="<%= url_for person_path(current_user.person.id) %>/edit">My Account</a></li>
         <li class="divider"></li>
         <li><%= link_to "Logout", destroy_user_session_path, :method => :delete %></li>
     </ul>
