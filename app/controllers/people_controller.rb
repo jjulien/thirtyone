@@ -7,9 +7,6 @@ class PeopleController < ApplicationController
     @people = Person.all
     @new_person = Person.new
     @all_states = State.all
-    #@new_household = Household.new
-    #@new_household.address = Address.new
-    #@new_household.address.state = State.new
   end
 
   # GET /people/search
@@ -91,48 +88,15 @@ class PeopleController < ApplicationController
   # POST /people.json
   def create
     #authorize Person
-    error = false
     @person = Person.new(person_params)
-    @roles = Role.all
-    @selected_roles = [Role.default_role]
-    @person.transaction do
-      begin
-        if params[:person][:household_id]
-          @person.household_id = params[:person][:household_id]
-        else
-          household = Household.new
-          household.address = Address.new(address_params)
-          household.address.state = State.find(params[:state][:id])
-          @person.household = household
-          if @person.save
-            household.person = @person
-            household.save
-          else
-            error = true
-            raise ActiveRecord::Rollback
-          end
-        end
-        if params[:create_user] == 'yes'
-          if not @person.user
-            @person.user = User.create!({email: params[:person][:email], password: Devise.friendly_token.first(8)})
-            params[:roles].each do |role_id|
-              @person.user.roles.push(Role.find(role_id))
-            end
-          end
-        end
-        @person.save!
-      rescue Exception => e
-        flash[:alert] = "Failed to create person with error: #{e.message}"
-        error = true
-        raise ActiveRecord::Rollback
-      end
-    end
+    errors = update_person
     respond_to do |format|
-      if not error
+      if errors.blank?
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
       else
+        flash[:alert] = errors
         format.html { render action: 'new' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -142,53 +106,13 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    error = false
-    @roles = Role.all
-    @selected_roles = [Role.default_role]
-    @person.transaction do
-      begin
-        if params[:person][:household_id]
-          @person.household_id = params[:person][:household_id]
-          errors = true if not @person.save
-        else
-          household = Household.new
-          household.address = Address.new(address_params)
-          household.address.state = State.find(params[:state][:id])
-          @person.household = household
-          if @person.save
-            household.person = @person
-            household.save
-          else
-            errors = true
-          end
-        end
-        if params[:create_user] == 'yes'
-          if not @person.user
-            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
-          end
-          roles_to_add = []
-          params[:roles].each do |role_id|
-            roles_to_add.push(Role.find(role_id))
-          end
-          @person.user.roles = roles_to_add
-        else
-          if @person.user
-            @person.user.delete
-          end
-        end
-        @person.update(person_params)
-      rescue Exception => e
-        flash[:alert] = "Failed to update person with error: #{e.message}"
-        error = true
-        raise ActiveRecord::Rollback
-      end
-    end
-
+    errors = update_person
     respond_to do |format|
-      if not error
+      if errors.empty?
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
+        flash[:alert] = errors
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -206,6 +130,64 @@ class PeopleController < ApplicationController
   end
 
   private
+
+  def update_person
+    errors = []
+    @roles = Role.all
+    @selected_roles = [Role.default_role]
+    @person.transaction do
+      begin
+        if params[:person][:household_id]
+          @person.household_id = params[:person][:household_id]
+          # TODO, use @person.errors to make this message more useful
+          errors << "Failed to save changes" if not @person.save
+        else
+          household = Household.new
+          household.address = Address.new(address_params)
+          household.address.state = State.find(params[:state][:id])
+          @person.household = household
+          if @person.save
+            household.person = @person
+            household.save
+          else
+            # TODO, use @person.errors to make this message more useful
+            errors << "Failed to save changes"
+          end
+        end
+        if params[:create_user] == 'yes'
+          if params[:person][:email].blank?
+            errors << 'Email is required when the person is also allowed to login'
+          elsif not params[:person][:email] =~ Devise.email_regexp
+            errors << 'Email is not valid'
+          end
+          if not @person.user
+            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+          end
+          roles_to_add = []
+          params[:roles].each do |role_id|
+            roles_to_add.push(Role.find(role_id))
+          end
+          @person.user.roles = roles_to_add
+        else
+          if @person.user
+            @person.user.delete
+          end
+        end
+        @person.update(person_params)
+        # We need to raise a rollback exception if we validated there was an error
+        # It will get caught by the broader Exception rescue and then get re-escalated
+        # which may seem redunant, and it is, but we still need the broader Exception
+        # rescue in case a more critical error happens
+        if not errors.empty?
+          raise ActiveRecord::Rollback
+        end
+      rescue Exception
+        raise ActiveRecord::Rollback
+      end
+
+    end
+    return errors
+  end
   # Use callbacks to share common setup or constraints between actions.
   def set_person
     @person = Person.find(params[:id])
