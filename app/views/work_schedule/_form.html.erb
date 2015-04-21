@@ -1,9 +1,9 @@
-<% @selected_person = @work_schedule.staff_id ? @people.find(@work_schedule.staff_id) : nil %>
+<% @selected_user = @work_schedule.user_id ? @users.find(@work_schedule.user_id) : nil %>
 
 <%= javascript_tag do %>
     window.availableTags = [
-    <% @people.each do |person| %>
-        { label: '<%= person.fullname %>', value: '<%= person.id %>'},
+    <% @users.each do |user| %>
+        { label: '<%= user.person.fullname %>', value: '<%= user.id %>'},
     <% end %>
     ];
     window.start_time = <%= @work_schedule.start_at.hour * 60 + @work_schedule.start_at.min %>;
@@ -14,10 +14,10 @@
     <div class="field">
       <%= f.label :Staff %> <br>
 
-      <div class="ui-widget" id="person_div">
-        <input id="person" value="<%= @selected_person ? @selected_person.fullname : nil %>"><br/>
-        <input name="person_id" id="person_id" value="<%= @selected_person ? @work_schedule.staff_id : nil %>" type="hidden"/>
-        <label id="person_error" class="error invisible">Please enter a valid name</label>
+      <div class="ui-widget" id="user_div">
+        <input id="user" value="<%= @selected_user ? @selected_user.person.fullname : nil %>"><br/>
+        <input name="user_id" id="user_id" value="<%= @selected_user ? @work_schedule.user_id : nil %>" type="hidden"/>
+        <label id="user_error" class="error invisible">Please enter a valid name</label>
       </div>
     </div>
     <div class="field small-6 medium-4 large-2">
@@ -36,11 +36,11 @@
     </div>
     <div class="actions">
       <div class="left">
-        <%= @selected_person ? f.submit(:Update, class: 'button tiny') : f.submit(:Schedule, class: 'button tiny') %>
+        <%= @selected_user ? f.submit(:Update, class: 'button tiny') : f.submit(:Schedule, class: 'button tiny') %>
         <%= link_to :Cancel, {controller: :work_schedule}, {:class => 'button tiny'} %>
       </div>
       <div class="right">
-        <%= @selected_person ? link_to('Delete', @work_schedule, {:method => :delete, :class => 'button tiny'}) : nil %>
+        <%= @selected_user ? link_to('Delete', @work_schedule, {:method => :delete, :class => 'button tiny'}) : nil %>
       </div>
     </div>
 <% end %>
