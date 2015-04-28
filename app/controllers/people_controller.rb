@@ -181,7 +181,8 @@ class PeopleController < ApplicationController
         if not errors.empty?
           raise ActiveRecord::Rollback
         end
-      rescue Exception
+      rescue Exception => e
+        errors << 'An unknown error occurred: '+ e.message
         raise ActiveRecord::Rollback
       end
 
