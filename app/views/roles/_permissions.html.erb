@@ -47,4 +47,9 @@
       <input type="checkbox" name="PermGrp[]" <% if action_name == 'show' %>disabled="disabled" <%end%> <% if @role.permissions & PERM_RW_PRAYER_REQUEST > 0 %>checked="checked" <% end %> value="<%= PERM_RW_PRAYER_REQUEST %>" /> Prayer Request - Write
     </td>
   </tr>
+  <tr>
+    <td>
+      <input type="checkbox" name="PermGrp[]" <% if action_name == 'show' %>disabled="disabled" <%end%> <% if @role.permissions & PERM_ADMIN > 0 %>checked="checked" <% end %> value="<%= PERM_ADMIN %>" /> Admin
+    </td>
+  </tr>
 </table>
