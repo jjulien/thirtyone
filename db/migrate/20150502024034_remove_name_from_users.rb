@@ -1,5 +1,5 @@
 class RemoveNameFromUsers < ActiveRecord::Migration
   def change
-    remove_column :users, :field_name, :name
+    remove_column :users, :name, :string
   end
 end
