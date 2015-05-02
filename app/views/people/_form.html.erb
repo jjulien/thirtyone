@@ -47,7 +47,6 @@
             } });" class="tiny button" >Select or Create Household</button>
       </div>
   <div id="household_div" class="row"><%= render 'household/show' if @household %></div>
-  <div>
   <h3>Allow User to Login</h3>
   <div>Do you want to allow this user to login as a volunteer?
             <%= radio_button_tag(:create_user, :yes, !!@person.user)  %><label for="create_user_yes">Yes</label>
@@ -76,6 +75,18 @@
             }
             else if (this.value == 'no') {
                 $('#user_info').hide();
+            }
+
+            $("input[type=checkbox][roletype=admin]").change(function () {
+                var shouldDisable = $(this)[0].checked;
+                $("input[type=checkbox][roletype=standard]").each(function () {
+                    $(this)[0].disabled = shouldDisable;
+                });
+            });
+            if ($("input[type=checkbox][roletype=admin]")[0].checked) {
+                $("input[type=checkbox][roletype=standard]").each(function () {
+                    $(this)[0].disabled = true;
+                });
             }
         });
     });
