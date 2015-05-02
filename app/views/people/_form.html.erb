@@ -46,7 +46,7 @@
               .append('<a class=\'close-reveal-modal\'>&#215;</a>');
             } });" class="tiny button" >Select or Create Household</button>
       </div>
-  <div id="household_div" class="row"></div>
+  <div id="household_div" class="row"><%= render 'household/show' if @household %></div>
   <div>
   <h3>Allow User to Login</h3>
   <div>Do you want to allow this user to login as a volunteer?
@@ -66,9 +66,7 @@
   <div class="field">
     <%= f.submit class: 'button' %>
   </div>
-  <% if (@household) %>
-    <script>selectHousehold(this, '<%= household_url(@household) %>');</script>
-  <% end %>
+
 <% end %>
 <script>
     $(document).ready(function() {
