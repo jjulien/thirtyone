@@ -3,7 +3,7 @@
 <%= javascript_tag do %>
     window.availableTags = [
     <% @users.each do |user| %>
-        { label: '<%= user.name %>', value: '<%= user.id %>'},
+        { label: '<%= user.person.fullname %>', value: '<%= user.id %>'},
     <% end %>
     ];
     window.start_time = <%= @work_schedule.start_at.hour * 60 + @work_schedule.start_at.min %>;
@@ -15,7 +15,7 @@
       <%= f.label :Staff %> <br>
 
       <div class="ui-widget" id="user_div">
-        <input id="user" value="<%= @selected_user ? @selected_user.name : nil %>"><br/>
+        <input id="user" value="<%= @selected_user ? @selected_user.person.fullname : nil %>"><br/>
         <input name="user_id" id="user_id" value="<%= @selected_user ? @work_schedule.user_id : nil %>" type="hidden"/>
         <label id="user_error" class="error invisible">Please enter a valid name</label>
       </div>

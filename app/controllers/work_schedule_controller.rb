@@ -56,7 +56,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@datetime_format)
 
     if params[:user_id] != '' and User.find(params[:user_id])
-      @work_schedule.staff_id = params[:user_id]
+      @work_schedule.user_id = params[:user_id]
       respond_to do |format|
         if @work_schedule.save
           format.html { redirect_to action: 'index' }
