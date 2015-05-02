@@ -76,6 +76,7 @@ class PeopleController < ApplicationController
   # GET /people/1/edit
   def edit
     @household = Household.find(@person.household_id);
+    @all_states = State.all
     @roles = Role.all
     if @person.user
       @selected_roles = @person.user.roles
@@ -107,6 +108,7 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1.json
   def update
     errors = update_person
+    @household = @person.household
     respond_to do |format|
       if errors.empty?
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
