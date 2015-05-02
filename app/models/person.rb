@@ -14,8 +14,8 @@
 class Person < ActiveRecord::Base
 #  has_notes
   has_and_belongs_to_many :notes
-  belongs_to :household
-  has_one :user
+  belongs_to :household, autosave: true
+  has_one :user, autosave: true
 
   def fullname
     firstname if not lastname else "#{firstname} #{lastname}"
