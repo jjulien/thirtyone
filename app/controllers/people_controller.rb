@@ -60,6 +60,7 @@ class PeopleController < ApplicationController
   def show
     authorize @person
     @household = @person.household
+    @roles = Role.all
   end
 
   # GET /people/new

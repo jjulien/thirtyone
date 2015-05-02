@@ -7,7 +7,7 @@
         <strong>Address</strong><br />
         <% if @household.address %>
             <%= @household.address.line1 %><br />
-            <% if @household.address.line2 %><%= @household.address.line2 %><br /><% end %>
+            <% if !@household.address.line2.empty? %><%= @household.address.line2 %><br /><% end %>
             <%= @household.address.city_state_zip %>
         <%else%>
             None on file

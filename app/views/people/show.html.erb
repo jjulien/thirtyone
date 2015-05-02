@@ -2,28 +2,43 @@
   <div class="large-8 radius large-centered columns grey">
     <div class="row title dark-grey">
       <div class="large-12 columns">
-          <%= @person.fullname %>
+        <p><%= @person.fullname %></p>
       </div>
     </div>
     <div class="row">
-      <div class="large-6 columns">
-        <div class="small-12 columns">
-          <%= @person.household.address.line1 %>
-        </div>
-        <div class="small-12 colums">
-            <%= @person.household.address.line2 unless @person.household.address.line2.blank? %>
-        </div>
-        <div class="small-12 columns">
+      <div class="small-12 columns">
+        <p>
+          <strong>Address</strong><br/>
+          <%= @person.household.address.line1 %><br/>
+          <% if !@person.household.address.line2.empty? %>
+              <%= @person.household.address.line2 %><br/>
+          <% end %>
           <%= @person.household.address.city_state_zip %>
-        </div>
+        </p>
       </div>
-      <div class="large-6 columns">
-        <div class="small-12 columns">
+      <div class="small-12 columns">
+        <p>
+          <strong>Phone</strong><br/>
           <%= @person.phone %>
-        </div>
-        <div class="small-12 columns">
+        </p>
+      </div>
+      <div class="small-12 columns">
+        <p>
+          <strong>Email</strong><br/>
           <%= @person.email %>
-        </div>
+        </p>
+      </div>
+      <div class="small-12 columns">
+        <p>
+          <strong>User Roles</strong><br/>
+          <% @roles.each do |role| %>
+              <% if @person.user.roles.include?(role) %>
+                  &#10003; <%= role.name %>
+              <% else %>
+                  <span class="grey">&#10007; <%= role.name %></span>
+              <% end %>
+              <br/>
+          <% end %>
         </p>
       </div>
     </div>
@@ -49,7 +64,7 @@
     <%= link_to 'Edit', edit_person_path(@person), :class => 'button tiny' %>
 
     <%= link_to 'New Visit', new_visit_path(:person_id => @person, :host_id => current_user.id), :class => 'button tiny' %>
-    </div>
+  </div>
 </div>
 
 
