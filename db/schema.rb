@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 20150502005012) do
   end
 
   create_table "work_schedules", force: true do |t|
-    t.integer  "staff_id"
+    t.integer  "user_id"
     t.datetime "start_at"
     t.datetime "end_at"
     t.string   "note"
