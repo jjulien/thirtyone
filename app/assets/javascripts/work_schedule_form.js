@@ -2,8 +2,8 @@
 //= require jquery
 //= require jquery-ui
 
-var labelField = "#person";
-var idField = "#person_id";
+var labelField = "#user";
+var idField = "#user_id";
 
 var setFields = function (label, value) {
     $(labelField).val(label);
@@ -36,9 +36,9 @@ $(function () {
             // Wipe the field if they failed to choose a real one
             if (!didSet) {
                 $(idField).val("");
-                $("#person_error").removeClass("invisible");
+                $("#user_error").removeClass("invisible");
             } else {
-                $("#person_error").addClass("invisible");
+                $("#user_error").addClass("invisible");
             }
             return false;
         }

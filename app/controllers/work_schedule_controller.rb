@@ -13,7 +13,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule.start_at = Time.now.change(hour: 8, min: 0)
     @work_schedule.end_at = Time.now.change(hour: 16, min: 0)
 
-    @people = Person.all
+    @users = User.all
   end
 
   def update
@@ -31,7 +31,7 @@ class WorkScheduleController < ApplicationController
 
   def show
     @work_schedule = WorkSchedule.find(params[:id])
-    @people = Person.all
+    @users = User.all
   end
 
   def destroy
@@ -55,8 +55,8 @@ class WorkScheduleController < ApplicationController
     @work_schedule.start_at = DateTime.strptime(params[:work_schedule][:start_at] + @zone, @@datetime_format)
     @work_schedule.end_at = DateTime.strptime(params[:work_schedule][:end_at] + @zone, @@datetime_format)
 
-    if params[:person_id] != '' and Person.find(params[:person_id])
-      @work_schedule.staff_id = params[:person_id]
+    if params[:user_id] != '' and User.find(params[:user_id])
+      @work_schedule.user_id = params[:user_id]
       respond_to do |format|
         if @work_schedule.save
           format.html { redirect_to action: 'index' }
@@ -65,7 +65,7 @@ class WorkScheduleController < ApplicationController
         end
       end
     else
-      @people = Person.all
+      @users = User.all
       flash.now[:alert] = @@staff_invalid_error
       render action: 'new'
     end
