@@ -16,6 +16,7 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
   has_one :user, autosave: true
+  validates_presence_of :firstname, :lastname
 
   def fullname
     firstname if not lastname else "#{firstname} #{lastname}"
