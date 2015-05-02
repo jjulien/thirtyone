@@ -162,6 +162,12 @@ class PeopleController < ApplicationController
           end
           if not @person.user
             @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+          else
+            # We need to make sure the users email is always insync with the persons email
+            # ideally we'd just store this in one place but devise requires email to be in the
+            # users table.  We might also at one point want to allows users to have a different
+            # email they use for being a pantry guest and a pantry user
+            @person.user.email = params[:person][:email];
           end
           roles_to_add = []
           params[:roles].each do |role_id|
@@ -185,7 +191,6 @@ class PeopleController < ApplicationController
         errors << 'An unknown error occurred: '+ e.message
         raise ActiveRecord::Rollback
       end
-
     end
     return errors
   end
