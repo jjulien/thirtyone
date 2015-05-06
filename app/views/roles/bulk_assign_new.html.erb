@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <%= form_tag controller: :roles, action: :bulk_assign_create do %>
+      <div class="row">
+        <h3>Select roles to assign</h3>
+        <% @roles.each do |role| %>
+            <div class="large-2 columns">
+              <input id="role_checkbox_<%= role.id %>" type="checkbox" name="roles[]" value="<%= role.id %>"/>
+              <label for="role_checkbox_<%= role.id %>"><%= role.name %></label>
+            </div>
+        <% end %>
+      </div>
+
+      <div class="row">
+        <h3>Select users to assign roles to</h3>
+        <% @users.each do |user| %>
+            <div>
+              <input id="user_checkbox_<%= user.id %>" type="checkbox" name="users[]" value="<%= user.id %>"/>
+              <label for="user_checkbox_<%= user.id %>"><%= user.person.fullname %></label>
+            </div>
+        <% end %>
+      </div>
+
+      <input class="button tiny" type="submit">
+    <% end %>
+  </div>
+</div>
