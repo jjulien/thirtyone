@@ -21,7 +21,7 @@ Thirtyone::Application.routes.draw do
   resources :user, as: "users", controller: "users", via: :all
   resources :role, as: "roles", controller: "roles", via: :all
 
-  match '/roles/bulk/new', :controller => 'roles', :action => 'bulk_assign_new', via: :get
+  match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_new', via: :get
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_create', via: :post
 
   match '/calendar(/:year(/:month))' => 'calendar#index',
