@@ -24,6 +24,30 @@ class RolesController < ApplicationController
   def edit
   end
 
+  # GET /roles/bulk
+  def bulk_assign_new
+    @roles = Role.all
+    @users = User.all
+  end
+
+  # POST /roles/bulk
+  def bulk_assign_create
+    params[:users].each do |userId|
+      @user = User.find(userId)
+
+      params[:roles].each do |roleId|
+        @role = Role.find(roleId)
+        @user.roles << @role
+        @user.save
+      end
+    end
+
+    # TODO: Handle error scenarios
+    flash[:notice] = 'Users updated successfully'
+    bulk_assign_new
+    render :bulk_assign_new
+  end
+
   # POST /roles
   # POST /roles.json
   def create
@@ -33,7 +57,7 @@ class RolesController < ApplicationController
     if aRPrm == nil
       respond_to do |format|
         flash[:notice] = " <<< Please Enter a name and select at least one checkbox. >>> "
-        format.html {render action: 'new' }
+        format.html { render action: 'new' }
         format.json { render json: @role.errors, status: :unprocessable_entity }
       end
 
@@ -110,10 +134,10 @@ class RolesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_role
-      @role = Role.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_role
+    @role = Role.find(params[:id])
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def role_params
