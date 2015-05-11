@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
     return permissions
   end
 
-  def has_access(permission)
+  def has_access?(permission)
     permissions & PERM_ADMIN > 0 || permissions & permission > 0
   end
 end
