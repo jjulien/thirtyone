@@ -28,19 +28,21 @@
           <%= @person.email %>
         </p>
       </div>
-      <div class="small-12 columns">
-        <p>
-          <strong>User Roles</strong><br/>
-          <% @roles.each do |role| %>
-              <% if @person.user.roles.include?(role) %>
-                  &#10003; <%= role.name %>
-              <% else %>
-                  <span class="grey">&#10007; <%= role.name %></span>
+      <% if @person.user %>
+          <div class="small-12 columns">
+            <p>
+              <strong>User Roles</strong><br/>
+              <% @roles.each do |role| %>
+                  <% if @person.user.roles.include?(role) %>
+                      &#10003; <%= role.name %>
+                  <% else %>
+                      <span class="grey">&#10007; <%= role.name %></span>
+                  <% end %>
+                  <br/>
               <% end %>
-              <br/>
-          <% end %>
-        </p>
-      </div>
+            </p>
+          </div>
+      <% end %>
     </div>
   </div>
 </div>
