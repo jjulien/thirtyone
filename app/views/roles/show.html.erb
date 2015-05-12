@@ -6,7 +6,9 @@
 
     <%= render 'permissions' %>
 
-    <%= link_to 'Edit', edit_role_path(@role) %> |
+    <% if @role.name != 'Admin' %>
+        <%= link_to 'Edit', edit_role_path(@role) %> |
+    <% end %>
     <%= link_to 'Back', roles_path %>
 
     <br>

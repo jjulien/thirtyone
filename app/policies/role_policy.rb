@@ -1,8 +1,10 @@
 class RolePolicy < ApplicationPolicy
-  attr_reader :user
+  attr_reader :user, :role
+  @@admin_role = Role.find_by({name: 'Admin'})
 
-  def initialize(user, obj)
+  def initialize(user, role)
     @user = user
+    @role = role
   end
 
   def index?
@@ -18,7 +20,7 @@ class RolePolicy < ApplicationPolicy
   end
 
   def edit?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_ADMIN) && @role != @@admin_role
   end
 
   def bulk_assign_create?
@@ -38,6 +40,6 @@ class RolePolicy < ApplicationPolicy
   end
 
   def destroy?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_ADMIN) && @role != @@admin_role
   end
 end

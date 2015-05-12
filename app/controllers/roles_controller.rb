@@ -145,6 +145,6 @@ class RolesController < ApplicationController
   end
 
   def authorize_role
-    authorize :role
+    @role ? (authorize @role) : (authorize :role)
   end
 end
