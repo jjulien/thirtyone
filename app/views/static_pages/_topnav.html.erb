@@ -20,7 +20,7 @@
         <li class="divider"></li>
         <li class="<%= "active" if current_page?(users_path) %>"><a href="<%= users_path %>">Users</a></li>
         <li class="divider"></li>
-        <% if current_user.has_access(PERM_ADMIN) %>
+        <% if current_user.has_access?(PERM_ADMIN) %>
           <li class="has-dropdown">
             <a href="#">Admin</a>
               <ul class="dropdown">
