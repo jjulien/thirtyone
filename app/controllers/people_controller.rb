@@ -21,8 +21,8 @@ class PeopleController < ApplicationController
 
       sql_conditional = "OR"
       sql_conditional = "AND" if search_keys.length > 1
-
-      @people = Person.where("firstname LIKE ? #{sql_conditional} lastname LIKE ?", firstname_key, lastname_key).first(rowlimit.to_i)
+      user_restriction = params[:users_only] == 'true' ? ' AND ( users.id IS NOT NULL )' : ''
+      @people = Person.includes(:user).where("(firstname LIKE ? #{sql_conditional} lastname LIKE ?)#{user_restriction}", firstname_key, lastname_key).references(:users).first(rowlimit.to_i)
       @new_person = Person.new
       respond_to do |format|
         format.html {
@@ -40,7 +40,11 @@ class PeopleController < ApplicationController
         format.json { render action: 'index.json' }
       end
     else
-      @people = Person.all
+      if params[:users_only] == 'true'
+        @people = Person.includes(:user).where.not(users: {id: nil})
+      else
+        @people = Person.all
+      end
       @new_person = Person.new
       respond_to do |format|
         format.html {

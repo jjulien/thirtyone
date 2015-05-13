@@ -3,11 +3,11 @@
     <div class="searchbox">
       <div id="searcharea">
         <%= form_tag '/people/new' do %>
-            <h3>Search/Add Person</h3>
+            <%= render 'form_page_title' %>
 
             <div class="row">
               <div class="large-12 columns">
-                <input id="search" onkeyup="updatePersonSearch(this);"
+                <input id="search" onkeyup="<%= render 'onkeyup_search' %>"
                        type="text"
                        size="30"
                        name="search"

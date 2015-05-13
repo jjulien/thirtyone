@@ -12,7 +12,9 @@ function updateNewPersonButton(input) {
     }
 }
 
-function updatePersonSearch(input) {
+function updatePersonSearch(input, users_only) {
+    users_only = typeof users_only !== 'undefined' ? true : false
+
     updateNewPersonButton(input);
     var data = {ajax: true}
 
@@ -21,7 +23,7 @@ function updatePersonSearch(input) {
         var search_keys = JSON.stringify(search_key_array);
         data['search'] = search_keys;
     }
-
+    if ( users_only ) { data['users_only'] = 'true'; }
     var request = $.ajax({
         url: "/people/search",
         type: "GET",
