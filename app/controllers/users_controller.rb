@@ -4,8 +4,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    #@users = User.all
-    @people = Person.all
+    @people = Person.includes(:user).where.not(users: {id: nil})
     @new_person = Person.new
     @all_states = State.all
     render 'people/index'
