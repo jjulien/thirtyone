@@ -51,5 +51,6 @@
     <td>
       <input type="checkbox" name="PermGrp[]" <% if action_name == 'show' %>disabled="disabled" <%end%> <% if @role.permissions & PERM_ADMIN > 0 %>checked="checked" <% end %> value="<%= PERM_ADMIN %>" /> Admin
     </td>
+    <td></td>
   </tr>
 </table>

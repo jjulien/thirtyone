@@ -34,10 +34,12 @@
                 -->
                 <td>
                     <%= link_to 'View', role %>
-                    &nbsp; &nbsp;
-                    <%= link_to 'Edit', edit_role_path(role) %>
-                    &nbsp; &nbsp;
-                    <%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% if role.name != 'Admin' %>
+                      &nbsp; &nbsp;
+                      <%= link_to 'Edit', edit_role_path(role) %>
+                      &nbsp; &nbsp;
+                      <%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %>
+                  <% end %>
                 </td>
                 <!--
                 <td><%= link_to 'Show', role %></td>
