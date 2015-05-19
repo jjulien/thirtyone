@@ -13,7 +13,7 @@ function updateNewPersonButton(input) {
 }
 
 function updatePersonSearch(input, users_only) {
-    users_only = typeof users_only !== 'undefined' ? true : false
+    users_only = typeof users_only !== 'undefined'
 
     updateNewPersonButton(input);
     var data = {ajax: true}
