@@ -30,7 +30,6 @@ class Person < ActiveRecord::Base
   end
 
   def household
-    return @household if @household
-    return Household.new(person: self)
+    return @household ? @household : Household.new(person: self)
   end
 end
