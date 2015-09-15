@@ -28,4 +28,9 @@ class Person < ActiveRecord::Base
     fn += firstname if firstname and firstname.length > 0
     fn
   end
+
+  def household
+    return @household if @household
+    return Household.new(person: self)
+  end
 end

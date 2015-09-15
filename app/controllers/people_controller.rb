@@ -80,7 +80,7 @@ class PeopleController < ApplicationController
 
   # GET /people/1/edit
   def edit
-    @household = Household.find(@person.household_id);
+    @household = @person.household
     @all_states = State.all
     @roles = Role.all
     if @person.user
