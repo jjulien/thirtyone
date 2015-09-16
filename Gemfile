@@ -48,6 +48,18 @@ group :development do
   gem 'annotate', ">=2.6.0"
 end
 
+group :test do
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers', require: false
+end
+
+group :development, :test do
+  gem 'guard-rspec', require: false
+  gem 'rspec-rails'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+end
+
 gem 'event-calendar', :require => 'event_calendar'
 
 # Use ActiveModel has_secure_password
