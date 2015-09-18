@@ -5,6 +5,8 @@ class CalendarController < ApplicationController
     @year = (params[:year] || (Time.zone || Time).now.year).to_i
 
     @shown_month = Date.civil(@year, @month)
+    # TODO: Don't get all schedules?
+    # TODO: Clean up all this code. Is it all necessary? Maybe it is to show by day and by person. Look at old functionality.
     @work_schedules = WorkSchedule.all
   end
 
