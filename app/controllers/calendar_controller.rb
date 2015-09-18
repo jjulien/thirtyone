@@ -5,8 +5,7 @@ class CalendarController < ApplicationController
     @year = (params[:year] || (Time.zone || Time).now.year).to_i
 
     @shown_month = Date.civil(@year, @month)
-
-    @event_strips = WorkSchedule.event_strips_for_month(@shown_month)
+    @work_schedules = WorkSchedule.all
   end
 
   def day

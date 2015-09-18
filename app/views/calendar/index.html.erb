@@ -1,8 +1,12 @@
-<!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
+<%= javascript_tag do %>
+    window.workSchedules = [
+    <% @work_schedules.each do |work_schedule| %>
+        {title: '<%= work_schedule.user.person.fullname %>',
+        start: '<%= work_schedule.start_at.iso8601 %>', end: '<%= work_schedule.end_at.iso8601 %>'},
+    <% end %>
+    ];
+<% end %>
 <div class="row">
-  <%= stylesheet_link_tag "event_calendar" %>
-
-
   <div style="width:400px;">
     <div style="float: left; width: 130px">
       <div style="padding-top:10px"><a class="button tiny" href="<%= new_work_schedule_path %>">New Schedule</a></div>
@@ -14,5 +18,5 @@
     </div>
   </div>
 
-  <%= raw(event_calendar) %>
+  <div id="calendar"></div>
 </div>
