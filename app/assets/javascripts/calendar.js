@@ -1,3 +1,6 @@
+//= require moment
+//= require fullcalendar
+
 $(function () {
     $('#calendar').fullCalendar({
         events: window.workSchedules,
