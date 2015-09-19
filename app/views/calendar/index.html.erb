@@ -2,7 +2,9 @@
     window.workSchedules = [
     <% @work_schedules.each do |work_schedule| %>
         {title: '<%= work_schedule.user.person.fullname %>',
-        start: '<%= work_schedule.start_at.iso8601 %>', end: '<%= work_schedule.end_at.iso8601 %>'},
+        start: '<%= work_schedule.start_at.iso8601 %>',
+        end: '<%= work_schedule.end_at.iso8601 %>',
+        url: '<%= url_for work_schedule %>'},
     <% end %>
     ];
 <% end %>
