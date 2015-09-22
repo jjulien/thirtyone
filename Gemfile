@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'foundation-rails', '~> 5.2.2.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '~> 4'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -12,7 +12,7 @@ gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
-gem 'devise', '~> 3.3.0'
+gem 'devise', '~> 3'
 
 gem 'pundit'
 
@@ -59,8 +59,6 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
 end
-
-gem 'event-calendar', :require => 'event_calendar'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
