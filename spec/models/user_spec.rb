@@ -6,3 +6,4 @@ describe User do
     expect(build(:user)).to be_valid
   end
 end
+

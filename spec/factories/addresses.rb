@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :address do
-    line1 '1500 N. Airport Rd.'
-    city  'Normal'
+    line1 { Faker::Address.street_address }
+    city  { Faker::Address.city }
     state
-    zip   61761
+    zip   { Faker::Address.zip }
   end
 end
