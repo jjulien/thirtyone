@@ -19,7 +19,11 @@ class Person < ActiveRecord::Base
   validates_presence_of :firstname, :lastname
 
   def fullname
-    firstname if not lastname else "#{firstname} #{lastname}"
+    if lastname
+      "#{firstname} #{lastname}"
+    else
+      firstname
+    end
   end
 
   def formal_name
@@ -30,6 +34,6 @@ class Person < ActiveRecord::Base
   end
 
   def household
-    return @household ? @household : Household.new(person: self)
+    @household ||= Household.new(person: self)
   end
 end
