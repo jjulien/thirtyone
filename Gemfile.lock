@@ -60,7 +60,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    event-calendar (2.3.3)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -236,7 +235,6 @@ DEPENDENCIES
   bundler (>= 1.7.0)
   coffee-rails (~> 4.0.0)
   devise (~> 3)
-  event-calendar
   factory_girl_rails
   figaro
   foundation-rails (~> 5.2.2.0)
