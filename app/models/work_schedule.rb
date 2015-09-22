@@ -12,6 +12,5 @@
 #
 
 class WorkSchedule < ActiveRecord::Base
-  has_event_calendar
   belongs_to :user, foreign_key: 'user_id', class_name: 'User'
 end
