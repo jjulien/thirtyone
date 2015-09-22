@@ -9,6 +9,7 @@
 #  created_at   :datetime
 #  updated_at   :datetime
 #  household_id :integer
+#  email        :string(255)
 #
 
 class Person < ActiveRecord::Base
