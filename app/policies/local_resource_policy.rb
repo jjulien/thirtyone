@@ -1,6 +1,4 @@
-class LocalResourceCategoryPolicy < ApplicationPolicy
-  @@admin_role = Role.find_by({name: 'Admin'})
-
+class LocalResourcePolicy < ApplicationPolicy
   def index?
     @user.has_access?(PERM_RO_USER)
   end
@@ -10,30 +8,22 @@ class LocalResourceCategoryPolicy < ApplicationPolicy
   end
 
   def new?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_RW_USER)
   end
 
   def edit?
-    @user.has_access?(PERM_ADMIN)
-  end
-
-  def bulk_assign_create?
-    @user.has_access?(PERM_ADMIN)
-  end
-
-  def bulk_assign_new?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_RW_USER)
   end
 
   def create?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_RW_USER)
   end
 
   def update?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_RW_USER)
   end
 
   def destroy?
-    @user.has_access?(PERM_ADMIN)
+    @user.has_access?(PERM_RW_USER)
   end
 end

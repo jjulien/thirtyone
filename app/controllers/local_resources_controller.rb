@@ -1,5 +1,7 @@
 class LocalResourcesController < ApplicationController
   before_action :set_local_resource, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :authorize_local_resource
 
   # GET /local_resources
   # GET /local_resources.json
@@ -70,5 +72,9 @@ class LocalResourcesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def local_resource_params
       params.require(:local_resource).permit(:contact_name, :business_name, :phone, :email, :url, :address)
+    end
+
+    def authorize_local_resource
+      authorize :local_resource
     end
 end

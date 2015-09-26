@@ -1,5 +1,7 @@
 class LocalResourceCategoriesController < ApplicationController
   before_action :set_local_resource_category, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :authorize_local_resource_category
 
   # GET /local_resource_categories
   # GET /local_resource_categories.json
@@ -70,5 +72,9 @@ class LocalResourceCategoriesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def local_resource_category_params
       params.require(:local_resource_category).permit(:name)
+    end
+
+    def authorize_local_resource_category
+      authorize :local_resource_category
     end
 end

@@ -1,41 +1,29 @@
-class ApplicationPolicy
-  attr_reader :user, :record
-
-  def initialize(user, record)
-    @user = user
-    @record = record
-  end
-
+class LocalResourceCategoryPolicy < ApplicationPolicy
   def index?
-    false
+    @user.has_access?(PERM_RO_USER)
   end
 
   def show?
-    scope.where(:id => record.id).exists?
-  end
-
-  def create?
-    false
+    @user.has_access?(PERM_RO_USER)
   end
 
   def new?
-    create?
-  end
-
-  def update?
-    false
+    @user.has_access?(PERM_ADMIN)
   end
 
   def edit?
-    update?
+    @user.has_access?(PERM_ADMIN)
+  end
+
+  def create?
+    @user.has_access?(PERM_ADMIN)
+  end
+
+  def update?
+    @user.has_access?(PERM_ADMIN)
   end
 
   def destroy?
-    false
-  end
-
-  def scope
-    Pundit.policy_scope!(user, record.class)
+    @user.has_access?(PERM_ADMIN)
   end
 end
-
