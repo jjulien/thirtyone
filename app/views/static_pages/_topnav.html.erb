@@ -20,9 +20,9 @@
         <li class="divider"></li>
         <li><a href="#">Reports</a></li>
         <li class="divider"></li>
-        <li class="<%= "active" if current_page?(users_path) %>"><a href="<%= users_path %>">Users</a></li>
+        <li class="<%= 'active' if current_page?(users_path) %>"><a href="<%= users_path %>">Users</a></li>
         <li class="divider"></li>
-        <li class="<%= "active" if current_page?(local_resources_path) %>"><%= link_to 'Local Resources', local_resources_path %></li>
+        <li class="<%= 'active' if current_page?(local_resources_path) %>"><%= link_to 'Local Resources', local_resources_path %></li>
         <li class="divider"></li>
         <% if current_user.has_access?(PERM_ADMIN) %>
           <li class="has-dropdown">
@@ -30,6 +30,7 @@
               <ul class="dropdown">
                 <li class="<%= 'active' if current_page?(roles_path) %>"><a href="<%= roles_path %>">Manage Roles</a></li>
                 <li class="<%= 'active' if current_page?(roles_bulk_path) %>"><a href="<%= roles_bulk_path %>">Bulk Assign Roles</a></li>
+                <li class="<%= 'active' if current_page?(local_resource_categories_path) %>"><%= link_to 'Manage Local Resource Categories', local_resource_categories_path %></li>
               </ul>
           </li>
         <% end %>
