@@ -1,37 +1,41 @@
-<p id="notice"><%= notice %></p>
+<div style="margin-top:20px;" class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <p id="notice"><%= notice %></p>
 
-<h1>Listing Local Resources</h1>
+    <h1>Listing Local Resources</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Contact name</th>
-      <th>Business name</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Url</th>
-      <th>Address</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @local_resources.each do |local_resource| %>
+    <table>
+      <thead>
       <tr>
-        <td><%= local_resource.contact_name %></td>
-        <td><%= local_resource.business_name %></td>
-        <td><%= local_resource.phone %></td>
-        <td><%= local_resource.email %></td>
-        <td><%= local_resource.url %></td>
-        <td><%= local_resource.address %></td>
-        <td><%= link_to 'Show', local_resource %></td>
-        <td><%= link_to 'Edit', edit_local_resource_path(local_resource) %></td>
-        <td><%= link_to 'Destroy', local_resource, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Contact name</th>
+        <th>Business name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Url</th>
+        <th>Address</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
 
-<br>
+      <tbody>
+      <% @local_resources.each do |local_resource| %>
+          <tr>
+            <td><%= local_resource.contact_name %></td>
+            <td><%= local_resource.business_name %></td>
+            <td><%= local_resource.phone %></td>
+            <td><%= local_resource.email %></td>
+            <td><%= local_resource.url %></td>
+            <td><%= local_resource.address %></td>
+            <td><%= link_to 'Show', local_resource %></td>
+            <td><%= link_to 'Edit', edit_local_resource_path(local_resource) %></td>
+            <td><%= link_to 'Destroy', local_resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
 
-<%= link_to 'New Local resource', new_local_resource_path %>
+    <br>
+
+    <%= link_to 'New Local resource', new_local_resource_path %>
+  </div>
+</div>

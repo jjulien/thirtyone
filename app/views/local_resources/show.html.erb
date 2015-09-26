@@ -1,34 +1,38 @@
-<p id="notice"><%= notice %></p>
+<div style="margin-top:20px;" class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Contact name:</strong>
-  <%= @local_resource.contact_name %>
-</p>
+    <p>
+      <strong>Contact name:</strong>
+      <%= @local_resource.contact_name %>
+    </p>
 
-<p>
-  <strong>Business name:</strong>
-  <%= @local_resource.business_name %>
-</p>
+    <p>
+      <strong>Business name:</strong>
+      <%= @local_resource.business_name %>
+    </p>
 
-<p>
-  <strong>Phone:</strong>
-  <%= @local_resource.phone %>
-</p>
+    <p>
+      <strong>Phone:</strong>
+      <%= @local_resource.phone %>
+    </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @local_resource.email %>
-</p>
+    <p>
+      <strong>Email:</strong>
+      <%= @local_resource.email %>
+    </p>
 
-<p>
-  <strong>Url:</strong>
-  <%= @local_resource.url %>
-</p>
+    <p>
+      <strong>Url:</strong>
+      <%= @local_resource.url %>
+    </p>
 
-<p>
-  <strong>Address:</strong>
-  <%= @local_resource.address %>
-</p>
+    <p>
+      <strong>Address:</strong>
+      <%= @local_resource.address %>
+    </p>
 
-<%= link_to 'Edit', edit_local_resource_path(@local_resource) %> |
-<%= link_to 'Back', local_resources_path %>
+    <%= link_to 'Edit', edit_local_resource_path(@local_resource) %> |
+    <%= link_to 'Back', local_resources_path %>
+  </div>
+</div>
