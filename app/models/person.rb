@@ -17,6 +17,7 @@ class Person < ActiveRecord::Base
   belongs_to :household, autosave: true
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname
+  alias_method :original_household, :household
 
   def fullname
     if lastname
@@ -34,6 +35,6 @@ class Person < ActiveRecord::Base
   end
 
   def household
-    @household ||= Household.new(person: self)
+    return self.original_household || Household.new(person: self)
   end
 end
