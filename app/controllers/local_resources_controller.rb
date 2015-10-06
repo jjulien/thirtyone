@@ -17,16 +17,22 @@ class LocalResourcesController < ApplicationController
   # GET /local_resources/new
   def new
     @local_resource = LocalResource.new
+    @address = Address.new
   end
 
   # GET /local_resources/1/edit
   def edit
+    @state_id = @local_resource.address.state_id
+    @local_resource_categories = @local_resource.local_resource_categories.map {|c| "#{c.id}"}
   end
 
   # POST /local_resources
   # POST /local_resources.json
   def create
     @local_resource = LocalResource.new(local_resource_params)
+
+    update_state
+    update_local_resource_categories
 
     respond_to do |format|
       if @local_resource.save
@@ -44,6 +50,8 @@ class LocalResourcesController < ApplicationController
   def update
     respond_to do |format|
       if @local_resource.update(local_resource_params)
+        update_state
+        update_local_resource_categories
         format.html { redirect_to @local_resource, notice: 'Local resource was successfully updated.' }
         format.json { head :no_content }
       else
@@ -64,6 +72,21 @@ class LocalResourcesController < ApplicationController
   end
 
   private
+    def update_state
+      @local_resource.address.state = State.find(params[:local_resource][:address_attributes][:state])
+    end
+
+    def update_local_resource_categories
+      @local_resource.local_resource_categories = []
+
+      params[:local_resource][:local_resource_categories].each do |local_resource_category_id|
+        next if local_resource_category_id.blank?
+        @local_resource_category = LocalResourceCategory.find(local_resource_category_id)
+        @local_resource.local_resource_categories << @local_resource_category
+        @local_resource.save
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_local_resource
       @local_resource = LocalResource.find(params[:id])
@@ -71,7 +94,8 @@ class LocalResourcesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def local_resource_params
-      params.require(:local_resource).permit(:contact_name, :business_name, :phone, :email, :url, :address, :local_resource_categories)
+      params.require(:local_resource).permit(:contact_name, :business_name, :phone, :email, :url,
+                                             address_attributes: [:line1, :line2, :city, :zip])
     end
 
     def authorize_local_resource

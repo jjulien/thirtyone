@@ -16,5 +16,8 @@
 class LocalResource < ActiveRecord::Base
   has_and_belongs_to_many :local_resource_categories
   validates_presence_of :local_resource_categories
+  validates_associated :address
   belongs_to :address
+
+  accepts_nested_attributes_for :address
 end
