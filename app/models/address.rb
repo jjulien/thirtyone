@@ -24,7 +24,7 @@ class Address < ActiveRecord::Base
   def oneline_summary
     summary = ""
     summary << "#{self.line1}" if self.line1
-    if self.line2
+    unless self.line2.blank?
       if summary
        summary << ', '
       else
@@ -33,7 +33,6 @@ class Address < ActiveRecord::Base
       summary << self.line2
     end
     summary << ", #{self.city_state_zip}"
-    return summary
   end
 
   def self.most_used_state

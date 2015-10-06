@@ -29,7 +29,7 @@
 
     <p>
       <strong>Address:</strong>
-      <%= @local_resource.address %>
+      <%= @local_resource.address.oneline_summary %>
     </p>
 
     <%= link_to 'Edit', edit_local_resource_path(@local_resource) %> |

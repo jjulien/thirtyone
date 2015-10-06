@@ -34,6 +34,10 @@ class LocalResourcesController < ApplicationController
     update_state
     update_local_resource_categories
 
+    if params[:address][:line1].blank?
+      @local_resource.address = nil
+    end
+
     respond_to do |format|
       if @local_resource.save
         format.html { redirect_to @local_resource, notice: 'Local resource was successfully created.' }
