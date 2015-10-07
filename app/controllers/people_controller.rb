@@ -173,7 +173,7 @@ class PeopleController < ApplicationController
           if not @person.user
             @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
           else
-            # We need to make sure the users email is always in-sync with the persons email
+            # We don't need to make sure the users email is always in-sync with the persons email
             # ideally we'd just store this in one place but devise requires email to be in the
             # users table.  We might also at one point want to allows users to have a different
             # email that they use for being a pantry guest and a pantry user
@@ -196,7 +196,6 @@ class PeopleController < ApplicationController
         # rescue in case something happens before we get to the validation code and
         # an ActiveRecord::Rollback exception is called.
         if not @person.valid?
-          errors << "We DID rollback"
           raise ActiveRecord::Rollback
         end
       rescue ActiveRecord::Rollback
