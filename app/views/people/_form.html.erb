@@ -7,6 +7,11 @@
       <% @person.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
+        <% if @errors %>
+            <% @errors.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -46,7 +51,8 @@
               .append('<a class=\'close-reveal-modal\'>&#215;</a>');
             } });" class="tiny button" >Select or Create Household</button>
       </div>
-  <div id="household_div" class="row"><%= render 'household/show' if @household %></div>
+ <!-- <div id="household_div" class="row"><%= render 'household/show' if @household %></div> -->
+    <div id="household_div" class="row"><% @household = @person.household if @person.household %><%= render 'household/new' if @household %></div>
   <h3>Allow User to Login</h3>
   <div>Do you want to allow this user to login as a volunteer?
             <%= radio_button_tag(:create_user, :yes, ( !!@person.user || params[:create_user] == 'yes' ) )  %><label for="create_user_yes">Yes</label>

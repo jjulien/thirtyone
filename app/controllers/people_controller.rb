@@ -70,6 +70,7 @@ class PeopleController < ApplicationController
   # GET /people/new
   def new
     @person = Person.new
+    @all_states = State.all
     @new_household = Household.new
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
@@ -95,14 +96,14 @@ class PeopleController < ApplicationController
   def create
     #authorize Person
     @person = Person.new(person_params)
-    errors = update_person
+    @all_states = State.all
+    @errors = update_person
     respond_to do |format|
-      if errors.blank?
+      if @person.valid? and @errors.empty?
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
       else
-        flash[:alert] = errors
         format.html { render action: 'new' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -112,10 +113,10 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    errors = update_person
+    @errors = update_person
     @household = @person.household
     respond_to do |format|
-      if errors.empty?
+      if @person.valid? and @errors.empty?
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
@@ -146,34 +147,36 @@ class PeopleController < ApplicationController
       begin
         if params[:person][:household_id]
           @person.household_id = params[:person][:household_id]
-          # TODO, use @person.errors to make this message more useful
-          errors << "Failed to save changes" if not @person.save
+          @person.save
         else
           household = Household.new
-          household.address = Address.new(address_params)
-          household.address.state = State.find(params[:state][:id])
+          begin
+            household.address = Address.new(address_params)
+            household.address.state = State.find(params[:state][:id])
+          rescue ActionController::ParameterMissing => e
+            # No need to do anything, we just want to catch this error so it doesnt' bubble up
+            # the validation of @person will fail since @person.household.address isn't present
+            # We will present the error message to the use based on the model validation failuer
+          end
           @person.household = household
           if @person.save
             household.person = @person
             household.save
-          else
-            # TODO, use @person.errors to make this message more useful
-            errors << "Failed to save changes"
           end
         end
         if params[:create_user] == 'yes'
           if params[:person][:email].blank?
-            errors << 'Email is required when the person is also allowed to login'
+            @person.errors.add(:email, 'is required when the person is also allowed to login')
           elsif not params[:person][:email] =~ Devise.email_regexp
-            errors << 'Email is not valid'
+            @person.errors.add(:email, 'is not valid')
           end
           if not @person.user
             @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
           else
-            # We need to make sure the users email is always insync with the persons email
+            # We need to make sure the users email is always in-sync with the persons email
             # ideally we'd just store this in one place but devise requires email to be in the
             # users table.  We might also at one point want to allows users to have a different
-            # email they use for being a pantry guest and a pantry user
+            # email that they use for being a pantry guest and a pantry user
             @person.user.email = params[:person][:email];
           end
           roles_to_add = []
@@ -187,23 +190,37 @@ class PeopleController < ApplicationController
           end
         end
         @person.update(person_params)
-        # We need to raise a rollback exception if we validated there was an error
+        # We need to raise a rollback exception if we don't validate
         # It will get caught by the broader Exception rescue and then get re-escalated
         # which may seem redunant, and it is, but we still need the broader Exception
-        # rescue in case a more critical error happens
-        if not errors.empty?
+        # rescue in case something happens before we get to the validation code and
+        # an ActiveRecord::Rollback exception is called.
+        if not @person.valid?
+          errors << "We DID rollback"
           raise ActiveRecord::Rollback
         end
+      rescue ActiveRecord::Rollback
+        # We need to catch this so that we don't end up in the unknown error rescue
+        # which is for everything except a rollback.  A rollback means we saw a problem
+        # and have populated the errors array and intend to tell the user what happened
+        #
+        # We still have to actually raise ActiveRecord::Rollback though, so that Rails will
+        # catch it and perform the rollback.
+        raise ActiveRecord::Rollback
       rescue Exception => e
-        errors << 'An unknown error occurred: '+ e.message
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+        errors << 'An unknown error occurred: ' + e.message
         raise ActiveRecord::Rollback
       end
     end
     return errors
   end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_person
     @person = Person.find(params[:id])
+    @all_states = State.all
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

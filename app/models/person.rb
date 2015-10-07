@@ -16,8 +16,8 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
   has_one :user, autosave: true
-  validates_presence_of :firstname, :lastname
-  alias_method :original_household, :household
+  validates_presence_of :firstname, :lastname, :household
+  validates_associated :household
 
   def fullname
     if lastname
@@ -32,9 +32,5 @@ class Person < ActiveRecord::Base
     fn += ', ' if fn and firstname and fn.length > 0 and firstname.length > 0
     fn += firstname if firstname and firstname.length > 0
     fn
-  end
-
-  def household
-    return self.original_household || Household.new(person: self)
   end
 end
