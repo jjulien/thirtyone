@@ -2,8 +2,14 @@
 
 <%= javascript_tag do %>
     window.availableTags = [
-    <% @users.each do |user| %>
-        { label: '<%= user.person.fullname %>', value: '<%= user.id %>'},
+    <%
+       @users.each do |user|
+         # Find users with duplicate fullnames. If there is a duplicate, then the label should have <name> (<email>)
+         # to help differentiate the users.
+         @duplicate_name = @users.select { |u| u.id != user.id && u.person.fullname == user.person.fullname }
+         label = @duplicate_name.any? ? "#{user.person.fullname} (#{user.email})" : user.person.fullname
+    %>
+        { label: '<%= label %>', value: '<%= user.id %>'},
     <% end %>
     ];
     window.start_time = <%= @work_schedule.start_at.hour * 60 + @work_schedule.start_at.min %>;
