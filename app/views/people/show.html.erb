@@ -9,11 +9,15 @@
       <div class="small-12 columns">
         <p>
           <strong>Address</strong><br/>
-          <%= @person.household.address.line1 %><br/>
-          <% if !@person.household.address.line2.empty? %>
-              <%= @person.household.address.line2 %><br/>
+          <% if @person.household and @person.household.address %>
+              <%= @person.household.address.line1 %><br/>
+              <% if !@person.household.address.line2.empty? %>
+                  <%= @person.household.address.line2 %><br/>
+              <% end %>
+              <%= @person.household.address.city_state_zip %>
+              <% else %>
+          <i>No address on file</i>
           <% end %>
-          <%= @person.household.address.city_state_zip %>
         </p>
       </div>
       <div class="small-12 columns">
@@ -55,7 +59,11 @@
       </div>
     </div>
     <div class="row">
-      <%= render :partial => '/household/show' %>
+      <% if @person.household %>
+          <%= render :partial => '/household/show' %>
+      <% else %>
+         <div class="large-12 columns"><i>No household information</i></div>
+      <% end %>
     </div>
   </div>
 </div>

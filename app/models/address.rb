@@ -15,6 +15,8 @@
 class Address < ActiveRecord::Base
   belongs_to :state
 
+  validates_presence_of :line1, :city, :zip
+
   def city_state_zip
     "#{self.city}, #{self.state.abbv} #{self.zip}"
   end
