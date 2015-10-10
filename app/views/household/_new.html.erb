@@ -21,7 +21,7 @@
             <div class="field">
               <label for="household_address_state">State</label>
               <select name="state[id]">
-                <%= options_from_collection_for_select(@all_states, :id, :name) %>
+                <%= options_from_collection_for_select(@all_states, :id, :name, selected: Address.most_used_state.id) %>
               </select>
             </div>
             <div class="field">

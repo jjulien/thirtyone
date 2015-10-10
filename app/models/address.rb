@@ -15,6 +15,8 @@
 class Address < ActiveRecord::Base
   belongs_to :state
 
+  validates_presence_of :line1, :city, :zip
+
   def city_state_zip
     "#{self.city}, #{self.state.abbv} #{self.zip}"
   end
@@ -34,4 +36,7 @@ class Address < ActiveRecord::Base
     return summary
   end
 
+  def self.most_used_state
+    State.find(Address.group(:state_id).order('count_state_id DESC').limit(1).count(:state_id).keys.first)
+  end
 end

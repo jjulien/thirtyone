@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150502024034) do
 
-  create_table "addresses", force: true do |t|
+  create_table "addresses", force: :cascade do |t|
     t.string   "line1"
     t.string   "line2"
     t.string   "city"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "events", force: true do |t|
+  create_table "events", force: :cascade do |t|
     t.string   "name"
     t.datetime "start_at"
     t.datetime "end_at"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "households", force: true do |t|
+  create_table "households", force: :cascade do |t|
     t.string   "name"
     t.integer  "person_id"
     t.datetime "created_at"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.integer  "address_id"
   end
 
-  create_table "inventory_items", force: true do |t|
+  create_table "inventory_items", force: :cascade do |t|
     t.string   "name"
     t.integer  "quantity"
     t.string   "barcode"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "inventory_order_items", force: true do |t|
+  create_table "inventory_order_items", force: :cascade do |t|
     t.integer  "orderid"
     t.integer  "itemid"
     t.integer  "quantity"
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "inventory_orders", force: true do |t|
+  create_table "inventory_orders", force: :cascade do |t|
     t.integer  "peopleid"
     t.integer  "enteredby"
     t.date     "date"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "inventory_stock_records", force: true do |t|
+  create_table "inventory_stock_records", force: :cascade do |t|
     t.integer  "itemid"
     t.integer  "quantity"
     t.date     "received"
@@ -72,34 +72,34 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "updated_at"
   end
 
-  create_table "note_types", force: true do |t|
+  create_table "note_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "notes", force: true do |t|
+  create_table "notes", force: :cascade do |t|
     t.string   "note"
     t.integer  "note_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "notes_people", force: true do |t|
+  create_table "notes_people", force: :cascade do |t|
     t.integer  "note_id"
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "notes_visits", force: true do |t|
+  create_table "notes_visits", force: :cascade do |t|
     t.integer  "note_id"
     t.integer  "visit_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "people", force: true do |t|
+  create_table "people", force: :cascade do |t|
     t.string   "firstname"
     t.string   "lastname"
     t.string   "phone"
@@ -109,28 +109,28 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.string   "email"
   end
 
-  create_table "roles", force: true do |t|
+  create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "permissions", default: 0
   end
 
-  create_table "states", force: true do |t|
+  create_table "states", force: :cascade do |t|
     t.string   "name"
     t.string   "abbreviation"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "user_roles", force: true do |t|
+  create_table "user_roles", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "visits", force: true do |t|
+  create_table "visits", force: :cascade do |t|
     t.integer  "person_id"
     t.date     "visit_date"
     t.integer  "host_id"
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.datetime "end_at"
   end
 
-  create_table "work_schedules", force: true do |t|
+  create_table "work_schedules", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "start_at"
     t.datetime "end_at"
