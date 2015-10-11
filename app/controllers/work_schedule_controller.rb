@@ -1,4 +1,6 @@
 class WorkScheduleController < ApplicationController
+  before_action :authorize_work_schedule
+
   @@date_format = '%Y-%m-%d'
   @@datetime_format = @@date_format +' %H:%M:%S %:z'
 
@@ -69,5 +71,9 @@ class WorkScheduleController < ApplicationController
       flash.now[:alert] = @@staff_invalid_error
       render action: 'new'
     end
+  end
+
+  def authorize_work_schedule
+    @work_schedule ? (authorize @work_schedule) : (authorize :work_schedule)
   end
 end
