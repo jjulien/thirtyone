@@ -13,7 +13,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule.start_at = Time.now.change(hour: 8, min: 0)
     @work_schedule.end_at = Time.now.change(hour: 16, min: 0)
 
-    @users = User.all
+    @users = User.where.not(person: nil)
   end
 
   def update
