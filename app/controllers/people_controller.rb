@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :authorize_person
   # GET /people
   # GET /people.json
   def index
@@ -13,7 +14,6 @@ class PeopleController < ApplicationController
   # GET /people/search
   # GET /people/search.json
   def search
-    authorize Person
     rowlimit = params[:rowlimit] || 10
     if (params[:search])
       search_keys = JSON.parse(params[:search]).to_a
@@ -64,14 +64,12 @@ class PeopleController < ApplicationController
   # GET /people/1
   # GET /people/1.json
   def show
-    authorize @person
     @household = @person.household
     @roles = Role.all
   end
 
   # GET /people/new
   def new
-    authorize Person
     @person = Person.new
     @all_states = State.all
     @new_household = Household.new
@@ -84,7 +82,6 @@ class PeopleController < ApplicationController
 
   # GET /people/1/edit
   def edit
-    authorize Person
     @household = @person.household
     @all_states = State.all
     @roles = Role.all
@@ -98,7 +95,6 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
-    authorize Person
     @person = Person.new(person_params)
     @all_states = State.all
     @errors = update_person
@@ -117,7 +113,6 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    authorize @person
     @errors = update_person
 
     @household = @person.household
@@ -136,7 +131,6 @@ class PeopleController < ApplicationController
   # DELETE /people/1
   # DELETE /people/1.json
   def destroy
-    authorize @person
     @person.destroy
     respond_to do |format|
       format.html { redirect_to people_url }
@@ -236,5 +230,9 @@ class PeopleController < ApplicationController
 
   def address_params
     params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
+  end
+
+  def authorize_person
+    @person ? (authorize @person) : (authorize :person)
   end
 end

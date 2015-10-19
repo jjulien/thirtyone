@@ -34,6 +34,9 @@ class PersonPolicy < ApplicationPolicy
     update?
   end
 
+  def search?
+    index?
+  end
   # def scope
   #   Pundit.policy_scope!(user, Person)
   # end
