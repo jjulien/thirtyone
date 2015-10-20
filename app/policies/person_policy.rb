@@ -7,15 +7,15 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def index?
-    false
+    @user.has_access?(PERM_RO_PERSON)
   end
 
   def show?
-    true
+    @user.has_access?(PERM_RO_PERSON)
   end
 
   def create?
-    true
+    @user.has_access?(PERM_RW_PERSON)
   end
 
   def new?
@@ -23,7 +23,7 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def update?
-    false
+    @user.has_access?(PERM_RW_PERSON)
   end
 
   def edit?
@@ -31,9 +31,12 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def destroy?
-    false
+    update?
   end
 
+  def search?
+    index?
+  end
   # def scope
   #   Pundit.policy_scope!(user, Person)
   # end
