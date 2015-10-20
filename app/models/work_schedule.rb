@@ -3,7 +3,7 @@
 # Table name: work_schedules
 #
 #  id         :integer          not null, primary key
-#  staff_id   :integer
+#  user_id    :integer
 #  start_at   :datetime
 #  end_at     :datetime
 #  note       :string(255)

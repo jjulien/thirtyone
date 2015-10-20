@@ -1,0 +1,40 @@
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <p id="notice"><%= notice %></p>
+
+    <h1>Listing Local Resources</h1>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Contact name</th>
+        <th>Business name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>URL</th>
+        <th>Address</th>
+        <th>Categories</th>
+        <th colspan="2"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @local_resources.each do |local_resource| %>
+          <tr>
+            <td><%= local_resource.contact_name %></td>
+            <td><%= local_resource.business_name %></td>
+            <td><%= local_resource.phone %></td>
+            <td><%= local_resource.email %></td>
+            <td><%= link_to local_resource.url, local_resource.url %></td>
+            <td><%= local_resource.address.oneline_summary %></td>
+            <td><%= local_resource.local_resource_categories.map(&:name).join(', ') %></td>
+            <td><%= link_to 'Edit', edit_local_resource_path(local_resource) %></td>
+            <td><%= link_to 'Destroy', local_resource, method: :delete, data: {confirm: 'Are you sure?'} %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New Local resource', new_local_resource_path %>
+  </div>

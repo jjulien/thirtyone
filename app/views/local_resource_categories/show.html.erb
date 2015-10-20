@@ -1,0 +1,13 @@
+<div style="margin-top:20px;" class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <p id="notice"><%= notice %></p>
+
+    <p>
+      <strong>Name:</strong>
+      <%= @local_resource_category.name %>
+    </p>
+
+    <%= link_to 'Edit', edit_local_resource_category_path(@local_resource_category) %> |
+    <%= link_to 'Back', local_resource_categories_path %>
+  </div>
+</div>

@@ -6,7 +6,7 @@
 #  created_at  :datetime
 #  updated_at  :datetime
 #  name        :string(255)
-#  permissions :integer
+#  permissions :integer          default(0)
 #
 
 class Role < ActiveRecord::Base
