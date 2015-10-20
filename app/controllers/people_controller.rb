@@ -5,7 +5,6 @@ class PeopleController < ApplicationController
   # GET /people
   # GET /people.json
   def index
-    authorize Person
     @people = Person.all
     @new_person = Person.new
     @all_states = State.all
