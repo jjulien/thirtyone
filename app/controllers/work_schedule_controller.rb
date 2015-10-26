@@ -1,4 +1,6 @@
 class WorkScheduleController < ApplicationController
+  before_action :authorize_work_schedule
+
   @@date_format = '%Y-%m-%d'
   @@datetime_format = @@date_format +' %H:%M:%S %:z'
 
@@ -13,7 +15,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule.start_at = Time.now.change(hour: 8, min: 0)
     @work_schedule.end_at = Time.now.change(hour: 16, min: 0)
 
-    @users = User.all
+    @users = User.where.not(person: nil)
   end
 
   def update
@@ -69,5 +71,9 @@ class WorkScheduleController < ApplicationController
       flash.now[:alert] = @@staff_invalid_error
       render action: 'new'
     end
+  end
+
+  def authorize_work_schedule
+    @work_schedule ? (authorize @work_schedule) : (authorize :work_schedule)
   end
 end

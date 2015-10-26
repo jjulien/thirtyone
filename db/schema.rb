@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502024034) do
+ActiveRecord::Schema.define(version: 20150922012133) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "line1"
@@ -70,6 +70,28 @@ ActiveRecord::Schema.define(version: 20150502024034) do
     t.date     "received"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "local_resource_categories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "local_resource_categories_resources", force: :cascade do |t|
+    t.integer "local_resource_category_id"
+    t.integer "local_resource_id"
+  end
+
+  create_table "local_resources", force: :cascade do |t|
+    t.string   "contact_name"
+    t.string   "business_name"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "url"
+    t.integer  "address_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "note_types", force: :cascade do |t|

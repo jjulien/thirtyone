@@ -1,6 +1,7 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :authorize_person
   # GET /people
   # GET /people.json
   def index
@@ -62,7 +63,6 @@ class PeopleController < ApplicationController
   # GET /people/1
   # GET /people/1.json
   def show
-    authorize @person
     @household = @person.household
     @roles = Role.all
   end
@@ -94,7 +94,6 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
-    #authorize Person
     @person = Person.new(person_params)
     @all_states = State.all
     @errors = update_person
@@ -114,6 +113,7 @@ class PeopleController < ApplicationController
   # PATCH/PUT /people/1.json
   def update
     @errors = update_person
+
     @household = @person.household
     respond_to do |format|
       if @person.valid? and @errors.empty?
@@ -229,5 +229,9 @@ class PeopleController < ApplicationController
 
   def address_params
     params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
+  end
+
+  def authorize_person
+    @person ? (authorize @person) : (authorize :person)
   end
 end

@@ -87,3 +87,11 @@ if not user.person
   user.person = Person.new({firstname: "Pantry", lastname: "Administrator", email: 'admin'})
 end
 user.save!({validate: false})
+
+local_resource_categories = [{:name => 'Automotive'},
+                             {:name => 'Care Groups'},
+                             {:name => 'Counseling'}]
+
+local_resource_categories.each do |l|
+  LocalResourceCategory.find_or_create_by(l)
+end
