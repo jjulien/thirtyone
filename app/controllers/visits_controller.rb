@@ -13,7 +13,7 @@ class VisitsController < ApplicationController
   # GET /visits/1.json
   def show
     @people = Person.all
-    @users = User.all
+    @host = Person.where(id: @visit.host_id).to_a.first
   end
 
   # GET /visits/new

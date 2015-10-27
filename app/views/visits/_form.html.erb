@@ -17,7 +17,7 @@
 
   <div class="field">
     <label for="host_id">Host</label>
-    <%= collection_select(:visit, :host_id, User.all, :id, :name, :selected => params[:host_id]) %>
+    <%= collection_select(:visit, :host_id, Person.users, :id, :fullname, :selected => params[:host_id]) %>
   </div>
 
   <div class="field">

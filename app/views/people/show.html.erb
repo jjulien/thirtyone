@@ -73,7 +73,7 @@
   <div class="large-8 radius large-centered columns">
     <%= link_to('Edit', edit_person_path(@person), :class => 'button tiny') if current_user and current_user.has_access?(PERM_RW_PERSON) %>
 
-    <%= link_to 'New Visit', new_visit_path(:person_id => @person, :host_id => current_user.id), :class => 'button tiny' %>
+    <%= link_to 'New Visit', new_visit_path(:person_id => @person, :host_id => current_user.person.id), :class => 'button tiny' %>
   </div>
 </div>
 
