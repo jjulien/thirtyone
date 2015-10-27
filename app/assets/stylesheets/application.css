@@ -19,3 +19,7 @@ a.button:visited {
     color: #FFFFFF;
 }
 
+label.required:after {
+    content: " *";
+    color: red;
+}

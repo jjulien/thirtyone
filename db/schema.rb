@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150922012133) do
+ActiveRecord::Schema.define(version: 20151027001604) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "line1",      limit: 255
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   end
 
   create_table "local_resources", force: :cascade do |t|
-    t.string   "contact_name"
     t.string   "business_name"
     t.string   "phone"
     t.string   "email"
