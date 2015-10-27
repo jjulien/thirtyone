@@ -1,1 +1,5 @@
+<% if current_user and current_user.has_access?(PERM_RW_PERSON) %>
+updatePersonSearch(this, false, true);
+<% else %>
 updatePersonSearch(this);
+<% end %>

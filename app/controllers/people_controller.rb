@@ -13,6 +13,7 @@ class PeopleController < ApplicationController
   # GET /people/search
   # GET /people/search.json
   def search
+
     rowlimit = params[:rowlimit] || 10
     if (params[:search])
       search_keys = JSON.parse(params[:search]).to_a
