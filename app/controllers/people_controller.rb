@@ -1,5 +1,5 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: [:show, :edit, :update, :destroy]
+  before_action :set_person, only: [:show, :edit, :update, :destroy, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
   before_action :authenticate_user!
   before_action :authorize_person
   # GET /people
@@ -121,7 +121,7 @@ class PeopleController < ApplicationController
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
-        flash[:alert] = errors
+        flash[:alert] = @errors
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -136,6 +136,32 @@ class PeopleController < ApplicationController
       format.html { redirect_to people_url }
       format.json { head :no_content }
     end
+  end
+
+  def send_confirmation_email
+    if not @person.user.nil? and @person.user.has_pending_email_change?
+      @person.user.send_confirmation_email
+    end
+    render :nothing => true, :status => 200, :content_type => 'application/json'
+  end
+
+  def cancel_pending_email_change
+    if not @person.user.nil?
+      @person.user.cancel_pending_email_change
+      @person.save
+    end
+    render :nothing => true, :status => 200, :content_type => 'application/json'
+  end
+
+  def confirm_email_change
+    if not @person.user.nil? and @person.user.has_pending_email_change?
+      @person.user.confirm_email_change
+      if @person.user.save
+        @person.email = @person.user.email
+        @person.save
+      end
+    end
+    render :nothing => true, :status => 200, :content_type => 'application/json'
   end
 
   private

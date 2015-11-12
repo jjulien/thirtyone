@@ -38,4 +38,22 @@ class Person < ActiveRecord::Base
   def self.users
     Person.includes(:user).where.not(users: {id: nil})
   end
+
+  def email=(new_email)
+    #  Do not set email if user has a pending email change.  The
+    #  user model will set the email for us after it clears
+    #  the pending change.
+    if user.nil? or not user.has_pending_email_change?
+        self[:email] = new_email
+    end
+  end
+
+  def has_pending_email_change?
+    if not user.nil?
+      user.has_pending_email_change?
+    else
+      false
+    end
+  end
+
 end

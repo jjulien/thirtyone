@@ -52,6 +52,10 @@ Thirtyone::Application.routes.draw do
     end
   end
 
+  delete '/people/:id/email_change'     => 'people#cancel_pending_email_change', as: 'cancel_pending_email_change'
+  post '/people/:id/email_confirmation' => 'people#send_confirmation_email', as: 'send_confirmation_email'
+  get '/people/:id/email_confirmation'  => 'people#confirm_email_change', as: 'confirm_email_change'
+
   match '/people/new', :controller => 'people', :action => 'new', via: :post
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -24,8 +24,30 @@
     <%= f.text_field :lastname %>
   </div>
   <div class="field">
-      <%= f.label :email %>
+    <%= f.label :email %>
+    <% if @person.has_pending_email_change? %>
+        <div id="pending_email_change_div" style="border: 1px solid #ccc; padding:10px 10px 0px 10px;">
+          <div class="row">
+            <div class="small-12 columns">
+              <p>
+                This user has a pending email change from <i><%= @person.user.email %></i> to <i><%= @person.user.pending_email %></i>.
+                A confirmation email has been sent to <i><%= @person.user.pending_email %></i>.  You can can either cancel this change or re-send the confirmation link to this email.
+              </p>
+            </div>
+          </div>
+          <div class="row" style="margin-top:20px;">
+            <div class="small-12 medium-6 columns">
+              <button class="button tiny center-block" type="button" onclick="resendEmailConfirmation();" >Resend Confirmation Email</button>
+            </div>
+            <div class="small-12 medium-6 columns">
+              <button class="button tiny" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
+            </div>
+          </div>
+        </div>
+        <%= f.email_field :email, style: "display: none;", disabled: "disabled" %>
+    <% else %>
       <%= f.email_field :email %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :phone %>
@@ -105,4 +127,21 @@
             }
         });
     });
+
+    function resendEmailConfirmation() {
+      $.ajax({
+        url: '<%= send_confirmation_email_url %>',
+        method: 'POST'
+      });
+    }
+
+    function cancelEmailChange() {
+      $.ajax({
+        url: '<%= cancel_pending_email_change_url %>',
+        method: 'DELETE'
+      });
+      $('#person_email').show();
+      $('#person_email').removeAttr("disabled");
+      $('#pending_email_change_div').hide();
+    }
 </script>

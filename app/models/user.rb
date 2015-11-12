@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
      send_new_account_instructions_notification(token)
      token
   end
+
   def send_new_account_instructions_notification(token)
      send_devise_notification(:new_account_instructions, token, {})
   end
@@ -47,5 +48,33 @@ class User < ActiveRecord::Base
 
   def has_access?(permission)
     permissions & PERM_ADMIN > 0 || permissions & permission > 0
+  end
+
+  def email=(new_email)
+    if email != new_email
+      self[:reset_email_token] = Devise.friendly_token
+      self[:reset_email_token_sent_at] = DateTime.now
+      self[:pending_email] = new_email
+    else
+      self[:email] = new_email
+    end
+  end
+
+  def confirm_email_change
+    self[:email] = self[:pending_email]
+    cancel_pending_email_change
+  end
+
+  def cancel_pending_email_change
+    self[:reset_email_token]         = nil
+    self[:reset_email_token_sent_at] = nil
+    self[:pending_email]             = nil
+  end
+
+  def send_confirmation_email
+    send_devise_notification(:confirmation_instructions, reset_email_token, {})
+  end
+  def has_pending_email_change?
+    return ( not pending_email.nil? and not reset_email_token_sent_at.nil? and ( reset_email_token_sent_at > ( DateTime.now - Devise.confirm_within ) ) )
   end
 end
