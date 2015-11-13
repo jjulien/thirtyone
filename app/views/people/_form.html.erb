@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        <%= f.email_field :email, style: "display: none;", disabled: "disabled" %>
+        <%= f.email_field :email, style: "display: none;" %>
     <% else %>
       <%= f.email_field :email %>
     <% end %>
@@ -128,10 +128,19 @@
         });
     });
 
+    <% if not @person.id.nil? %>
+
     function resendEmailConfirmation() {
       $.ajax({
         url: '<%= send_confirmation_email_url %>',
-        method: 'POST'
+        method: 'POST',
+        accept: 'applicaiton/json'
+      }).done(function (data, textStatus, jqXHR) {
+        $("#notice_content").html("Confirmation email sent");
+        $("#notice").show().delay(3000).fadeOut(1000);
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        $("#error_content").html("Error sending confirmation email");
+        $("#error").show().delay(3000).fadeOut(1000);
       });
     }
 
@@ -139,9 +148,16 @@
       $.ajax({
         url: '<%= cancel_pending_email_change_url %>',
         method: 'DELETE'
-      });
-      $('#person_email').show();
-      $('#person_email').removeAttr("disabled");
-      $('#pending_email_change_div').hide();
+      }).done(function (data, textStatus, jqXHR) {
+        $("#notice_content").html("Pending email change was canceled");
+        $("#notice").show().delay(3000).fadeOut(1000);
+        $('#person_email').show();
+        $('#person_email').removeAttr("disabled");
+        $('#pending_email_change_div').hide();
+      }).fail(function (jqXHR, textStatus, errorThrown) {
+        $("#error_content").html("Error canceling pending email change");
+        $("#error").show().delay(3000).fadeOut(1000);
+      });;
     }
+  <% end %>
 </script>

@@ -142,7 +142,7 @@ class PeopleController < ApplicationController
     if not @person.user.nil? and @person.user.has_pending_email_change?
       @person.user.send_confirmation_email
     end
-    render :nothing => true, :status => 200, :content_type => 'application/json'
+    render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
   def cancel_pending_email_change
@@ -150,7 +150,7 @@ class PeopleController < ApplicationController
       @person.user.cancel_pending_email_change
       @person.save
     end
-    render :nothing => true, :status => 200, :content_type => 'application/json'
+    render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
   def confirm_email_change
@@ -161,7 +161,7 @@ class PeopleController < ApplicationController
         @person.save
       end
     end
-    render :nothing => true, :status => 200, :content_type => 'application/json'
+    render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
   private
