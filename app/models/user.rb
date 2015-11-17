@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :user_roles
   belongs_to :person, autosave: true
 
+  attr_reader :send_confirmation
+
+  @send_confirmation = false
+
   def send_new_account_instructions
      token = set_reset_password_token
      send_new_account_instructions_notification(token)
@@ -55,6 +59,7 @@ class User < ActiveRecord::Base
       self[:reset_email_token] = Devise.friendly_token
       self[:reset_email_token_sent_at] = DateTime.now
       self[:pending_email] = new_email
+      @send_confirmation = true
     else
       self[:email] = new_email
     end

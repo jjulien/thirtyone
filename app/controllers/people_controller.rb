@@ -217,6 +217,10 @@ class PeopleController < ApplicationController
           end
         end
         @person.update(person_params)
+        if not @person.user.nil? and @person.user.send_confirmation
+          @person.user.send_confirmation_email
+        end
+
         # We need to raise a rollback exception if we don't validate
         # It will get caught by the broader Exception rescue and then get re-escalated
         # which may seem redunant, and it is, but we still need the broader Exception
