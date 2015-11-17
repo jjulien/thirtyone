@@ -34,4 +34,8 @@ class Person < ActiveRecord::Base
     fn += firstname if firstname and firstname.length > 0
     fn
   end
+
+  def self.users
+    Person.includes(:user).where.not(users: {id: nil})
+  end
 end

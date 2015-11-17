@@ -8,7 +8,7 @@
           # Find people with duplicate fullnames. If there is a duplicate, then the label should have <name> (<email>)
           # to help differentiate the people.
           @duplicate_name = @people.select { |p| p.id != person.id && p.fullname == person.fullname }
-          label = @duplicate_name.any? ? "#{person.fullname} (#{person.user.email})" : person.fullname
+          label = @duplicate_name.any? ? "#{person.fullname} (#{person.email})" : person.fullname
         %>
             <li class="<%= rowclass %>" onclick="window.location = '<%= url_for person_path(person) %>';">
               <div><%= label %></div>

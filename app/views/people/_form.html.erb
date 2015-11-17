@@ -51,8 +51,17 @@
               .append('<a class=\'close-reveal-modal\'>&#215;</a>');
             } });" class="tiny button" >Select or Create Household</button>
       </div>
- <!-- <div id="household_div" class="row"><%= render 'household/show' if @household %></div> -->
-    <div id="household_div" class="row"><% @household = @person.household if @person.household %><%= render 'household/new' if @household %></div>
+    <div id="household_div" class="row">
+      <%= if @person.household
+            @household = @person.household
+            if @household.new_record?
+              render 'household/new'
+            else
+              render 'household/show'
+            end
+          end
+      %>
+    </div>
   <h3>Allow User to Login</h3>
   <div>Do you want to allow this user to login as a volunteer?
             <%= radio_button_tag(:create_user, :yes, ( !!@person.user || params[:create_user] == 'yes' ) )  %><label for="create_user_yes">Yes</label>

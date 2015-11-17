@@ -14,17 +14,17 @@
 ActiveRecord::Schema.define(version: 20150922012133) do
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "line1"
-    t.string   "line2"
-    t.string   "city"
-    t.string   "zip"
+    t.string   "line1",      limit: 255
+    t.string   "line2",      limit: 255
+    t.string   "city",       limit: 255
+    t.string   "zip",        limit: 255
     t.integer  "state_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "events", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   end
 
   create_table "households", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.integer  "person_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   end
 
   create_table "inventory_items", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.integer  "quantity"
-    t.string   "barcode"
-    t.string   "unit"
+    t.string   "barcode",    limit: 255
+    t.string   "unit",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -95,13 +95,13 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   end
 
   create_table "note_types", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string   "note"
+    t.string   "note",         limit: 255
     t.integer  "note_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -122,25 +122,25 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string   "firstname"
-    t.string   "lastname"
-    t.string   "phone"
+    t.string   "firstname",    limit: 255
+    t.string   "lastname",     limit: 255
+    t.string   "phone",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "household_id"
-    t.string   "email"
+    t.string   "email",        limit: 255
   end
 
   create_table "roles", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
-    t.integer  "permissions", default: 0
+    t.string   "name",        limit: 255
+    t.integer  "permissions",             default: 0
   end
 
   create_table "states", force: :cascade do |t|
-    t.string   "name"
-    t.string   "abbreviation"
+    t.string   "name",         limit: 255
+    t.string   "abbreviation", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -155,16 +155,16 @@ ActiveRecord::Schema.define(version: 20150922012133) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
     t.integer  "person_id"
   end
 
@@ -185,7 +185,7 @@ ActiveRecord::Schema.define(version: 20150922012133) do
     t.integer  "user_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.string   "note"
+    t.string   "note",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
