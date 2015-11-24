@@ -30,10 +30,10 @@
                     <span class="ui-icon ui-icon-mail-closed icon"></span><%= mail_to local_resource.email %><br/>
                 <% end %>
                 <% unless local_resource.url.blank? %>
-                    <span class="ui-icon ui-icon-home icon"></span><%= link_to local_resource.url %><br/>
+                    <span class="ui-icon ui-icon-home icon"></span><%= link_to 'Website', local_resource.url, :target => '_blank' %><br/>
                 <% end %>
-                <%= link_to 'Edit', edit_local_resource_path(local_resource) %> |
-                <%= link_to 'Delete', local_resource, :method => :delete, :data => {:confirm => 'Are you sure?'} %><br/>
+                <%= link_to('Edit', edit_local_resource_path(local_resource)) if current_user.has_access?(PERM_RW_RESOURCE) %> |
+                <%= link_to('Delete', local_resource, :method => :delete, :data => {:confirm => 'Are you sure?'}) if current_user.has_access?(PERM_RW_RESOURCE) %><br/>
                 <% if not local_resource.equal? local_resource_category.local_resources.last %>
                     <hr/>
                 <% end %>
