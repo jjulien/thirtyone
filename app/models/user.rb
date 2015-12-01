@@ -66,8 +66,10 @@ class User < ActiveRecord::Base
   end
 
   def confirm_email_change
-    self[:email] = self[:pending_email]
-    cancel_pending_email_change
+    if has_pending_email_change?
+        self[:email] = self[:pending_email]
+      cancel_pending_email_change
+    end
   end
 
   def cancel_pending_email_change
