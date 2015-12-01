@@ -1,7 +1,13 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
   before_action :authenticate_user!
-  before_action :authorize_person
+  before_action :init
+
+  def init
+    @errors = []
+    authorize_person
+  end
+
   # GET /people
   # GET /people.json
   def index
@@ -198,7 +204,9 @@ class PeopleController < ApplicationController
             @person.errors.add(:email, 'is not valid')
           end
           if not @person.user
-            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            new_user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            new_user.confirm_email_change
+            @person.user = new_user
           else
             # We don't need to make sure the users email is always in-sync with the persons email
             # ideally we'd just store this in one place but devise requires email to be in the
