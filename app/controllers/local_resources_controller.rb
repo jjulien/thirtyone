@@ -6,7 +6,7 @@ class LocalResourcesController < ApplicationController
   # GET /local_resources
   # GET /local_resources.json
   def index
-    @local_resources = LocalResource.all
+    @local_resource_categories = LocalResourceCategory.all
   end
 
   # GET /local_resources/1
@@ -31,18 +31,22 @@ class LocalResourcesController < ApplicationController
   def create
     @local_resource = LocalResource.new(local_resource_params)
 
-    update_state
-    update_local_resource_categories
-
-    if params[:address][:line1].blank?
+    # Make the address nil if the user didn't enter anything. Otherwise, set the state.
+    if params[:local_resource][:address_attributes][:line1].blank?
       @local_resource.address = nil
+    else
+      update_state
     end
+
+    update_local_resource_categories
 
     respond_to do |format|
       if @local_resource.save
         format.html { redirect_to @local_resource, notice: 'Local resource was successfully created.' }
         format.json { render action: 'show', status: :created, location: @local_resource }
       else
+        # Set the address if we set it to nil above
+        @address = Address.new if @address.nil?
         format.html { render action: 'new' }
         format.json { render json: @local_resource.errors, status: :unprocessable_entity }
       end

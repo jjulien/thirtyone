@@ -3,7 +3,6 @@
 # Table name: local_resources
 #
 #  id            :integer          not null, primary key
-#  contact_name  :string
 #  business_name :string
 #  phone         :string
 #  email         :string
@@ -16,6 +15,7 @@
 class LocalResource < ActiveRecord::Base
   has_and_belongs_to_many :local_resource_categories
   validates_presence_of :local_resource_categories
+  validates_presence_of :business_name
   validates_associated :address
   belongs_to :address
 
