@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:confirm_email_change]
   before_action :init
 
   def init
@@ -127,7 +127,6 @@ class PeopleController < ApplicationController
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
-        flash[:alert] = @errors
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -161,13 +160,20 @@ class PeopleController < ApplicationController
 
   def confirm_email_change
     if not @person.user.nil? and @person.user.has_pending_email_change?
+      if params[:confirmation_token] != @person.user.reset_email_token
+        render 'users/email/invalid_token'
+        return
+      end
       @person.user.confirm_email_change
       if @person.user.save
         @person.email = @person.user.email
         @person.save
       end
+      render 'users/email/confirm_email_change'
+      return
     end
-    render :nothing => true, :status => 200, :content_type => 'text/html'
+  else
+    render 'users/email/invalid_token'
   end
 
   private
@@ -199,16 +205,22 @@ class PeopleController < ApplicationController
         end
         if params[:create_user] == 'yes'
           if params[:person][:email].blank?
-            @person.errors.add(:email, 'is required when the person is also allowed to login')
+            @person.add_custom_error(:email, 'is required when the person is also allowed to login')
+            # If email is blank, we will have a harsher error if we try to create a new user later
+            raise ActiveRecord::Rollback
           elsif not params[:person][:email] =~ Devise.email_regexp
-            @person.errors.add(:email, 'is not valid')
+            @person.add_custom_error(:email, 'is not valid')
           end
           if not @person.user
             new_user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
             new_user.confirm_email_change
-            @person.user = new_user
+            if new_user.valid?
+              @person.user = new_user
+            else
+              errors << new_user.errors.full_messages
+            end
           else
-            # We don't need to make sure the users email is always in-sync with the persons email
+            # We need to make sure the users email is always in-sync with the persons email
             # ideally we'd just store this in one place but devise requires email to be in the
             # users table.  We might also at one point want to allows users to have a different
             # email that they use for being a pantry guest and a pantry user

@@ -19,6 +19,7 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
+  validate :custom_validate
 
   def fullname
     if lastname
@@ -56,4 +57,18 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def add_custom_error(attribute, message)
+    if @custom_errors.nil?
+      @custom_errors = {}
+    end
+    @custom_errors[attribute] = message
+  end
+
+  def custom_validate
+    if not @custom_errors.nil?
+      @custom_errors.each do |k, v|
+        errors.add(k.to_sym, v)
+      end
+    end
+  end
 end
