@@ -59,6 +59,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'quiet_assets'
 end
 
 # Use ActiveModel has_secure_password
