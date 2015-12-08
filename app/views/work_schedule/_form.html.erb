@@ -43,7 +43,7 @@
     <div class="actions">
       <div class="left">
         <%= @selected_user ? f.submit(:Update, class: 'button tiny') : f.submit(:Schedule, class: 'button tiny') %>
-        <%= link_to :Cancel, {controller: :work_schedule}, {:class => 'button tiny'} %>
+        <%= link_to :Cancel, {controller: :calendar}, {:class => 'button tiny'} %>
       </div>
       <div class="right">
         <%= @selected_user ? link_to('Delete', @work_schedule, {:method => :delete, :class => 'button tiny'}) : nil %>
