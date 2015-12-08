@@ -40,7 +40,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule = WorkSchedule.all
     @work_schedule.destroy(params[:id])
     respond_to do |format|
-      format.html { redirect_to calendar_url }
+      format.html { redirect_to calendar_index_url }
       format.json { head :no_content }
     end
   end

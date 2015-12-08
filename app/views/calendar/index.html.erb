@@ -1,13 +1,3 @@
-<%= javascript_tag do %>
-    window.workSchedules = [
-    <% @work_schedules.each do |work_schedule| %>
-        {title: '<%= work_schedule.user.person.fullname %>',
-        start: '<%= work_schedule.start_at.iso8601 %>',
-        end: '<%= work_schedule.end_at.iso8601 %>',
-        url: '<%= url_for work_schedule %>'},
-    <% end %>
-    ];
-<% end %>
 <div class="row">
   <div style="width:400px;">
     <div style="float: left; width: 130px">
