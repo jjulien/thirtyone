@@ -169,6 +169,11 @@ class PeopleController < ApplicationController
         @person.email = @person.user.email
         @person.save
       end
+      if not @person.valid? or not @person.user.valid?
+        @errors = []
+        @errors += @person.errors.full_messages
+        @errors += @person.user.errors.full_messages
+      end
       render 'users/email/confirm_email_change'
       return
     end
