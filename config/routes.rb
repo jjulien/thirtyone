@@ -8,6 +8,8 @@ Thirtyone::Application.routes.draw do
 
   devise_for :users
 
+  resources :calendar, only: [:index]
+
 #  resources :inventory_orders
 
   scope 'inventory' do
@@ -26,13 +28,6 @@ Thirtyone::Application.routes.draw do
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_new', via: :get
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_create', via: :post
 
-  match '/calendar(/:year(/:month))' => 'calendar#index',
-        :as => :calendar,
-        :constraints => {:year => /\d{4}/, :month => /\d{1,2}/},
-        via: :all
-
-  match '/calendar/:year/:month/:day', :controller => 'calendar', :action => 'day', via: :all
-
   resources :event, as: 'events', controller: 'event', via: :all
 
   resources :households, controller: 'household' do
@@ -40,7 +35,6 @@ Thirtyone::Application.routes.draw do
       get :search
     end
   end
-  match '/calendar/:person_id', :controller => "calendar", :action => "person", via: :all
 
   resources :event, as: "events", controller: "event", via: :all
 
