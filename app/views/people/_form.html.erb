@@ -26,25 +26,29 @@
   <div class="field">
     <%= f.label :email %>
     <% if @person.has_pending_email_change? %>
-        <div id="pending_email_change_div" style="border: 1px solid #ccc; padding:10px 10px 0px 10px;">
-          <div class="row">
-            <div class="small-12 columns">
-              <p>
-                This user has a pending email change from <i><%= @person.user.email %></i> to <i><%= @person.user.pending_email %></i>.
-                A confirmation email has been sent to <i><%= @person.user.pending_email %></i>.  You can can either cancel this change or re-send the confirmation link to this email.
-              </p>
+        <% if @person.user.pending_email_valid? %>
+          <div id="pending_email_change_div" style="border: 1px solid #ccc; padding:10px 10px 0px 10px;">
+            <div class="row">
+              <div class="small-12 columns">
+                <p>
+                  This user has a pending email change from <i><%= @person.user.email %></i> to <i><%= @person.user.pending_email %></i>.
+                  A confirmation email has been sent to <i><%= @person.user.pending_email %></i>.  You can can either cancel this change or re-send the confirmation link to this email.
+                </p>
+              </div>
+            </div>
+            <div class="row" style="margin-top:20px;">
+              <div class="small-12 medium-6 columns">
+                <button class="button tiny center-block" type="button" onclick="resendEmailConfirmation();" >Resend Confirmation Email</button>
+              </div>
+              <div class="small-12 medium-6 columns">
+                <button class="button tiny" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
+              </div>
             </div>
           </div>
-          <div class="row" style="margin-top:20px;">
-            <div class="small-12 medium-6 columns">
-              <button class="button tiny center-block" type="button" onclick="resendEmailConfirmation();" >Resend Confirmation Email</button>
-            </div>
-            <div class="small-12 medium-6 columns">
-              <button class="button tiny" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
-            </div>
-          </div>
-        </div>
         <%= f.email_field :email, style: "display: none;" %>
+        <% else %>
+          <%= f.email_field :email, :value => @person.user.pending_email %>
+        <% end %>
     <% else %>
       <%= f.email_field :email %>
     <% end %>

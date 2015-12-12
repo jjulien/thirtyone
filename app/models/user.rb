@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :trackable, :validatable
+  validate :validate_pending_email
 
   has_many :user_roles
   has_many :roles, :through => :user_roles
@@ -83,5 +84,17 @@ class User < ActiveRecord::Base
   end
   def has_pending_email_change?
     return ( not pending_email.nil? and not reset_email_token_sent_at.nil? and ( reset_email_token_sent_at > ( DateTime.now - Devise.confirm_within ) ) )
+  end
+
+  def pending_email_valid?
+    if has_pending_email_change? and User.find_by_email(pending_email) != nil
+      return false
+    end
+    return true
+  end
+  def validate_pending_email
+      if not pending_email_valid?
+        errors.add(:email, "already exists")
+    end
   end
 end
