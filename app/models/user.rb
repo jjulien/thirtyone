@@ -29,8 +29,6 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :user_roles
   belongs_to :person, autosave: true
 
-  attr_reader :send_confirmation
-
   @send_confirmation = false
 
   def send_new_account_instructions
@@ -68,7 +66,7 @@ class User < ActiveRecord::Base
 
   def confirm_email_change
     if has_pending_email_change?
-        self[:email] = self[:pending_email]
+      self[:email] = self[:pending_email]
       cancel_pending_email_change
     end
   end
@@ -79,9 +77,14 @@ class User < ActiveRecord::Base
     self[:pending_email]             = nil
   end
 
+  def should_send_confirmation_email?
+    send_confirmation
+  end
+
   def send_confirmation_email
     send_devise_notification(:confirmation_instructions, reset_email_token, {})
   end
+
   def has_pending_email_change?
     return ( not pending_email.nil? and not reset_email_token_sent_at.nil? and ( reset_email_token_sent_at > ( DateTime.now - Devise.confirm_within ) ) )
   end
@@ -92,6 +95,7 @@ class User < ActiveRecord::Base
     end
     return true
   end
+
   def validate_pending_email
       if not pending_email_valid?
         errors.add(:email, "already exists")

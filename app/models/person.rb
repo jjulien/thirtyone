@@ -42,8 +42,8 @@ class Person < ActiveRecord::Base
 
   def email=(new_email)
     #  Do not set email if user has a pending email change.  The
-    #  user model will set the email for us after it clears
-    #  the pending change.
+    #  confirm_email_change on the people controller will set the email
+    #  after the change has been confirmed for the user
     if user.nil? or not user.has_pending_email_change?
         self[:email] = new_email
     end

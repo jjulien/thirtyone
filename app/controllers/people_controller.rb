@@ -143,6 +143,7 @@ class PeopleController < ApplicationController
     end
   end
 
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
   def send_confirmation_email
     if not @person.user.nil? and @person.user.has_pending_email_change?
       @person.user.send_confirmation_email
@@ -150,6 +151,7 @@ class PeopleController < ApplicationController
     render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
   def cancel_pending_email_change
     if not @person.user.nil?
       @person.user.cancel_pending_email_change
@@ -158,6 +160,7 @@ class PeopleController < ApplicationController
     render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
+  # This page does not require authentication
   def confirm_email_change
     if not @person.user.nil? and @person.user.has_pending_email_change?
       if params[:confirmation_token] != @person.user.reset_email_token
@@ -222,7 +225,7 @@ class PeopleController < ApplicationController
             if new_user.valid?
               @person.user = new_user
             else
-              errors << new_user.errors.full_messages
+              errors += new_user.errors.full_messages
             end
           else
             # We need to make sure the users email is always in-sync with the persons email
@@ -242,7 +245,7 @@ class PeopleController < ApplicationController
           end
         end
         @person.update(person_params)
-        if not @person.user.nil? and @person.user.send_confirmation
+        if not @person.user.nil? and @person.user.should_send_confirmation_email?
           @person.user.send_confirmation_email
         end
 
