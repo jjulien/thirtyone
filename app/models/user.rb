@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   end
 
   def should_send_confirmation_email?
-    send_confirmation
+    @send_confirmation
   end
 
   def send_confirmation_email
