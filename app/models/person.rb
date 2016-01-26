@@ -19,6 +19,7 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
+  validate :custom_validate
 
   def fullname
     if lastname
@@ -37,5 +38,37 @@ class Person < ActiveRecord::Base
 
   def self.users
     Person.includes(:user).where.not(users: {id: nil})
+  end
+
+  def email=(new_email)
+    #  Do not set email if user has a pending email change.  The
+    #  confirm_email_change on the people controller will set the email
+    #  after the change has been confirmed for the user
+    if user.nil? or not user.has_pending_email_change?
+        self[:email] = new_email
+    end
+  end
+
+  def has_pending_email_change?
+    if not user.nil?
+      user.has_pending_email_change?
+    else
+      false
+    end
+  end
+
+  def add_custom_error(attribute, message)
+    if @custom_errors.nil?
+      @custom_errors = {}
+    end
+    @custom_errors[attribute] = message
+  end
+
+  def custom_validate
+    if not @custom_errors.nil?
+      @custom_errors.each do |k, v|
+        errors.add(k.to_sym, v)
+      end
+    end
   end
 end

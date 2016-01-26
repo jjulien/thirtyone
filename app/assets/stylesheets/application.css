@@ -23,3 +23,11 @@ label.required:after {
     content: " *";
     color: red;
 }
+
+.green-text {
+    color: #43AC6A;
+}
+
+.red-text {
+    color: #f04124;
+}

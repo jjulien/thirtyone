@@ -80,6 +80,7 @@ end
 
 # This may look weird, but it neccessary to jump around all the devise validation code.  Without it the user would not save as the email is invalid and the password is too short
 user = User.find_or_initialize_by({email: 'admin'})
+user.confirm_email_change
 user.password = 'admin'
 admin_role = Role.find_by({name: 'Admin'})
 user.roles << admin_role if not user.roles.include?(admin_role)

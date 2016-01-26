@@ -1,7 +1,13 @@
 class PeopleController < ApplicationController
-  before_action :set_person, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
-  before_action :authorize_person
+  before_action :set_person, only: [:show, :edit, :update, :destroy, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
+  before_action :authenticate_user!, except: [:confirm_email_change]
+  before_action :init
+
+  def init
+    @errors = []
+    authorize_person
+  end
+
   # GET /people
   # GET /people.json
   def index
@@ -121,7 +127,6 @@ class PeopleController < ApplicationController
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { head :no_content }
       else
-        flash[:alert] = errors
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
@@ -136,6 +141,47 @@ class PeopleController < ApplicationController
       format.html { redirect_to people_url }
       format.json { head :no_content }
     end
+  end
+
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
+  def send_confirmation_email
+    if not @person.user.nil? and @person.user.has_pending_email_change?
+      @person.user.send_confirmation_email
+    end
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
+  def cancel_pending_email_change
+    if not @person.user.nil?
+      @person.user.cancel_pending_email_change
+      @person.save
+    end
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
+  # This page does not require authentication
+  def confirm_email_change
+    if not @person.user.nil? and @person.user.has_pending_email_change?
+      if params[:confirmation_token] != @person.user.reset_email_token
+        render 'users/email/invalid_token'
+        return
+      end
+      @person.user.confirm_email_change
+      if @person.user.save
+        @person.email = @person.user.email
+        @person.save
+      end
+      if not @person.valid? or not @person.user.valid?
+        @errors = []
+        @errors += @person.errors.full_messages
+        @errors += @person.user.errors.full_messages
+      end
+      render 'users/email/confirm_email_change'
+      return
+    end
+  else
+    render 'users/email/invalid_token'
   end
 
   private
@@ -167,14 +213,22 @@ class PeopleController < ApplicationController
         end
         if params[:create_user] == 'yes'
           if params[:person][:email].blank?
-            @person.errors.add(:email, 'is required when the person is also allowed to login')
+            @person.add_custom_error(:email, 'is required when the person is also allowed to login')
+            # If email is blank, we will have a harsher error if we try to create a new user later
+            raise ActiveRecord::Rollback
           elsif not params[:person][:email] =~ Devise.email_regexp
-            @person.errors.add(:email, 'is not valid')
+            @person.add_custom_error(:email, 'is not valid')
           end
           if not @person.user
-            @person.user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            new_user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
+            new_user.confirm_email_change
+            if new_user.valid?
+              @person.user = new_user
+            else
+              errors += new_user.errors.full_messages
+            end
           else
-            # We don't need to make sure the users email is always in-sync with the persons email
+            # We need to make sure the users email is always in-sync with the persons email
             # ideally we'd just store this in one place but devise requires email to be in the
             # users table.  We might also at one point want to allows users to have a different
             # email that they use for being a pantry guest and a pantry user
@@ -191,6 +245,10 @@ class PeopleController < ApplicationController
           end
         end
         @person.update(person_params)
+        if not @person.user.nil? and @person.user.should_send_confirmation_email?
+          @person.user.send_confirmation_email
+        end
+
         # We need to raise a rollback exception if we don't validate
         # It will get caught by the broader Exception rescue and then get re-escalated
         # which may seem redunant, and it is, but we still need the broader Exception

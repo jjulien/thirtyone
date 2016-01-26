@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027001604) do
+ActiveRecord::Schema.define(version: 20151110010534) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "line1",      limit: 255
@@ -165,6 +165,9 @@ ActiveRecord::Schema.define(version: 20151027001604) do
     t.string   "current_sign_in_ip",     limit: 255
     t.string   "last_sign_in_ip",        limit: 255
     t.integer  "person_id"
+    t.string   "reset_email_token"
+    t.datetime "reset_email_token_sent_at"
+    t.string   "pending_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

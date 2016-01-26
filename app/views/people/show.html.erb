@@ -29,7 +29,7 @@
       <div class="small-12 columns">
         <p>
           <strong>Email</strong><br/>
-          <%= @person.email %>
+          <%= @person.email %><% if @person.has_pending_email_change? %><i> (Pending change to: <%= @person.user.pending_email %>)</i><% end %>
         </p>
       </div>
       <% if @person.user %>

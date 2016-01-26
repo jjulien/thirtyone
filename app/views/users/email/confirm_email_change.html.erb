@@ -1,0 +1,32 @@
+<div class="row">
+  <% if @errors.any? %>
+      <div class="small-12 columns red-text center-block" style="margin-top:20px;">
+        <div id="error_explanation" class="center-block" style="margin-left:auto;  margin-right:auto;">
+          <h2>The following error(s) occured trying to confirm your email change:</h2>
+          <ul>
+            <% if @errors.any? %>
+                <% if @errors %>
+                    <% @errors.each do |msg| %>
+                        <li><%= msg %></li>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <li>Unknown</li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <div class="small-12 columns text-center">
+        <p>You should login with your old email and resolve the problem(s) mentioned above.</p>
+        <% if (user_signed_in?) %>
+            <%= link_to "Start Serving", people_path, class: "button" %>
+        <% else %>
+            <%= link_to "Login", new_user_session_path, class: "button" %>
+        <% end %>
+      </div>
+  <% else %>
+    <div class="small-12 columns text-center green-text">
+        <h1 class="green-text">Your email change has been confirmed!</h1>
+    </div>
+      <% end %>
+</div>
