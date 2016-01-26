@@ -1,0 +1,18 @@
+require 'rails_helper'
+
+describe Household do
+
+  it 'has a valid factory' do
+    expect(build(:household)).to be_valid
+  end
+
+  it 'has a valid factory with household members' do
+    expect(build(:household_with_people)).to be_valid
+  end
+
+  it 'has the expected number of people in it' do
+    household = build(:household_with_people, people_count: 4)
+    expect(household.members.size).to eq(4)
+  end
+
+end

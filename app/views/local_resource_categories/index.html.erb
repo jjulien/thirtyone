@@ -1,0 +1,30 @@
+<div style="margin-top:20px;" class="row">
+  <div class="small-12 medium-9 large-8 columns small-centered">
+    <p id="notice"><%= notice %></p>
+
+    <h1>Listing Local Resource Categories</h1>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th colspan="2"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @local_resource_categories.each do |local_resource_category| %>
+          <tr>
+            <td><%= local_resource_category.name %></td>
+            <td><%= link_to('Edit', edit_local_resource_category_path(local_resource_category)) if current_user.has_access?(PERM_ADMIN) %></td>
+            <td><%= link_to('Destroy', local_resource_category, method: :delete, data: {confirm: 'Are you sure?'}) if current_user.has_access?(PERM_ADMIN) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New Local resource category', new_local_resource_category_path %>
+  </div>
+</div>

@@ -15,6 +15,8 @@
 class Address < ActiveRecord::Base
   belongs_to :state
 
+  validates_presence_of :line1, :city, :zip
+
   def city_state_zip
     "#{self.city}, #{self.state.abbv} #{self.zip}"
   end
@@ -22,7 +24,7 @@ class Address < ActiveRecord::Base
   def oneline_summary
     summary = ""
     summary << "#{self.line1}" if self.line1
-    if self.line2
+    unless self.line2.blank?
       if summary
        summary << ', '
       else
@@ -31,7 +33,9 @@ class Address < ActiveRecord::Base
       summary << self.line2
     end
     summary << ", #{self.city_state_zip}"
-    return summary
   end
 
+  def self.most_used_state
+    State.find(Address.group(:state_id).order('count_state_id DESC').limit(1).count(:state_id).keys.first || 1)
+  end
 end

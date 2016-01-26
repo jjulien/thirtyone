@@ -1,25 +1,29 @@
 class CalendarController < ApplicationController
-  
+  before_action :authorize_calendar
+
   def index
-    @month = (params[:month] || (Time.zone || Time).now.month).to_i
-    @year = (params[:year] || (Time.zone || Time).now.year).to_i
+    respond_to do |format|
+      format.html
+      format.json {
+        @work_schedules = WorkSchedule.where(start_at: params[:start]..params[:end])
 
-    @shown_month = Date.civil(@year, @month)
+        @json = []
 
-    @event_strips = WorkSchedule.event_strips_for_month(@shown_month)
-  end
+        @work_schedules.each do |work_schedule|
+          @json << {
+              title: work_schedule.user.person.fullname,
+              start: work_schedule.start_at.iso8601,
+              end: work_schedule.end_at.iso8601,
+              url: url_for(work_schedule)
+          }
+        end
 
-  def day
-    @work_schedules = WorkSchedule.where("start_at >= ? AND start_at < ?",
-                          "#{params[:year]}-#{'%02d' % params[:month]}-#{'%02d' % params[:day]} 00:00:00",
-                          "#{params[:year]}-#{'%02d' % params[:month]}-#{'%02d' % (params[:day].to_i + 1).to_s} 00:00:00")
-    @current_date = "#{'%02d' % params[:month]}/#{'%02d' % params[:day]}/#{params[:year]}"
-    if @work_schedules.length == 0
-      redirect_to new_work_schedule_path(:year => params[:year], :month => params[:month], :day => params[:day])
+        render json: @json
+      }
     end
   end
 
-  def person
-    @work_schedules = WorkSchedule.find_all_by_staff_id(params[:person_id])
+  def authorize_calendar
+    authorize :calendar
   end
 end

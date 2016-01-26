@@ -12,10 +12,14 @@ function updateNewPersonButton(input) {
     }
 }
 
-function updatePersonSearch(input, users_only) {
-    users_only = typeof users_only !== 'undefined'
+function updatePersonSearch(input, users_only, show_new_button) {
+    users_only = typeof users_only !== 'undefined' ? true : false
+    show_new_button = typeof show_new_button !== 'undefined' ? true : false
 
-    updateNewPersonButton(input);
+    if ( show_new_button ) {
+        updateNewPersonButton(input);
+    }
+
     var data = {ajax: true}
 
     if (input.value.length > 0) {

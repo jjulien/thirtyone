@@ -80,6 +80,7 @@ end
 
 # This may look weird, but it neccessary to jump around all the devise validation code.  Without it the user would not save as the email is invalid and the password is too short
 user = User.find_or_initialize_by({email: 'admin'})
+user.confirm_email_change
 user.password = 'admin'
 admin_role = Role.find_by({name: 'Admin'})
 user.roles << admin_role if not user.roles.include?(admin_role)
@@ -87,3 +88,11 @@ if not user.person
   user.person = Person.new({firstname: "Pantry", lastname: "Administrator", email: 'admin'})
 end
 user.save!({validate: false})
+
+local_resource_categories = [{:name => 'Automotive'},
+                             {:name => 'Care Groups'},
+                             {:name => 'Counseling'}]
+
+local_resource_categories.each do |l|
+  LocalResourceCategory.find_or_create_by(l)
+end

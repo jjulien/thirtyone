@@ -5,9 +5,13 @@
           rowclass = 'oddrow '
           rowclass = 'evenrow ' if index % 2 == 0
           rowclass += 'last-element' if index == @people.length - 1
+          # Find people with duplicate fullnames. If there is a duplicate, then the label should have <name> (<address line 1>)
+          # to help differentiate the people.
+          @duplicate_name = @people.select { |p| p.id != person.id && p.fullname == person.fullname }
+          label = @duplicate_name.any? ? "#{person.fullname} (#{person.household.address.line1})" : person.fullname
         %>
             <li class="<%= rowclass %>" onclick="window.location = '<%= url_for person_path(person) %>';">
-              <div><%= person.fullname %></div>
+              <div><%= label %></div>
             </li>
         <% end %>
       </ul>

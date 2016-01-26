@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 gem 'foundation-rails', '~> 5.2.2.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '~> 4'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -12,7 +12,7 @@ gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
-gem 'devise', '~> 3.3.0'
+gem 'devise', '~> 3'
 
 gem 'pundit'
 
@@ -48,7 +48,19 @@ group :development do
   gem 'annotate', ">=2.6.0"
 end
 
-gem 'event-calendar', :require => 'event_calendar'
+group :test do
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'shoulda-matchers', require: false
+end
+
+group :development, :test do
+  gem 'guard-rspec', require: false
+  gem 'rspec-rails'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'quiet_assets'
+end
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -66,4 +78,6 @@ gem 'bundler', '>= 1.7.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider'
+  gem 'rails-assets-fullcalendar'
+  gem 'rails-assets-jquery.inputmask', '~> 3.1.63'
 end

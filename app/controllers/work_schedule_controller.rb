@@ -1,4 +1,6 @@
 class WorkScheduleController < ApplicationController
+  before_action :authorize_work_schedule
+
   @@date_format = '%Y-%m-%d'
   @@datetime_format = @@date_format +' %H:%M:%S %:z'
 
@@ -13,7 +15,7 @@ class WorkScheduleController < ApplicationController
     @work_schedule.start_at = Time.now.change(hour: 8, min: 0)
     @work_schedule.end_at = Time.now.change(hour: 16, min: 0)
 
-    @users = User.all
+    @users = User.where.not(person: nil)
   end
 
   def update
@@ -37,7 +39,10 @@ class WorkScheduleController < ApplicationController
   def destroy
     @work_schedule = WorkSchedule.all
     @work_schedule.destroy(params[:id])
-    redirect_to action: 'index'
+    respond_to do |format|
+      format.html { redirect_to calendar_index_url }
+      format.json { head :no_content }
+    end
   end
 
   def create
@@ -59,7 +64,7 @@ class WorkScheduleController < ApplicationController
       @work_schedule.user_id = params[:user_id]
       respond_to do |format|
         if @work_schedule.save
-          format.html { redirect_to action: 'index' }
+          format.html { redirect_to controller: 'calendar', action: 'index' }
         else
           format.html { redirect_to action: 'new', alert: @@staff_invalid_error }
         end
@@ -69,5 +74,9 @@ class WorkScheduleController < ApplicationController
       flash.now[:alert] = @@staff_invalid_error
       render action: 'new'
     end
+  end
+
+  def authorize_work_schedule
+    @work_schedule ? (authorize @work_schedule) : (authorize :work_schedule)
   end
 end

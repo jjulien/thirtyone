@@ -3,7 +3,7 @@
 # Table name: work_schedules
 #
 #  id         :integer          not null, primary key
-#  staff_id   :integer
+#  user_id    :integer
 #  start_at   :datetime
 #  end_at     :datetime
 #  note       :string(255)
@@ -12,6 +12,5 @@
 #
 
 class WorkSchedule < ActiveRecord::Base
-  has_event_calendar
   belongs_to :user, foreign_key: 'user_id', class_name: 'User'
 end
