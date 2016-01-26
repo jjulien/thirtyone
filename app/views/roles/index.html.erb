@@ -20,16 +20,8 @@
                   &nbsp; &nbsp;
                   <%= link_to 'Edit', edit_role_path(role) %>
                   &nbsp; &nbsp;
-                  <%
-                     @role_affects = ''
-                     role.users.each do |user|
-                       @role_affects = @role_affects.blank? ? " #{user.person.fullname}" : "#{@role_affects}, #{user.person.fullname}"
-                     end
-                     if @role_affects.blank? then
-                       @role_affects = ' nobody'
-                     end
-                  %>
-                  <%= link_to 'Destroy', role, method: :delete, data: {confirm: "Are you sure? This affects#{@role_affects}."} %>
+                  <% @role_affects = role.users.size == 1 ? '1 user' : "#{role.users.size} users" %>
+                  <%= link_to 'Destroy', role, method: :delete, data: {confirm: "Are you sure? This affects #{@role_affects}."} %>
               <% end %>
             </td>
           </tr>
