@@ -2,15 +2,6 @@
   <div class="small-12 medium-9 large-8 columns small-centered">
     <h1>Listing roles</h1>
 
-    <div id="editRole" class="reveal-modal" data-reveal></div>
-
-    <script>
-        $('#editRole').foundation('reveal', {
-            close_on_background_click: false,
-            animation: 'none'
-        });
-    </script>
-
     <table>
       <thead>
       <tr>
@@ -30,19 +21,15 @@
                   <%= link_to 'Edit', edit_role_path(role) %>
                   &nbsp; &nbsp;
                   <%
-                     @role_affect_string = ''
+                     @role_affects = ''
                      role.users.each do |user|
-                       if @role_affect_string.blank? then
-                         @role_affect_string = ' '+ user.person.fullname
-                       else
-                         @role_affect_string = @role_affect_string +', '+ user.person.fullname
-                       end
+                       @role_affects = @role_affects.blank? ? " #{user.person.fullname}" : "#{@role_affects}, #{user.person.fullname}"
                      end
-                     if @role_affect_string.blank? then
-                       @role_affect_string = ' nobody'
+                     if @role_affects.blank? then
+                       @role_affects = ' nobody'
                      end
                   %>
-                  <%= link_to 'Destroy', role, method: :delete, data: {confirm: 'Are you sure? This affects'+ @role_affect_string +'.'}, "data-reveal-id" => "MyModal" %>
+                  <%= link_to 'Destroy', role, method: :delete, data: {confirm: "Are you sure? This affects#{@role_affects}."} %>
               <% end %>
             </td>
           </tr>
