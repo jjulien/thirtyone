@@ -33,6 +33,7 @@ Thirtyone::Application.routes.draw do
   resources :households, controller: 'household' do
     collection do
       get :search
+      get :select
     end
   end
 

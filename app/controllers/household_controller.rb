@@ -52,6 +52,15 @@ class HouseholdController < ApplicationController
       #format.json { render action: 'new.json' }
     end
   end
+
+  # Used for selecting a household and associating it with a person
+  def select
+    @households = Household.all
+    if params[:ajax]
+      render partial: 'select'
+    end
+  end
+
   def search
     wild_card_query_fields = %w(people.firstname people.lastname)
     sql_params = []

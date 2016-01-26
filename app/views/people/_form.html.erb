@@ -70,11 +70,12 @@
       <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
         .foundation('reveal',
         'open',
-        {url: '<%= households_path  %>',
+        {url: '<%= select_households_url  %>',
           data: {ajax: true},
           complete: function(xhr, status) {
             $('#selectHouseholdModal')
               .append('<a class=\'close-reveal-modal\'>&#215;</a>');
+
             } });" class="tiny button" >Select or Create Household</button>
       </div>
     <div id="household_div" class="row">
