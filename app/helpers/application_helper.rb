@@ -1,13 +1,14 @@
 module ApplicationHelper
-  # TODO: Deduplicate comments and make them into 'JavaDoc' style comments
   def deduplicate_user(user)
-    # Find users with duplicate fullnames. If there is a duplicate, then the label should have <name> (<email>)
+    # Find users with duplicate fullnames.
+    # If there is a duplicate, then the label should have <name> (<email>)
     # to help differentiate the users.
     is_duplicate?(user.person) ? "#{user.person.fullname} (#{user.email})" : user.person.fullname
   end
 
   def deduplicate_person(person)
-    # Find people with duplicate fullnames. If there is a duplicate, then the label should have <name> (<address line 1>)
+    # Find people with duplicate fullnames.
+    # If there is a duplicate, then the label should have <name> (<address line 1>)
     # to help differentiate the people.
     is_duplicate?(person) ? "#{person.fullname} (#{person.household.address.line1})" : person.fullname
   end
