@@ -13,7 +13,7 @@ class HouseholdController < ApplicationController
     respond_to do |format|
       format.html {
         if params[:ajax]
-          render :partial => 'show'
+          render :partial => 'show', person_select: true
         else
           render 'show'
         end

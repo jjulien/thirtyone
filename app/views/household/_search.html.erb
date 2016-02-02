@@ -11,7 +11,7 @@
       </div>
       <div class="row">
         <div class="large-12 columns">
-          <button type="button" onclick="newHouseholdAjax('<%= new_household_url %>');" class="button tiny">New Household</button>
+          <%= link_to "New Household", {action: "new"}, class: "tiny button" %>
         </div>
       </div>
       <div class="row">
