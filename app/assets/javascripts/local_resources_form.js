@@ -1,4 +1,4 @@
-//= require jquery.inputmask
+///= require jquery.inputmask
 
 $(function () {
     $("input#local_resource_phone").inputmask("(999) 999-9999");
