@@ -30,30 +30,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-    @user.password = Devise.friendly_token.first(8)
-    respond_to do |format|
-      if @user.save
-        @user.send_new_account_instructions
-        format.html {
-          message = ['User was successfully created']
-          if Rails.env.development?
-            link_to_edit_password = edit_password_url(@user, reset_password_token: @user.reset_password_token)
-            message << 'Since you are in the development environment and email is likely not possible,'
-            message << "the link being sent to #{@user.email} for setting their password is:\n"
-            message << view_context.link_to(link_to_edit_password, link_to_edit_password)
-            message << ''
-            message << 'You will need to logout before you can use this link to set the users password'
-          end
-          flash[:notice] = message
-          redirect_to action: 'index'
-        }
-        format.json { render action: 'show', status: :created, location: @user }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    # Wiped this method because user management is being handled through the person controller
   end
 
   # PATCH/PUT /users/1

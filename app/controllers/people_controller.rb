@@ -106,6 +106,9 @@ class PeopleController < ApplicationController
     @errors = update_person
     respond_to do |format|
       if @person.valid? and @errors.empty?
+        unless @person.user.nil?
+          @person.user.send_new_account_instructions
+        end
         search_keys = JSON.generate([@person.firstname, @person.lastname])
         format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
