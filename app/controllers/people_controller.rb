@@ -110,7 +110,7 @@ class PeopleController < ApplicationController
           @person.user.send_new_account_instructions
         end
         search_keys = JSON.generate([@person.firstname, @person.lastname])
-        format.html { redirect_to @person, notice: 'Person was successfully updated.'}
+        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @person }
       else
         format.html { render action: 'new' }
