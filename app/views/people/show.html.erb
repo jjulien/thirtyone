@@ -1,3 +1,4 @@
+<br />
 <div class="row">
   <div class="large-8 radius large-centered columns grey">
     <div class="row title dark-grey">
@@ -23,7 +24,11 @@
       <div class="small-12 columns">
         <p>
           <strong>Phone</strong><br/>
-          <%= @person.phone %>
+          <% if @person.phone %>
+            <%= @person.phone %>
+          <% else %>
+            <i>No phone on file</i>
+          <% end %>
         </p>
       </div>
       <div class="small-12 columns">
