@@ -82,6 +82,9 @@ class PeopleController < ApplicationController
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
+    if params[:household_id]
+      @person.household = Household.find(params[:household_id])
+    end
     @roles = Role.all
     @selected_roles = [Role.default_role]
   end
@@ -106,9 +109,13 @@ class PeopleController < ApplicationController
     @errors = update_person
     respond_to do |format|
       if @person.valid? and @errors.empty?
-        search_keys = JSON.generate([@person.firstname, @person.lastname])
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
-        format.json { render action: 'show', status: :created, location: @person }
+        if params[:redirect_to_url]
+          format.html {redirect_to params[:redirect_to_url]}
+        else
+          search_keys = JSON.generate([@person.firstname, @person.lastname])
+          format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+          format.json { render action: 'show', status: :created, location: @person }
+        end
       else
         format.html { render action: 'new' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
@@ -183,6 +190,13 @@ class PeopleController < ApplicationController
   else
     render 'users/email/invalid_token'
   end
+
+  def redirect_to_url
+    if params[:redirect_to_url]
+      return params[:redirect_to_url]
+    end
+  end
+  helper_method :redirect_to_url
 
   private
 

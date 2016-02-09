@@ -3,3 +3,18 @@
         <%= render 'edit' %>
   </div>
 </div>
+<div class="row">
+  <div class="large-8 small-12 columns small-centered">
+    <h3>Members</h3>
+    <ul>
+    <% @household.members.each do |member| %>
+      <li><%= member.fullname %></li>
+    <% end %>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="large-8 columns small-12 columns small-centered">
+    <%= link_to("New Person", new_person_path(:household_id => @household.id, :redirect_to_url => edit_household_path(@household)), :class => 'button tiny') %>
+  </div>
+</div>

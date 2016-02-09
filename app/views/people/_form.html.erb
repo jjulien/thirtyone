@@ -104,6 +104,10 @@
                 <% end %>
           </div>
   </div>
+    <% if redirect_to_url %>
+        <input type="hidden" name="redirect_to_url" value="<%= redirect_to_url %>" />
+    <% end %>
+
   <div class="field">
     <%= f.submit class: 'button' %>
   </div>
