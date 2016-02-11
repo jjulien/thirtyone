@@ -7,7 +7,7 @@
         rowclass += 'last-element' if index == @households.length - 1
       %>
 
-      <li onclick="selectHousehold(this, '<%= household_url(household) %>');" class="<%= rowclass %>">
+      <li onclick="App.Household.selectHousehold(this, '<%= household_url(household) %>');" class="<%= rowclass %>">
           <div><%= household.summary %></div>
           <input type="hidden" name="household_summary" value="<%= household.summary %>" />
           <input type="hidden" name="household_id" value="<%= household.id %>" />
