@@ -1,6 +1,6 @@
-<%= form_for(@person) do |f| %>
-  <% if @person.errors.any? or @errors.any? %>
-    <div id="error_explanation">
+<%= form_for(@person, :html => {:name => 'new_person'}) do |f| %>
+    <% if @person.errors.any? or @errors.any? %>
+        <div id="error_explanation">
       <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
 
       <ul>
@@ -17,13 +17,15 @@
   <% end %>
   <div class="field">
     <label for="person_firstname">First Name</label>
-    <%= f.text_field :firstname %>
+    <%= f.text_field :firstname, :required => true %>
   </div>
   <div class="field">
     <label for="person_lastname">Last Name</label>
-    <%= f.text_field :lastname %>
+    <%= f.text_field :lastname, :required => true %>
   </div>
   <div class="field">
+      <%= f.label :email %>
+      <%= f.email_field :email, :required => true %>
     <%= f.label :email %>
     <% if @person.has_pending_email_change? %>
         <% if @person.user.pending_email_valid? %>
@@ -58,7 +60,6 @@
     <%= f.text_field :phone %>
   </div>
   <h3>Household</h3>
-
   <div id="selectHouseholdModal" class="reveal-modal" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
   </div>
@@ -131,6 +132,36 @@
             }
         });
     });
+
+    var validator = new FormValidator('new_person', [{
+	    name: 'person[firstname]',
+	    display: 'First Name',
+	    rules: 'required'
+	}, {
+	    name: 'person[lastname]',
+	    display: 'Last Name',
+	    rules: 'required'
+	}, {
+	    name: 'person[email]',
+	    display: 'Email Address',
+	    rules: 'valid_email'
+	}], function(errors, event) {
+	    if (errors.length > 0) {
+	        event.preventDefault();
+	        var errorString = '';
+
+	        for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
+	            errorString += errors[i].message + '<br />';
+	            var thisInput = $('input[name="' + errors[i].name + '"]')
+	            var thisId = $(thisInput).attr('id');
+	            $(thisInput).addClass('error');
+	            $('label[for="' + thisId + '"]').addClass('error');
+	        }
+
+			$('#new_person').prepend('<div class="alert-box alert">' + errorString + '</div>');
+	    }
+	});
+
 
     <% if not @person.id.nil? %>
 
