@@ -22,5 +22,5 @@
 //= require app.visits
 //= require inventory_items
 //= require app.work_schedule.js
-//= require calendar
+//= require app.calendar.js
 //= require validate.min
