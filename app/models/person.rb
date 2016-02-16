@@ -30,7 +30,7 @@ class Person < ActiveRecord::Base
   end
 
   def formal_name
-    fn = lastname if lastname
+    fn = lastname || ''
     fn += ', ' if fn and firstname and fn.length > 0 and firstname.length > 0
     fn += firstname if firstname and firstname.length > 0
     fn
@@ -44,17 +44,13 @@ class Person < ActiveRecord::Base
     #  Do not set email if user has a pending email change.  The
     #  confirm_email_change on the people controller will set the email
     #  after the change has been confirmed for the user
-    if user.nil? or not user.has_pending_email_change?
-        self[:email] = new_email
+    unless user.nil? || user.has_pending_email_change?
+      self[:email] = new_email
     end
   end
 
   def has_pending_email_change?
-    if not user.nil?
-      user.has_pending_email_change?
-    else
-      false
-    end
+    user.nil? ? false : user.has_pending_email_change?
   end
 
   def add_custom_error(attribute, message)
@@ -65,7 +61,7 @@ class Person < ActiveRecord::Base
   end
 
   def custom_validate
-    if not @custom_errors.nil?
+    unless @custom_errors.nil?
       @custom_errors.each do |k, v|
         errors.add(k.to_sym, v)
       end
