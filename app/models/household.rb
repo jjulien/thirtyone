@@ -11,7 +11,7 @@
 #
 
 class Household < ActiveRecord::Base
-  has_one :person
+  belongs_to :person
   belongs_to :address
   alias_method :head, :person
   has_many :members, class_name: 'Person', foreign_key: 'household_id'
@@ -20,7 +20,6 @@ class Household < ActiveRecord::Base
   def summary
     s = "#{person.formal_name}"
     s << " - #{self.address.oneline_summary}" if self.address
-    return s
   end
 
   def name
