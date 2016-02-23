@@ -24,8 +24,6 @@
     <%= f.text_field :lastname, :required => true %>
   </div>
   <div class="field">
-      <%= f.label :email %>
-      <%= f.email_field :email, :required => true %>
     <%= f.label :email %>
     <% if @person.has_pending_email_change? %>
         <% if @person.user.pending_email_valid? %>
@@ -134,33 +132,35 @@
     });
 
     var validator = new FormValidator('new_person', [{
-	    name: 'person[firstname]',
-	    display: 'First Name',
-	    rules: 'required'
-	}, {
-	    name: 'person[lastname]',
-	    display: 'Last Name',
-	    rules: 'required'
-	}, {
-	    name: 'person[email]',
-	    display: 'Email Address',
-	    rules: 'valid_email'
-	}], function(errors, event) {
-	    if (errors.length > 0) {
-	        event.preventDefault();
-	        var errorString = '';
+        name: 'person[firstname]',
+        display: 'First Name',
+        rules: 'required'
+    }, {
+        name: 'person[lastname]',
+        display: 'Last Name',
+        rules: 'required'
+    }, {
+        name: 'person[email]',
+        display: 'Email Address',
+        rules: 'valid_email'
+    }], function(errors, event) {
+        if (errors.length > 0) {
+            event.preventDefault();
+            var errorString = '';
 
-	        for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
-	            errorString += errors[i].message + '<br />';
-	            var thisInput = $('input[name="' + errors[i].name + '"]')
-	            var thisId = $(thisInput).attr('id');
-	            $(thisInput).addClass('error');
-	            $('label[for="' + thisId + '"]').addClass('error');
-	        }
-
-			$('#new_person').prepend('<div class="alert-box alert">' + errorString + '</div>');
-	    }
-	});
+            for (var i = 0, errorLength = errors.length; i < errorLength; i++) {
+                errorString += errors[i].message + '<br />';
+                var thisInput = $('input[name="' + errors[i].name + '"]')
+                var thisId = $(thisInput).attr('id');
+                $(thisInput).addClass('error');
+                $('label[for="' + thisId + '"]').addClass('error');
+            }
+          $('#new_person').prepend('<div class="alert-box alert" id="new_person_box">' + errorString + '</div>');
+          $('html, body').animate({
+            scrollTop: $('#new_person_box').offset().top
+          }, 1000);
+        }
+    });
 
 
     <% if not @person.id.nil? %>

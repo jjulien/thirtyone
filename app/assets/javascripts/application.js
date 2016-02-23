@@ -23,3 +23,4 @@
 //= require inventory_items
 //= require work_schedule_form
 //= require calendar
+//= require validate.min
