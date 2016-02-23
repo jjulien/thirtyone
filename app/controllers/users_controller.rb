@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  # GET /user
+  # GET /user.json
   before_action :set_user, only: [:edit, :update]
 
   # GET /user
@@ -17,6 +19,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
+  end
     # TODO: Check this if else logic and non-happy path
     if @user.update(user_params)
       conditionally_notify_email
