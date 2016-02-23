@@ -28,7 +28,7 @@ Thirtyone::Application.routes.draw do
 
   root  'static_pages#index'
 
-  resources :user, as: "users", controller: "users", via: :all
+  resources :user, controller: 'users', only: [:index, :edit, :update]
   resources :role, as: "roles", controller: "roles", via: :all
 
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_new', via: :get
