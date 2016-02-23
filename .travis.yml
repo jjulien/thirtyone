@@ -2,8 +2,6 @@ language: ruby
 rvm:
  - "2.2.0"
  - "2.3.0"
-# uncomment this line if your project needs to run something other than `rake`:
-# script: bundle exec rspec specru
 
 before_script:
  # Migrate and seed the database
