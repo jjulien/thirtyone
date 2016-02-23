@@ -139,10 +139,6 @@
     name: 'person[lastname]',
     display: 'Last Name',
     rules: 'required'
-  }, {
-    name: 'person[email]',
-    display: 'Email Address',
-    rules: 'valid_email'
   }], function(errors, event) {
     if (errors.length > 0) {
       event.preventDefault();
