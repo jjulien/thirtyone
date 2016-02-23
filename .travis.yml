@@ -6,6 +6,6 @@ rvm:
 # uncomment this line if your project needs to run something other than `rake`:
 # script: bundle exec rspec specru
 
-before_install:
+before_script:
  # Migrate and seed the database
  - rake db:setup
