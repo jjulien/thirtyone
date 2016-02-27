@@ -1,5 +1,19 @@
 <%= fields_for @household do |h| %>
 
+    <% if @household.errors.any? %>
+        <div class="small-12 columns">
+          <div id="error_explanation">
+            <h2><%= pluralize(@household.errors.count, "error") %> prohibited this household from being saved:</h2>
+
+            <ul>
+              <% @household.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+    <% end %>
+
       <div class="small-12 columns">
         <label for="household_name">Household Name</label>
         <input disabled="disabled" type="text" id="household_summary" value="" />
