@@ -81,4 +81,5 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider'
   gem 'rails-assets-fullcalendar'
   gem 'rails-assets-jquery.inputmask', '~> 3.1.63'
+  gem 'rails-assets-validatejs'
 end
