@@ -1,6 +1,10 @@
+<%= form_for(@household) do |form| %>
+
+
 <div style="margin-top:20px;" class="row">
   <div class="small-12 medium-8 large-8 columns small-centered">
-        <%= render 'edit' %>
+    <%= render :partial => 'household/new', :locals => {:f => form} %>
+        <%# render 'edit' %>
   </div>
 </div>
 <div class="row">
@@ -10,7 +14,12 @@
   </div>
 </div>
 <div class="row">
+  <div class="large-8 columns small-12 small-centered">
+    <%= form.submit %>
+  </div>
   <div class="large-8 columns small-12 columns small-centered">
     <%= link_to("New Person", new_person_path(:household_id => @household.id, :redirect_to_url => edit_household_path(@household)), :class => 'button tiny') %>
   </div>
 </div>
+
+<% end %>

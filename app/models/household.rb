@@ -15,6 +15,7 @@ class Household < ActiveRecord::Base
   belongs_to :address
   alias_method :head, :person
   has_many :members, class_name: 'Person', foreign_key: 'household_id'
+  accepts_nested_attributes_for :address
   validates_associated :address
 
   def summary

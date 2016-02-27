@@ -1,5 +1,6 @@
 require 'uri'
 class HouseholdController < ApplicationController
+  before_action :set_household, only: [:show, :edit, :update, :destroy]
 
   def index
     @households = Household.all
@@ -34,8 +35,6 @@ class HouseholdController < ApplicationController
   end
 
   def show
-    @household = Household.find(params[:id])
-    @all_states = State.all
     respond_to do |format|
       format.html {
         if params[:ajax]
@@ -49,8 +48,6 @@ class HouseholdController < ApplicationController
   end
 
   def edit
-    @household = Household.find(params[:id])
-    @all_states = State.all
     respond_to do |format|
       format.html {
         if params[:ajax]
@@ -59,6 +56,13 @@ class HouseholdController < ApplicationController
           render 'edit'
         end
       }
+    end
+  end
+
+  def update
+    @household.address.update(address_params)
+    respond_to do |format|
+      format.html { redirect_to @household, notice: 'Household was successfully updated.' }
     end
   end
 
@@ -125,6 +129,16 @@ class HouseholdController < ApplicationController
   end
 
   private
+
+  def set_household
+    @household = Household.find(params[:id])
+    @all_states = State.all
+  end
+
+  def household_params
+    params.require(:household).permit(:address)
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def address_params
     params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
