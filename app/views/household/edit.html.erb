@@ -14,11 +14,9 @@
   </div>
 </div>
 <div class="row">
-  <div class="large-8 columns small-12 small-centered">
-    <%= form.submit %>
-  </div>
-  <div class="large-8 columns small-12 columns small-centered">
-    <%= link_to("New Person", new_person_path(:household_id => @household.id, :redirect_to_url => edit_household_path(@household)), :class => 'button tiny') %>
+  <div class="large-8 columns small-12 small-centered clearfix">
+    <%= form.submit 'Save', :class => 'medium button left' %>
+    <%= link_to("New Person", new_person_path(:household_id => @household.id, :redirect_to_url => edit_household_path(@household)), :class => 'button medium right') %>
   </div>
 </div>
 
