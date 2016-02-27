@@ -12,11 +12,7 @@
   <% end %>
 
   <div class="field">
-    <label for="user_name">Name</label>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <label for="user_email">Email</label>
+    <%= f.label :email %>
     <%= f.text_field :email %>
   </div>
     <div class="field">
@@ -29,18 +25,6 @@
     </div>
   <div class="actions">
     <div class="left">
-        <%= f.submit 'Save', :class => 'button tiny' %>
-        <button type="button" class="button medium" onclick="window.location='<%= @back_url %>';">Cancel</button>
+        <%= f.submit 'Update User', :class => 'button tiny' %>
     </div>
-
-    <% end %>
-<% if @user.id? %>
-    <div class="right">
-      <%= button_to "Delete", {:controller => :users,
-                               :action => 'destroy', :id => @user.id },
-                    :method => :delete,
-                    :class => "button medium",
-                    :onclick => "return confirm('Are you sure you want to delete this user?');" %>
-    </div>
-  </div>
 <% end %>
