@@ -104,10 +104,10 @@ if Rails.env == 'development'
   disciple_household.save!
   disciple_address.save!
 
-  matthew_disciple = Person.new({firstname: 'Matthew', lastname: 'Disciple', email: 'matthew@disciple.org'})
+  matthew_disciple = Person.new({firstname: 'Matthew', lastname: 'Disciple', email: 'matthew@example.com'})
   matthew_disciple.household = disciple_household
 
-  matthew_disciple.user = User.new(password: 'JesusRocks', email: 'matthew@disciple.org')
+  matthew_disciple.user = User.new(password: 'JesusRocks', email: 'matthew@example.com')
   matthew_disciple.user.roles = Role.find_by_permissions(PERM_RO_USER)
   matthew_disciple.user.save!
 
