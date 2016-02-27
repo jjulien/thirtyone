@@ -60,6 +60,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'quiet_assets'
+  gem 'rubocop', '~> 0.37.2', require: false
 end
 
 # Use ActiveModel has_secure_password
