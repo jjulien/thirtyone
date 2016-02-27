@@ -68,6 +68,7 @@ App.Household.newHouseholdAjax = function(url) {
       $('#selectHouseholdModal').foundation('reveal', 'close');
       $('#household_div').html(data);
       $('#select_household_message').hide();
+      $("input#address_zip").inputmask("99999");
     });
 };
 
