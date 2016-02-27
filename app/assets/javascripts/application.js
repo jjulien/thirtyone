@@ -21,6 +21,6 @@
 //= require app.local_resources
 //= require app.visits
 //= require inventory_items
-//= require work_schedule_form
+//= require app.work_schedule.js
 //= require calendar
 //= require validate.min

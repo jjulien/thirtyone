@@ -2,23 +2,29 @@
 //= require jquery
 //= require jquery-ui
 
-var labelField = "#user";
-var idField = "#user_id";
+App.WorkSchedule = {};
 
-var setFields = function (label, value) {
-    $(labelField).val(label);
-    $(idField).val(value);
+App.WorkSchedule.labelField = "#user";
+App.WorkSchedule.idField = "#user_id";
+
+App.WorkSchedule.setFields = function (label, value) {
+    $(App.WorkSchedule.labelField).val(label);
+    $(App.WorkSchedule.idField).val(value);
 };
 
 $(function () {
-    $(labelField).autocomplete({
+    if (!($("body.work_schedule").length > 0)) {
+        return;
+    }
+
+    $(App.WorkSchedule.labelField).autocomplete({
         source: window.availableTags,
         select: function (event, ui) {
-            setFields(ui.item.label, ui.item.value);
+            App.WorkSchedule.setFields(ui.item.label, ui.item.value);
             return false;
         },
         focus: function (event, ui) {
-            setFields(ui.item.label, ui.item.value);
+            App.WorkSchedule.setFields(ui.item.label, ui.item.value);
             return false;
         },
         change: function (event, ui) {
@@ -26,16 +32,16 @@ $(function () {
             $.each(window.availableTags, function (index, item) {
                 // Don't use $(this) here instead of the field because $(this) is undefined,
                 // presumably due to the imminent context switch.
-                if (item.label && $(labelField).val() && item.label.toLowerCase() === $(labelField).val().toLowerCase()) {
+                if (item.label && $(App.WorkSchedule.labelField).val() && item.label.toLowerCase() === $(App.WorkSchedule.labelField).val().toLowerCase()) {
                     didSet = true;
-                    $(idField).val(item.value);
+                    $(App.WorkSchedule.idField).val(item.value);
                     return false;
                 }
             });
 
             // Wipe the field if they failed to choose a real one
             if (!didSet) {
-                $(idField).val("");
+                $(App.WorkSchedule.idField).val("");
                 $("#user_error").removeClass("invisible");
             } else {
                 $("#user_error").addClass("invisible");

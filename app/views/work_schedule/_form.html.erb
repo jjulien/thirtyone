@@ -7,7 +7,8 @@
     <% end %>
     ];
     window.start_time = <%= @work_schedule.start_at.hour * 60 + @work_schedule.start_at.min %>;
-    window.end_time = <%= @work_schedule.end_at.hour * 60 + @work_schedule.end_at.min %>;
+    <%# If ending at midnight (which is the 'next' day), then set the slider all the way to the right. Otherwise calculate it like normal. %>
+    window.end_time = <%= @work_schedule.end_at.to_date > @work_schedule.start_at.to_date ? 1440 : @work_schedule.end_at.hour * 60 + @work_schedule.end_at.min %>;
 <% end %>
 
 <%= form_for(@work_schedule) do |f| %>
