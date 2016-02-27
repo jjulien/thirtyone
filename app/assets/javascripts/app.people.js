@@ -55,4 +55,6 @@ $(document).ready(function() {
     return;
   }
   // Anything here will get executed when a page is rendered through the People controller
+
+  $("input#person_phone").inputmask("(999) 999-9999");
 });

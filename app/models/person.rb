@@ -19,6 +19,7 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
+  validates_format_of :phone, :with => /\d{3}-\d{3}-\d{4}/
   validate :custom_validate
 
   def fullname
@@ -67,4 +68,5 @@ class Person < ActiveRecord::Base
       end
     end
   end
+
 end
