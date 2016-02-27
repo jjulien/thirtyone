@@ -2,6 +2,10 @@
 //= require fullcalendar
 
 $(function () {
+    if (!($("body.calendar").length > 0)) {
+        return;
+    }
+
     $('#calendar').fullCalendar({
         events: 'calendar.json',
         header: {
