@@ -21,7 +21,7 @@ App.People.updatePersonSearch = function(input, users_only, show_new_button) {
   show_new_button = typeof show_new_button !== 'undefined';
 
   if ( show_new_button ) {
-    updateNewPersonButton(input);
+    App.People.updateNewPersonButton(input);
   }
 
   var data = {ajax: true};
@@ -48,38 +48,6 @@ App.People.updatePersonSearch = function(input, users_only, show_new_button) {
   request.fail(function (jqXHR, textStatus) {
     alert("Search update failed: " + textStatus);
   });
-};
-
-App.People.editPerson = function(button) {
-  var li = $(button).closest("li");
-  var editting_div = $(li).find(".editting_div");
-  editting_div.show();
-  var edit_button = $(li).find(".edit_button");
-  edit_button.hide();
-  var raw1 = $(li).find(".raw1");
-  raw1.hide();
-  var raw2 = $(li).find(".raw2");
-  raw2.hide();
-  var edit_fields1 = $(li).find(".edit_fields1");
-  edit_fields1.show();
-  var edit_fields2 = $(li).find(".edit_fields2");
-  edit_fields2.show();
-};
-
-App.People.cancelEdit = function(button) {
-  var li = $(button).closest("li");
-  var editting_div = $(li).find(".editting_div");
-  editting_div.hide();
-  var edit_button = $(li).find(".edit_button");
-  edit_button.show();
-  var raw1 = $(li).find(".raw1");
-  raw1.show();
-  var raw2 = $(li).find(".raw2");
-  raw2.show();
-  var edit_fields1 = $(li).find(".edit_fields1");
-  edit_fields1.hide();
-  var edit_fields2 = $(li).find(".edit_fields2");
-  edit_fields2.hide();
 };
 
 $(document).ready(function() {
