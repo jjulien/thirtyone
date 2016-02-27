@@ -144,6 +144,7 @@ class HouseholdController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def address_params
     params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
+  end
 
   def authorize_household
     @household ? (authorize @household) : (authorize :household)
