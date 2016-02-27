@@ -69,7 +69,7 @@ class HouseholdController < ApplicationController
   def new
     @household = Household.new
     @household.address = Address.new
-    @household.address.state = State.first
+    @household.address.state = State.most_used_state
     @all_states = State.all
     respond_to do |format|
       format.html {
