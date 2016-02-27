@@ -14,7 +14,13 @@
 //= require jquery_ujs
 //= require foundation
 //= require jquery-ui
-//= require_tree .
-
-
-$(function(){ $(document).foundation(); });
+//= require jquery.inputmask
+//= require init
+//= require app.household
+//= require app.people
+//= require app.local_resources
+//= require app.visits
+//= require inventory_items
+//= require app.work_schedule.js
+//= require calendar
+//= require validate.min

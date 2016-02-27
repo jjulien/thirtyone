@@ -11,10 +11,10 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
-  <body>
+  <body class="<%= controller_name %> <%= action_name %>">
   <%= if(user_signed_in?)
     render "static_pages/topnav"
-  else 
+  else
     render "static_pages/unauthTopnav"
   end %>
 

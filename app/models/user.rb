@@ -21,7 +21,7 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable,
          :recoverable, :trackable, :validatable
   validate :validate_pending_email
 
@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
   end
 
   def email=(new_email)
-    if email != new_email
+    if email != new_email and not email.blank?
       self[:reset_email_token] = Devise.friendly_token
       self[:reset_email_token_sent_at] = DateTime.now
       self[:pending_email] = new_email

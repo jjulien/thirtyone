@@ -9,7 +9,7 @@
 
       <li
        <% if defined? person_select != nil %>
-        onclick="selectHousehold(this, '<%= household_url(household) %>');"
+        onclick="App.Household.selectHousehold(this, '<%= household_url(household) %>');"
        <% else %>
         onclick="window.location = '<%= url_for household_path(household) %>';"
        <% end %>

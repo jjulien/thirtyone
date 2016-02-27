@@ -109,6 +109,9 @@ class PeopleController < ApplicationController
     @errors = update_person
     respond_to do |format|
       if @person.valid? and @errors.empty?
+        unless @person.user.nil?
+          @person.user.send_new_account_instructions
+        end
         if params[:redirect_to_url]
           format.html {redirect_to params[:redirect_to_url]}
         else
