@@ -96,3 +96,23 @@ local_resource_categories = [{:name => 'Automotive'},
 local_resource_categories.each do |l|
   LocalResourceCategory.find_or_create_by(l)
 end
+
+if Rails.env == 'development'
+  disciple_household = Household.new()
+  disciple_address = Address.new({line1: '1 Pearly Gate Pkwy', line2: 'Apt 1', city: 'Trinity', state: State.find_by_abbreviation('HI'), zip: '77777'})
+  disciple_household.address = disciple_address
+  disciple_household.save!
+  disciple_address.save!
+
+  matthew_disciple = Person.new({firstname: 'Matthew', lastname: 'Disciple', email: 'matthew@disciple.org'})
+  matthew_disciple.household = disciple_household
+
+  matthew_disciple.user = User.new(password: 'JesusRocks', email: 'matthew@disciple.org')
+  matthew_disciple.user.roles = Role.find_by_permissions(PERM_RO_USER)
+  matthew_disciple.user.save!
+
+  matthew_disciple.save!
+
+  disciple_household.person_id = matthew_disciple.id
+  disciple_household.save!
+end
