@@ -21,24 +21,18 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
-    @user.update!(user_params)
+    # TODO: Check this if else logic and non-happy path
+    if @user.update(user_params)
+      conditionally_notify_email
 
-    conditionally_notify_email
+      conditionally_re_login_user
 
-    conditionally_re_login_user
-
-    respond_to do |format|
-      if @user.valid? && @user.errors.empty?
-        # TODO: Why does this notice not show up?
-        format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+      format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
+      format.json { head :no_content }
+    else
+      format.html { render action: 'edit' }
+      format.json { render json: @user.errors, status: :unprocessable_entity }
     end
-
-    # TODO: Rescue errors
   end
     # TODO: Check this if else logic and non-happy path
     if @user.update(user_params)
