@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     conditionally_re_login_user
 
     respond_to do |format|
-      if @user.valid?
+      if @user.valid? && @user.errors.empty?
         # TODO: Why does this notice not show up?
         format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
         format.json { head :no_content }
