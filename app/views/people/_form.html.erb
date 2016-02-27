@@ -186,7 +186,7 @@
       url: '<%= cancel_pending_email_change_url %>',
       method: 'DELETE'
     }).done(function (data, textStatus, jqXHR) {
-      $("#notice_content").html("Pending email change was canceled");
+      $("#notice_content").html("Pending email change was cancelled");
       $("#notice").show().delay(3000).fadeOut(1000);
       $('#person_email').show();
       $('#person_email').removeAttr("disabled");

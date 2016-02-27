@@ -8,5 +8,9 @@ FactoryGirl.define do
     factory :person_without_household do
       household nil
     end
+
+    factory :invalid_person do
+      firstname nil
+    end
   end
 end

@@ -49,7 +49,7 @@ App.Household.selectHousehold = function(row, url) {
   $.ajax({url: url,
     data: {ajax: true}
   }).fail(function( jqXHR, textStatus, errorThrown ) {
-      alert("Sorry, a failure occured");
+      alert("Sorry, a failure occurred");
     })
     .done(function(data, status, xhr) {
       $('#selectHouseholdModal').foundation('reveal', 'close');
@@ -62,12 +62,13 @@ App.Household.newHouseholdAjax = function(url) {
   $.ajax({url: url,
     data: {ajax: true}
   }).fail(function( jqXHR, textStatus, errorThrown ) {
-      alert("Sorry, a failure occured");
+      alert("Sorry, a failure occurred");
     })
     .done(function(data, status, xhr) {
       $('#selectHouseholdModal').foundation('reveal', 'close');
       $('#household_div').html(data);
       $('#select_household_message').hide();
+      $("input#address_zip").inputmask("99999");
     });
 };
 

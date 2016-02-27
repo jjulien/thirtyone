@@ -60,6 +60,7 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'quiet_assets'
+  gem 'rubocop', '~> 0.37.2', require: false
 end
 
 # Use ActiveModel has_secure_password
@@ -80,4 +81,5 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-ionrangeslider'
   gem 'rails-assets-fullcalendar'
   gem 'rails-assets-jquery.inputmask', '~> 3.1.63'
+  gem 'rails-assets-validatejs'
 end
