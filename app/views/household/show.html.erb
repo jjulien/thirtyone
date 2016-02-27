@@ -10,6 +10,6 @@
 </div>
 <div class="row space-above">
   <div class="large-8 small-12 columns small-centered">
-    <%= link_to('Edit', edit_household_path(@household), :class => 'button tiny') if current_user and current_user.has_access?(PERM_RW_PERSON) %>
+    <%= link_to('Edit', edit_household_path(@household), :class => 'button medium') if current_user and current_user.has_access?(PERM_RW_PERSON) %>
   </div>
 </div>

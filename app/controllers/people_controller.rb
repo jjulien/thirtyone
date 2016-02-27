@@ -145,8 +145,12 @@ class PeopleController < ApplicationController
     @household = @person.household
     respond_to do |format|
       if @person.valid? and @errors.empty?
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
-        format.json { head :no_content }
+        if params[:redirect_to_url]
+          format.html {redirect_to params[:redirect_to_url]}
+        else
+          format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
