@@ -227,7 +227,7 @@ class PeopleController < ApplicationController
           household = Household.new
           begin
             household.address = Address.new(address_params)
-            household.address.state = State.find(params[:state][:id])
+            household.address.state = State.find(params[:address][:state_id])
           rescue ActionController::ParameterMissing => e
             # No need to do anything, we just want to catch this error so it doesnt' bubble up
             # the validation of @person will fail since @person.household.address isn't present
