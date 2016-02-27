@@ -1,3 +1,4 @@
+require 'uri'
 class HouseholdController < ApplicationController
 
   def index
@@ -10,17 +11,25 @@ class HouseholdController < ApplicationController
   def create
     @household = Household.new
     @household.address = Address.new(address_params)
-    @household.save
-    if @household.valid? and @household.errors.empty?
-      if params[:redirect_to_url]
-        format.html {redirect_to params[:redirect_to_url]}
+
+    respond_to do |format|
+      if @household.valid? and @household.errors.empty?
+        if params[:redirect_to_url]
+          format.html {redirect_to params[:redirect_to_url]}
+        else
+          household_data = {"address" => {"line1"    => @household.address.line1,
+                                          "line2"    => @household.address.line2,
+                                          "city"     => @household.address.city,
+                                          "state_id" => @household.address.state_id,
+                                          "zip"      => @household.address.zip}}
+
+          format.html { redirect_to "#{new_person_url}?household_data=#{URI.encode(JSON.dump(household_data))}", notice: 'Please complete this form to add a head of household' }
+          format.json { render action: 'show', status: :created, location: @household }
+        end
       else
-        format.html { redirect_to @household, notice: 'Household was successfully updated.' }
-        format.json { render action: 'show', status: :created, location: @household }
+        format.html { render action: 'new' }
+        format.json { render json: @household.errors, status: :unprocessable_entity }
       end
-    else
-      format.html { render action: 'new' }
-      format.json { render json: @household.errors, status: :unprocessable_entity }
     end
   end
 

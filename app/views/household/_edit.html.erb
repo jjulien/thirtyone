@@ -3,7 +3,7 @@
     <div class="field">
       <div class="small-12 columns">
         <label for="household_name">Household Name</label>
-        <input disabled="disabled" type="text" value="<%= @household.name %>" />
+        <input disabled="disabled" type="text" value="<% if not @household.new_record? %><%= @household.name %><% end %>" />
       </div>
       <div class="small-12 columns">
         <%= fields_for :address, @household.address do |a| %>

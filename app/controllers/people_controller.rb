@@ -82,6 +82,17 @@ class PeopleController < ApplicationController
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
+    if params[:household_data]
+      household_data = JSON.load(params[:household_data])
+      address_data = household_data["address"]
+      @new_household.address = Address.new
+      @new_household.address.line1    = address_data["line1"]
+      @new_household.address.line2    = address_data["line2"]
+      @new_household.address.city     = address_data["city"]
+      @new_household.address.zip    = address_data["zip"]
+      @new_household.address.state_id = address_data["state_id"]
+      @person.household = @new_household
+    end
     if params[:household_id]
       @person.household = Household.find(params[:household_id])
     end

@@ -35,6 +35,7 @@ Thirtyone::Application.routes.draw do
       get :search
       get :select
     end
+    resources :addresses
   end
 
   resources :event, as: "events", controller: "event", via: :all

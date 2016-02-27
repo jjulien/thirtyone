@@ -63,7 +63,7 @@
     </div>
 
     <div class="field">
-      <div id="select_household_message" class="field">
+      <div id="select_household_message" class="field <%= 'hide' if @person.household %>">
         You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
       </div>
       <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
@@ -78,9 +78,10 @@
             } });" class="tiny button" >Select or Create Household</button>
       </div>
     <div id="household_div" class="row">
-      <%= if @person.household
+      <%=
+          if @person.household
             @household = @person.household
-            if @household.new_record?
+            if @person.household.new_record?
               render 'household/new'
             else
               render 'household/show'
