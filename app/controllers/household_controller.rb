@@ -7,6 +7,23 @@ class HouseholdController < ApplicationController
     end
   end
 
+  def create
+    @household = Household.new
+    @household.address = Address.new(address_params)
+    @household.save
+    if @household.valid? and @household.errors.empty?
+      if params[:redirect_to_url]
+        format.html {redirect_to params[:redirect_to_url]}
+      else
+        format.html { redirect_to @household, notice: 'Household was successfully updated.' }
+        format.json { render action: 'show', status: :created, location: @household }
+      end
+    else
+      format.html { render action: 'new' }
+      format.json { render json: @household.errors, status: :unprocessable_entity }
+    end
+  end
+
   def show
     @household = Household.find(params[:id])
     @all_states = State.all
@@ -96,5 +113,11 @@ class HouseholdController < ApplicationController
       }
       format.json { render action: 'index.json' }
     end
+  end
+
+  private
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def address_params
+    params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
   end
 end

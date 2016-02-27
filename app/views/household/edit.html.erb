@@ -6,11 +6,7 @@
 <div class="row">
   <div class="large-8 small-12 columns small-centered">
     <h3>Members</h3>
-    <ul>
-    <% @household.members.each do |member| %>
-      <li><%= member.fullname %></li>
-    <% end %>
-    </ul>
+    <p><%= @household.members.map {|person| person.formal_name}.join('; ') %></p>
   </div>
 </div>
 <div class="row">

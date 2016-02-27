@@ -1,1 +1,14 @@
-<%= render 'new' %>
+<div class="row">
+  <div class="large-8 small-12 columns small-centered">
+    <!-- <form class="new_household" id="new_household" method="POST" action="<%= households_path %>"> -->
+    <%= form_for(@household) do |form| %>
+      <%= render :partial => 'household/new', :locals => {:f => form} %>
+
+        <%= form.submit %>
+    <% end %>
+    <!--
+      <input type="submit" class="button" value="Create"/>
+    </form>
+    -->
+  </div>
+</div>
