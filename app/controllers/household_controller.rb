@@ -1,4 +1,6 @@
 class HouseholdController < ApplicationController
+  before_action :authenticate_user!
+  before_action :authorize_household
 
   def index
     @households = Household.all
@@ -87,5 +89,11 @@ class HouseholdController < ApplicationController
       }
       format.json { render action: 'index.json' }
     end
+  end
+
+  private
+
+  def authorize_household
+    @household ? (authorize @household) : (authorize :household)
   end
 end
