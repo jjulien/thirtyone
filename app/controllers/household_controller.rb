@@ -1,7 +1,7 @@
 require 'uri'
 class HouseholdController < ApplicationController
-  before_action :set_household, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_household, only: [:show, :edit, :update, :destroy]
   before_action :authorize_household
 
   def index
