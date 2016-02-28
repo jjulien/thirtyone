@@ -11,4 +11,8 @@
 
 class State < ActiveRecord::Base
   alias_attribute :abbv, :abbreviation
+
+  def self.most_used_state
+    Address.most_used_state
+  end
 end
