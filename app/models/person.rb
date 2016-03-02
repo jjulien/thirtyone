@@ -13,6 +13,7 @@
 #
 
 class Person < ActiveRecord::Base
+  acts_as_paranoid
 #  has_notes
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
