@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: people
+#
+#  id           :integer          not null, primary key
+#  firstname    :string
+#  lastname     :string
+#  phone        :string
+#  created_at   :datetime
+#  updated_at   :datetime
+#  household_id :integer
+#  email        :string
+#
+
 require 'rails_helper'
 
 describe Person do

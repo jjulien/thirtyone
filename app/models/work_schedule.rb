@@ -6,7 +6,7 @@
 #  user_id    :integer
 #  start_at   :datetime
 #  end_at     :datetime
-#  note       :string(255)
+#  note       :string
 #  created_at :datetime
 #  updated_at :datetime
 #

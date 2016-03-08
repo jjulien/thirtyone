@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: roles
+#
+#  id          :integer          not null, primary key
+#  created_at  :datetime
+#  updated_at  :datetime
+#  name        :string
+#  permissions :integer          default(0)
+#
+
 require 'rails_helper'
 
 describe Role do
