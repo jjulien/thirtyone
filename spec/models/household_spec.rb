@@ -27,4 +27,10 @@ describe Household do
     expect(household.members.size).to eq(4)
   end
 
+  it 'should be able to have notes' do
+    household = build(:household)
+    note   = build(:note)
+    household.notes.push(note)
+    expect(household.notes).to include(note)
+  end
 end

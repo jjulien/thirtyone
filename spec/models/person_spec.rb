@@ -37,4 +37,11 @@ describe Person do
     person = build(:person)
     expect(person.formal_name).to eq(person.lastname + ', ' + person.firstname)
   end
+
+  it 'should be able to have notes' do
+    person = build(:person)
+    note   = build(:note)
+    person.notes.push(note)
+    expect(person.notes).to include(note)
+  end
 end
