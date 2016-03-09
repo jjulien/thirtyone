@@ -72,7 +72,7 @@ roles = [{ :name => 'Admin', :permissions => PERM_ADMIN },
          { :name => 'Prayer Warrior', :permissions => PERM_RO_PRAYER_REQUEST | PERM_RW_PRAYER_REQUEST },
          { :name => 'Organizer', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_VISIT | PERM_RW_VISIT },
          { :name => 'Manager', :permissions => PERM_RO_PERSON | PERM_RW_PERSON | PERM_RO_USER | PERM_RW_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE },
-         { :name => 'User', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST }]
+         { :name => 'User', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST }]
 
 roles.each do |r|
   Role.find_or_create_by(r)
@@ -108,7 +108,7 @@ if Rails.env == 'development'
   matthew_disciple.household = disciple_household
 
   matthew_disciple.user = User.new(password: 'JesusRocks', email: 'matthew@example.com')
-  matthew_disciple.user.roles = Role.find_by_permissions(PERM_RO_USER)
+  matthew_disciple.user.roles = [Role.find_by_name('User')]
   matthew_disciple.user.save!
 
   matthew_disciple.save!
