@@ -20,6 +20,7 @@
 
   <div id="notice" class="row" style="display:none;">
     <div id="notice_content" class="large-6 radius large-centered columns alert-box success">
+      <span class="clickable close-x" onclick="$('#notice').hide();" >X</span>
     <% if notice %>
         <% if notice.is_a?(Array)
              notice.each do |n|%>
@@ -35,14 +36,14 @@
 
     <% if notice %>
      <script type="text/javascript">
-          $("#notice").show().delay(3000).fadeOut(1000);
+          $('#notice').show();
       </script>
     <% end %>
 
     <div id="error" class="row" style="display:none;">
       <div id="error_content" class="large-6 radius large-centered columns alert-box alert">
+        <span class="clickable close-x" onclick="$('#error').hide();" >X</span>
         <% if alert %>
-
           <% if alert.is_a?(Array)
                alert.each do |n|%>
                   <%= n %><br />
@@ -56,7 +57,7 @@
     </div>
     <% if alert %>
       <script type="text/javascript">
-          $("#error").show().delay(3000).fadeOut(1000);
+          $("#error").show();
       </script>
     <% end %>
 
