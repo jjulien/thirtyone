@@ -82,6 +82,20 @@ class PeopleController < ApplicationController
     if params[:search]
       @person.firstname, @person.lastname = params[:search].split(' ', 2)
     end
+    if params[:household_data]
+      household_data = JSON.load(params[:household_data])
+      address_data = household_data["address"]
+      @new_household.address = Address.new
+      @new_household.address.line1    = address_data["line1"]
+      @new_household.address.line2    = address_data["line2"]
+      @new_household.address.city     = address_data["city"]
+      @new_household.address.zip    = address_data["zip"]
+      @new_household.address.state_id = address_data["state_id"]
+      @person.household = @new_household
+    end
+    if params[:household_id]
+      @person.household = Household.find(params[:household_id])
+    end
     @roles = Role.all
     @selected_roles = [Role.default_role]
   end
@@ -109,9 +123,13 @@ class PeopleController < ApplicationController
         unless @person.user.nil?
           @person.user.send_new_account_instructions
         end
-        search_keys = JSON.generate([@person.firstname, @person.lastname])
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
-        format.json { render action: 'show', status: :created, location: @person }
+        if params[:redirect_to_url]
+          format.html {redirect_to params[:redirect_to_url]}
+        else
+          search_keys = JSON.generate([@person.firstname, @person.lastname])
+          format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+          format.json { render action: 'show', status: :created, location: @person }
+        end
       else
         format.html { render action: 'new' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
@@ -127,8 +145,12 @@ class PeopleController < ApplicationController
     @household = @person.household
     respond_to do |format|
       if @person.valid? and @errors.empty?
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
-        format.json { head :no_content }
+        if params[:redirect_to_url]
+          format.html {redirect_to params[:redirect_to_url]}
+        else
+          format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+          format.json { head :no_content }
+        end
       else
         format.html { render action: 'edit' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
@@ -187,6 +209,13 @@ class PeopleController < ApplicationController
     render 'users/email/invalid_token'
   end
 
+  def redirect_to_url
+    if params[:redirect_to_url]
+      return params[:redirect_to_url]
+    end
+  end
+  helper_method :redirect_to_url
+
   private
 
   def update_person
@@ -202,7 +231,7 @@ class PeopleController < ApplicationController
           household = Household.new
           begin
             household.address = Address.new(address_params)
-            household.address.state = State.find(params[:state][:id])
+            household.address.state = State.find(params[:address][:state_id])
           rescue ActionController::ParameterMissing => e
             # No need to do anything, we just want to catch this error so it doesnt' bubble up
             # the validation of @person will fail since @person.household.address isn't present

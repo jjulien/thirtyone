@@ -3,10 +3,10 @@
 # Table name: addresses
 #
 #  id         :integer          not null, primary key
-#  line1      :string(255)
-#  line2      :string(255)
-#  city       :string(255)
-#  zip        :string(255)
+#  line1      :string
+#  line2      :string
+#  city       :string
+#  zip        :string
 #  state_id   :integer
 #  created_at :datetime
 #  updated_at :datetime
@@ -16,6 +16,7 @@ class Address < ActiveRecord::Base
   belongs_to :state
 
   validates_presence_of :line1, :city, :zip
+  validates_format_of :zip, :with => /\d{5}/
 
   def city_state_zip
     "#{self.city}, #{self.state.abbv} #{self.zip}"

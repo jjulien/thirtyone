@@ -5,7 +5,7 @@
 #  id          :integer          not null, primary key
 #  created_at  :datetime
 #  updated_at  :datetime
-#  name        :string(255)
+#  name        :string
 #  permissions :integer          default(0)
 #
 

@@ -72,7 +72,7 @@ roles = [{ :name => 'Admin', :permissions => PERM_ADMIN },
          { :name => 'Prayer Warrior', :permissions => PERM_RO_PRAYER_REQUEST | PERM_RW_PRAYER_REQUEST },
          { :name => 'Organizer', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_VISIT | PERM_RW_VISIT },
          { :name => 'Manager', :permissions => PERM_RO_PERSON | PERM_RW_PERSON | PERM_RO_USER | PERM_RW_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE },
-         { :name => 'User', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST }]
+         { :name => 'User', :permissions => PERM_RO_SCHEDULE | PERM_RW_SCHEDULE | PERM_RO_USER | PERM_RO_RESOURCE | PERM_RW_RESOURCE | PERM_RO_VISIT | PERM_RW_VISIT | PERM_RW_PRAYER_REQUEST }]
 
 roles.each do |r|
   Role.find_or_create_by(r)
@@ -95,4 +95,24 @@ local_resource_categories = [{:name => 'Automotive'},
 
 local_resource_categories.each do |l|
   LocalResourceCategory.find_or_create_by(l)
+end
+
+if Rails.env == 'development'
+  disciple_household = Household.new()
+  disciple_address = Address.new({line1: '1 Pearly Gate Pkwy', line2: 'Apt 1', city: 'Trinity', state: State.find_by_abbreviation('HI'), zip: '77777'})
+  disciple_household.address = disciple_address
+  disciple_household.save!
+  disciple_address.save!
+
+  matthew_disciple = Person.new({firstname: 'Matthew', lastname: 'Disciple', email: 'matthew@example.com'})
+  matthew_disciple.household = disciple_household
+
+  matthew_disciple.user = User.new(password: 'JesusRocks', email: 'matthew@example.com')
+  matthew_disciple.user.roles = [Role.find_by_name('User')]
+  matthew_disciple.user.save!
+
+  matthew_disciple.save!
+
+  disciple_household.person_id = matthew_disciple.id
+  disciple_household.save!
 end
