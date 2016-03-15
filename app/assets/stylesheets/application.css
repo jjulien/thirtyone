@@ -31,14 +31,3 @@ label.required:after {
 .red-text {
     color: #f04124;
 }
-.clickable:hover {
-    cursor: pointer;
-    opacity:.8;
-}
-
-.close-x {
-    position:absolute;
-    top:0px;
-    right:0px;
-    padding: 2px 4px;
-}
