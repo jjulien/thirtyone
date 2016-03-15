@@ -20,7 +20,7 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
-  validates_format_of :phone, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
+  validates_format_of :phone, :allow_nil => true, :allow_blank => true, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
   validate :custom_validate
 
   def fullname
