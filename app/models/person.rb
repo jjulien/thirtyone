@@ -3,16 +3,17 @@
 # Table name: people
 #
 #  id           :integer          not null, primary key
-#  firstname    :string(255)
-#  lastname     :string(255)
-#  phone        :string(255)
+#  firstname    :string
+#  lastname     :string
+#  phone        :string
 #  created_at   :datetime
 #  updated_at   :datetime
 #  household_id :integer
-#  email        :string(255)
+#  email        :string
 #
 
 class Person < ActiveRecord::Base
+  acts_as_paranoid
 #  has_notes
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
