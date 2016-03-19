@@ -40,8 +40,9 @@ class EventController < ApplicationController
   end
 
   def create
+    event = Event.new(event_details)
     respond_to do |format|
-      if Event.create(event_details)
+      if event.save
         format.html { redirect_to action: 'index' }
       else
         format.html { redirect_to action: 'new' }
