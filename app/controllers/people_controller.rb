@@ -19,51 +19,18 @@ class PeopleController < ApplicationController
   # GET /people/search
   # GET /people/search.json
   def search
-
-    rowlimit = params[:rowlimit] || 10
-    if (params[:search])
-      search_keys = JSON.parse(params[:search]).to_a
-      search_keys[0] = '' if search_keys.length == 0
-      firstname_key = (search_keys.first || '') + '%'
-      lastname_key = (search_keys.last || '') + '%'
-
-      sql_conditional = "OR"
-      sql_conditional = "AND" if search_keys.length > 1
-      user_restriction = params[:users_only] == 'true' ? ' AND ( users.id IS NOT NULL )' : ''
-      @people = Person.includes(:user).where("(firstname LIKE ? #{sql_conditional} lastname LIKE ?)#{user_restriction}", firstname_key, lastname_key).references(:users).first(rowlimit.to_i)
-      @new_person = Person.new
-      respond_to do |format|
-        format.html {
-          if params[:ajax]
-            render :partial => 'search_results'
-          else
-            @search_string = ''
-            search_keys.each do |key|
-              @search_string << ' ' if not @search_string.empty?
-              @search_string << key
-            end
-            render :action => 'index'
-          end
-        }
-        format.json { render action: 'index.json' }
-      end
-    else
-      if params[:users_only] == 'true'
-        @people = Person.includes(:user).where.not(users: {id: nil})
-      else
-        @people = Person.all
-      end
-      @new_person = Person.new
-      respond_to do |format|
-        format.html {
-          if params[:ajax]
-            render :partial => 'search_results'
-          else
-            render :action => 'index'
-          end
-        }
-        format.json { render action: 'index.json' }
-      end
+    @people = PeopleSearch.search(params)
+    respond_to do |format|
+      format.html {
+        if params[:ajax]
+          render :partial => 'search_results'
+        else
+          @new_person = Person.new
+          @search_string = params[:search] ? params[:search].join(" ") : ""
+          render :action => 'index'
+        end
+      }
+      format.json { render action: 'index.json' }
     end
   end
 
