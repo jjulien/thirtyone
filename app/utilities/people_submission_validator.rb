@@ -1,5 +1,5 @@
 class PeopleSubmissionValidator
-  attr_reader :params, :errors
+  attr_reader :params, :errors, :is_new_user
   def initialize(params)
     @params = params
     @errors = {}
@@ -9,10 +9,10 @@ class PeopleSubmissionValidator
     household = check_for_household
     household ||= create_new_household
     user = person.user || User.new
+    @is_new_user = user.new_record?
     user = check_create_new_user(user)
     add_person_attributes(person)
     is_invalid?(person)
-
     if errors.empty?
       persist_entry(household, user, person)
     else
@@ -22,7 +22,7 @@ class PeopleSubmissionValidator
 
   def persist_entry(household, user, person)
     save(household)
-    user ? person.user = user : person.user_id = nil
+    person.user = user if user.valid?
     person.household = household
     save(person)
     household.person = person

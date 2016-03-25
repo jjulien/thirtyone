@@ -18,11 +18,11 @@ class PeopleController < ApplicationController
     respond_to do |format|
       format.html {
         if params[:ajax]
-          render :partial => 'search_results'
+          render partial: 'search_results'
         else
           @new_person = Person.new
           @search_string = params[:search] ? params[:search].join(" ") : ""
-          render :action => 'index'
+          render action: 'index'
         end
       }
       format.json { render action: 'index.json' }
@@ -73,13 +73,13 @@ class PeopleController < ApplicationController
   # POST /people.json
   def create
     @person = Person.new
-    create_update_manager
+    manage_create_or_update
   end
 
   # PATCH/PUT /people/1
   # PATCH/PUT /people/1.json
   def update
-    create_update_manager(true)
+    manage_create_or_update(true)
   end
 
   # DELETE /people/1
@@ -167,24 +167,25 @@ class PeopleController < ApplicationController
     @roles = Role.all
   end
 
-  def create_update_manager(update = false)
+  def manage_create_or_update(is_update = false)
     @person ||= Person.new
     psv = PeopleSubmissionValidator.new(params)
 
     respond_to do |format|
       if psv.process(@person)
-        @person.user.send_new_account_instructions unless @person.user.nil? || update
-        url = params[:redirect_to_url] || @person
-        msg = update ? "updated" : "created"
+        @person.user.send_new_account_instructions unless(@person.user.nil? || is_update)
+        url = @person.user if psv.is_new_user
+        url ||= params[:redirect_to_url] || @person
+        msg = is_update ? "updated" : "created"
         format.html { redirect_to url, notice: "Person was successfully #{msg}." }
-        if update
+        if is_update
           format.json { head :no_content }
         else
-          format.json { render action: 'show', status: :created, location: @person }
+          format.json { render action: "show", status: :created, location: @person }
         end
       else
         set_necessary_view_data
-        format.html { render action: update ? 'edit' : 'new' }
+        format.html { render action: is_update ? "edit" : "new" }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
     end

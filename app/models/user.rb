@@ -104,4 +104,8 @@ class User < ActiveRecord::Base
         errors.add(:email, "already exists")
     end
   end
+
+  def name
+    "#{person.firstname} #{person.lastname}"
+  end
 end
