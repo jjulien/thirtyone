@@ -1,6 +1,8 @@
 class PeopleSearch
-  attr_reader :query
-  def initialize
+  attr_reader :query, :query_head
+
+  def initialize(query_head)
+    @query_head = query_head
     @query = "firstname LIKE ?"
   end
 
@@ -10,7 +12,7 @@ class PeopleSearch
   end
 
   def finalize_query(names)
-    @query = Person.includes(:user).where(query, "%#{names.first}%", "%#{names.last}%")
+    @query = query_head.where(query, "#{names.first}%", "#{names.last}%")
   end
 
   def add_user_restriction(arg)
@@ -22,10 +24,20 @@ class PeopleSearch
     add_conditional(search)
     add_user_restriction(params[:users_only])
     finalize_query(search)
-    query.references(:users)
+    limit = params[:rowlimit] || 10
+    query.references(:users).first(limit)
   end
 
-  def self.query(params)
-    new.prepare_query(params)
+  def self.search(params)
+    query = Person.includes(:user)
+    if params[:search]
+      new(query).prepare_query(params)
+    else
+      sub_query(query, params[:users_only])
+    end
+  end
+
+  def self.sub_query(query, only_users)
+    only_users ? query.where.not(users: {id: nil}) : query.all
   end
 end
