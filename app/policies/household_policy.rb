@@ -25,4 +25,8 @@ class HouseholdPolicy < ApplicationPolicy
   def search?
     @user.has_access? PERM_RO_PERSON
   end
+
+  def select?
+    @user.has_access? PERM_RW_PERSON
+  end
 end
