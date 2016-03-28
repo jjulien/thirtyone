@@ -37,6 +37,7 @@ class Address < ActiveRecord::Base
   end
 
   def self.most_used_state
-    State.find(Address.group(:state_id).order('count_state_id DESC').limit(1).count(:state_id).keys.first || 1)
+    state_id = Address.group(:state_id).order('count_state_id DESC').limit(1).count(:state_id).keys.first || 1
+    State.find_by(id: state_id)
   end
 end

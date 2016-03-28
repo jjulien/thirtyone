@@ -23,7 +23,7 @@ class LocalResourcesController < ApplicationController
   # GET /local_resources/1/edit
   def edit
     @state_id = @local_resource.address.state_id
-    @local_resource_categories = @local_resource.local_resource_categories.map {|c| "#{c.id}"}
+    @local_resource_categories = @local_resource.local_resource_categories.map(&:id)
   end
 
   # POST /local_resources
@@ -97,7 +97,8 @@ class LocalResourcesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_local_resource
-      @local_resource = LocalResource.find(params[:id])
+      @local_resource = LocalResource.find_by(id: params[:id])
+      redirect_to local_resources_url unless @local_resource
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
