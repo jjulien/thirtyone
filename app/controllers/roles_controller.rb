@@ -31,8 +31,8 @@ class RolesController < ApplicationController
 
   # POST /roles/bulk
   def bulk_assign_create
-    users = confirm_bulk_assign('users')
-    roles = confirm_bulk_assign('roles')
+    users = confirm_bulk_assign('users', User)
+    roles = confirm_bulk_assign('roles', Role)
 
     if users && roles
       users.each{ |user| user.roles = roles }
@@ -97,12 +97,9 @@ class RolesController < ApplicationController
     @role.permissions = params[:PermGrp].inject(0){ |sum, num| sum + num.to_i } if params[:PermGrp]
   end
 
-  def confirm_bulk_assign(type)
+  def confirm_bulk_assign(type, klass)
     return unless params[type]
-    klass = type.singularize.capitalize
-    result = params[type].map do |id|
-      klass.constantize.find_by(id: id)
-    end
+    result = params[type].map{ |id| klass.find_by(id: id) }
     result.reject!(&:nil?).empty? ? nil : result
   end
 
