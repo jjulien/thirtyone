@@ -111,26 +111,17 @@ class PeopleController < ApplicationController
 
   # This page does not require authentication
   def confirm_email_change
-    if not @person.user.nil? and @person.user.has_pending_email_change?
-      if params[:confirmation_token] != @person.user.reset_email_token
-        render 'users/email/invalid_token'
-        return
+    view_to_render = 'users/email/invalid_token'
+    user = @person.user
+
+    if !user.nil? && user.has_pending_email_change?
+      if params[:confirmation_token] == user.reset_email_token
+        success = user.confirm_email_change
+        @errors = [user.errors.full_messages] unless success
       end
-      @person.user.confirm_email_change
-      if @person.user.save
-        @person.email = @person.user.email
-        @person.save
-      end
-      if not @person.valid? or not @person.user.valid?
-        @errors = []
-        @errors += @person.errors.full_messages
-        @errors += @person.user.errors.full_messages
-      end
-      render 'users/email/confirm_email_change'
-      return
+      view_to_render = 'users/email/confirm_email_change'
     end
-  else
-    render 'users/email/invalid_token'
+    render view_to_render
   end
 
   def redirect_to_url

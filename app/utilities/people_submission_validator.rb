@@ -8,37 +8,42 @@ class PeopleSubmissionValidator
   def process(person)
     household = check_for_household
     household ||= create_new_household
-    user = person.user || User.new
-    @is_new_user = user.new_record?
-    user = check_create_new_user(user)
-    add_person_attributes(person)
+    check_create_new_user(person)
+    add_person_attributes(person, household)
     is_invalid?(person)
     if errors.empty?
-      persist_entry(household, user, person)
+      persist_entry(household, person)
     else
       compute_errors(person)
     end
   end
 
-  def persist_entry(household, user, person)
-    save(household)
-    person.user = user if user.valid?
-    person.household = household
-    save(person)
-    household.person = person
-    save(household)
+  def persist_entry(household, person)
+    begin
+      Person.transaction do
+        save(household)
+        person.household = household
+        save(person)
+        household.update!(person: person) unless household.person
+      end
+      true
+    rescue ActiveRecord::RecordInvalid => exception
+        @errors['validation'] = exception.message
+        false
+    end
   end
 
   def save(obj)
-    obj.save
+    obj.save!
   end
 
   def is_invalid?(obj)
     obj.valid? ? nil : @errors[obj.class.to_s] = obj.errors.full_messages.join(", ")
   end
 
-  def add_person_attributes(person)
+  def add_person_attributes(person, household)
     person_params.each{ |key, val| person[key] = val }
+    person.household = household
   end
 
   def check_for_household
@@ -49,24 +54,28 @@ class PeopleSubmissionValidator
   def create_new_household
     state = State.find_by(id: address_params[:state_id])
     address = Address.new(address_params)
-    return unless (!is_invalid?(address) && state)
+    return if (is_invalid?(address) || state.nil?)
 
     household = Household.new
     household.address = address
     household
   end
 
-  def check_create_new_user(user)
-    return user unless params[:create_user] == "yes"
+  def check_create_new_user(person)
+    unless params[:create_user] == "yes"
+      person.user.destroy if person.user
+      return
+    end
 
     user_email = person_params[:email]
-    if(user_email.blank?)
+    if user_email.blank?
       @errors[:email] = "is required when the person is also allowed to login"
     elsif user_email !~ Devise.email_regexp
       @errors[:email] = "is not valid"
+    else
+      user = person.user || User.new
+      person.user = setup_user(user, user_email)
     end
-
-    setup_user(user, user_email)
   end
 
   def setup_user(user, user_email)
