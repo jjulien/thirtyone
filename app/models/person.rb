@@ -6,11 +6,14 @@
 #  firstname    :string
 #  lastname     :string
 #  phone        :string
+#  phone_ext    :string
 #  created_at   :datetime
 #  updated_at   :datetime
 #  household_id :integer
 #  email        :string
 #
+
+include ActionView::Helpers::NumberHelper
 
 class Person < ActiveRecord::Base
   acts_as_paranoid
@@ -20,7 +23,8 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
-  validates_format_of :phone, :allow_nil => true, :allow_blank => true, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
+  number_to_phone(:phone, area_code: true, extension: :phone_ext) # => (123) 123-1234 x 555
+  #validates_format_of :phone, :allow_nil => true, :allow_blank => true, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
   validate :custom_validate
 
   def fullname
