@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308001940) do
+ActiveRecord::Schema.define(version: 20160405014720) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "line1"
@@ -48,26 +48,18 @@ ActiveRecord::Schema.define(version: 20160308001940) do
     t.datetime "updated_at"
   end
 
-  create_table "inventory_order_items", force: :cascade do |t|
-    t.integer  "orderid"
-    t.integer  "itemid"
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "inventory_orders", force: :cascade do |t|
-    t.integer  "peopleid"
-    t.integer  "enteredby"
-    t.date     "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "inventory_stock_records", force: :cascade do |t|
     t.integer  "itemid"
     t.integer  "quantity"
     t.date     "received"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "inventory_visit_items", force: :cascade do |t|
+    t.integer  "visitid"
+    t.integer  "itemid"
+    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
