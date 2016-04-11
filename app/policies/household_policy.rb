@@ -29,4 +29,9 @@ class HouseholdPolicy < ApplicationPolicy
   def select?
     @user.has_access? PERM_RW_PERSON
   end
+
+  def create?
+    new?
+  end
+  
 end
