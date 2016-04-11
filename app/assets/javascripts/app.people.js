@@ -37,7 +37,7 @@ App.People.updatePersonSearch = function(input, users_only, show_new_button) {
   var request = $.ajax({
     url: "/people/search",
     type: "GET",
-    data: data,
+    data: data,r
     dataType: "html"
   });
 
@@ -56,5 +56,5 @@ $(document).ready(function() {
   }
   // Anything here will get executed when a page is rendered through the People controller
 
-  $("input#person_phone").inputmask("999-999-9999");
+  //$("input#person_phone").inputmask("999-999-9999");
 });
