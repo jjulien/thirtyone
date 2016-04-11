@@ -25,6 +25,7 @@ class PeopleSubmissionValidator
         person.household = household
         save(person)
         household.update!(person: person) unless household.person
+        return true
       end
       true
     rescue ActiveRecord::RecordInvalid => exception
