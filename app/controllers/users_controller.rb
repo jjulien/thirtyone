@@ -64,7 +64,7 @@ class UsersController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = User.find_id(id: params[:id])
+    @user = User.find_by(id: params[:id])
     redirect_to users_url unless @user
   end
 
