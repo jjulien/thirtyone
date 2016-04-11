@@ -78,7 +78,6 @@ ActiveRecord::Schema.define(version: 20160405014720) do
   create_table "local_resources", force: :cascade do |t|
     t.string   "business_name"
     t.string   "phone"
-    t.string   "phone_ext"
     t.string   "email"
     t.string   "url"
     t.integer  "address_id"
@@ -131,7 +130,6 @@ ActiveRecord::Schema.define(version: 20160405014720) do
     t.string   "firstname"
     t.string   "lastname"
     t.string   "phone"
-    t.string   "phone_ext"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "household_id"
