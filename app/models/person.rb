@@ -24,7 +24,6 @@ class Person < ActiveRecord::Base
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
   number_to_phone(:phone, area_code: true, extension: :phone_ext) # => (123) 123-1234 x 555
-  #validates_format_of :phone, :allow_nil => true, :allow_blank => true, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
   validate :custom_validate
 
   def fullname
