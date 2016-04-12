@@ -1,7 +1,7 @@
 require 'uri'
 class HouseholdController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_household, only: [:show, :edit, :update, :destroy]
+  before_action :set_household, only: [:show, :edit, :update, :destroy, :merge_select]
   before_action :authorize_household
 
   def index
@@ -91,6 +91,12 @@ class HouseholdController < ApplicationController
     if params[:ajax]
       render partial: 'select'
     end
+  end
+
+  def merge_select
+    @households = Household.where('id != ?', @household.id).all
+
+    render 'merge', locals: {action: 'merge_household'}
   end
 
   def search

@@ -16,7 +16,11 @@
       </div>
       <div class="row">
         <div class="large-12 columns">
-          <%= render 'search_results' %>
+          <% if defined? action %>
+            <%= render 'search_results', action: action %>
+          <% else %>
+            <%= render 'search_results' %>
+          <% end %>
         </div>
       </div>
     </div>
