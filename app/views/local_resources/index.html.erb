@@ -1,10 +1,9 @@
 <br/>
-<div class="row large-centered">
+<div class="row large-centered space-bottom">
   <div class="large-8 large-centered columns">
     <a class="button tiny" href="<%= new_local_resource_path %>">New Local Resource</a>
   </div>
 </div>
-<br/>
 <% @local_resource_categories.each do |local_resource_category| %>
     <% next if local_resource_category.local_resources.empty? %>
     <div class="row">
