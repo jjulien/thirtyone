@@ -35,7 +35,15 @@ class HouseholdPolicy < ApplicationPolicy
   end
 
   def merge_select?
-    select?
+    edit?
+  end
+
+  def merge_select_fields?
+    merge_select?
+  end
+
+  def merge?
+    merge_select?
   end
 
 end
