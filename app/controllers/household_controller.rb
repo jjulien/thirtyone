@@ -1,7 +1,7 @@
 require 'uri'
 class HouseholdController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_household, only: [:show, :edit, :update, :destroy, :merge_select]
+  before_action :set_household, only: [:show, :edit, :update, :destroy, :merge_select, :merge_select_fields]
   before_action :authorize_household
 
   def index
@@ -97,6 +97,10 @@ class HouseholdController < ApplicationController
     @households = Household.where('id != ?', @household.id).all
 
     render 'merge', locals: {action: 'merge_household'}
+  end
+
+  def merge_select_fields
+    @merge_household = Household.find(params[:merge_id])
   end
 
   def search
