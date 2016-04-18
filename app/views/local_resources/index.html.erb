@@ -5,19 +5,26 @@
   </div>
 </div>
 <%= form_tag search_local_resources_path do %>
-  <div class="row">
-    <div class="large-8 large-centered columns small-12">
-      <input id="search" autocomplete="off" onkeyup="App.Local_Resources.updateLocalResourceSearch(this);"
-             type="text"
-             size="30"
-             name="search[term]"
-             placeholder="Business Name"
-             value="<%= @search_string %>"/>
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-8 large-centered columns small-12">
-      <%= collection_check_boxes :search, :local_resource_categories, LocalResourceCategory.all, :id, :name, {}, {checked: "checked", onchange: "App.Local_Resources.updateLocalResourceSearch(this);"} %>
+  <div class="row space-bottom">
+    <div class="large-8 large-centered columns small=12">
+      <fieldset>
+        <legend>Filter</legend>
+        <div class="row">
+          <div class="small-12 columns">
+            <input id="search" autocomplete="off" onkeyup="App.Local_Resources.updateLocalResourceSearch(this);"
+                   type="text"
+                   size="30"
+                   name="search[term]"
+                   placeholder="Business Name"
+                   value="<%= @search_string %>"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="small-12 columns">
+            <%= collection_check_boxes :search, :local_resource_categories, LocalResourceCategory.all, :id, :name, {}, {checked: "checked", onchange: "App.Local_Resources.updateLocalResourceSearch(this);"} %>
+          </div>
+        </div>
+      </fieldset>
     </div>
   </div>
 <% end %>
