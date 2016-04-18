@@ -17,7 +17,7 @@
   </div>
   <div class="row">
     <div class="large-8 large-centered columns small-12">
-      <%= collection_check_boxes :search, :local_resource_categories, LocalResourceCategory.all, :id, :name, {}, {checked: "checked"} %>
+      <%= collection_check_boxes :search, :local_resource_categories, LocalResourceCategory.all, :id, :name, {}, {checked: "checked", onchange: "App.Local_Resources.updateLocalResourceSearch(this);"} %>
     </div>
   </div>
 <% end %>

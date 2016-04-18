@@ -6,7 +6,7 @@ class LocalResourceSearch
     if params[:search]
       category_ids = params[:search][:local_resource_categories].reject {|c| c.empty? }.map {|item| item.to_i }
       local_resources = LocalResource.includes(:local_resource_categories)
-                            .where("local_resources.business_name LIKE ?", params[:search][:term] + '%')
+                            .where("LOWER(local_resources.business_name) LIKE ?", params[:search][:term].downcase + '%')
                             .where(local_resource_categories_resources: {local_resource_category_id: category_ids}).all
 
 
