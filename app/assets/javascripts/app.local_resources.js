@@ -16,3 +16,22 @@ $(document).ready(function() {
     toggle.text(toggle.text() === '▼' ? '►' : '▼')
   });
 });
+
+App.Local_Resources.updateLocalResourceSearch = function(input) {
+
+    var form = $(input).closest('form');
+    var request = $.ajax({
+        url: $(form).attr('action'),
+        type: "GET",
+        data: $(form).serialize(),
+        dataType: "html"
+    });
+
+    request.done(function (html) {
+        $("#results").html(html)
+    });
+
+    request.fail(function (jqXHR, textStatus) {
+        alert("Search update failed: " + textStatus);
+    });
+}
