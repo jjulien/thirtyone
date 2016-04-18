@@ -9,7 +9,8 @@ $(document).ready(function() {
   $("input#local_resource_address_attributes_zip").inputmask("99999");
 
   $("div.expand").click(function () {
-    $(this).parent().parent().find("div.content").slideToggle('slow');
+    $(this).closest("div.row").find("div.content").slideToggle('slow');
+      //$(this).parent().parent().find("div.content").slideToggle('slow');
     var toggle = $(this).find("span.toggle");
 
     toggle.text(toggle.text() === '▼' ? '►' : '▼')

@@ -4,17 +4,26 @@
     <a class="button medium" href="<%= new_local_resource_path %>">New Local Resource</a>
   </div>
 </div>
+<div class="row">
+  <div class="large-8 large-centered columns small-12">
+    <input id="search" autocomplete="off" onkeyup=""
+           type="text"
+           size="30"
+           name="search"
+           placeholder="Business Name"
+           value="<%= @search_string %>"/>
+  </div>
+</div>
 <% @local_resource_categories.each do |local_resource_category| %>
     <% next if local_resource_category.local_resources.empty? %>
     <div class="row">
-      <div class="large-8 radius large-centered columns grey">
-        <div class="row title dark-grey">
-          <div class="large-12 columns expand">
-            <p><span class="toggle">▼</span> <%= local_resource_category.name %></p>
+          <div class="large-8 large-centered small-12 columns expand">
+            <div class="title dark-grey radius-top" style="padding-left:15px;">
+              <p><span class="toggle">▼</span> <%= local_resource_category.name %></p>
+            </div>
           </div>
-        </div>
-        <div class="row content">
-          <div class="small-12 columns">
+          <div class="large-8 large-push-2 columns small-12 content radius-bottom end">
+            <div class="grey" style="padding-left:15px;">
             <% local_resource_category.local_resources.each do |local_resource| %>
                 <strong><%= local_resource.business_name %></strong><br/>
                 <% unless local_resource.phone.blank? %>
@@ -34,12 +43,11 @@
                 <%= link_to('Edit', edit_local_resource_path(local_resource)) if current_user.has_access?(PERM_RW_RESOURCE) %> |
                 <%= link_to('Delete', local_resource, :method => :delete, :data => {:confirm => 'Are you sure?'}) if current_user.has_access?(PERM_RW_RESOURCE) %><br/>
                 <% if not local_resource.equal? local_resource_category.local_resources.last %>
-                    <hr/>
+                    <br/>
                 <% end %>
             <% end %>
-          </div>
+            </div>
         </div>
-      </div>
     </div>
     <br/>
 <% end %>
