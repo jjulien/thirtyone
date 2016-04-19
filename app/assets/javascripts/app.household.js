@@ -72,6 +72,21 @@ App.Household.newHouseholdAjax = function(url) {
     });
 };
 
+App.Household.mergeMemberChecked = function(checkbox) {
+    var parent      = $(checkbox).closest('.member-wrap')
+    var deleted     = $(parent).find(".deleted");
+    var member_name = $(parent).find(".member-name")
+
+    if ( checkbox.checked ) {
+        $(member_name).removeClass("red-text");
+        $(deleted).hide();
+
+    } else {
+        $(member_name).addClass("red-text");
+        $(deleted).show();
+    }
+}
+
 $(document).ready(function() {
   if (!($("body.household").length > 0)) {
     return;

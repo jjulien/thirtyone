@@ -6,4 +6,49 @@
     <p>Need to merge households <%= @household.id %> and <%= @merge_household.id %></p>
   </div>
 </div>
+  <form>
+
+    <div class="row">
+      <div class="small-6 columns">
+        <%= render 'merge_household_name', household: @household %>
+      </div>
+      <div class="small-6 columns">
+        <%= render 'merge_household_name', household: @merge_household %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="small-6 columns">
+        <%= render 'merge_household_address', household: @household %>
+      </div>
+      <div class="small-6 columns">
+        <%= render 'merge_household_address', household: @merge_household %>
+      </div>
+
+
+    <div class="row">
+      <div class="small-6 columns">
+        <%= render 'merge_household_members', household: @household %>
+      </div>
+      <div class="small-6 columns">
+        <%= render 'merge_household_members', household: @merge_household %>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="small-6 columns">
+        <div class="row">
+          <div class="small-11 small-offset-1 columns"><b>Select Head of Household</b></div>
+        </div>
+        <%= render 'merge_select_head_of_household', household: @household %>
+      </div>
+      <div class="small-6 columns">
+        <div class="row">
+         <div class="small-11 small-offset-1 columns"><b>Select Head of Household</b></div>
+        </div>
+        <%= render 'merge_select_head_of_household', household: @merge_household %>
+      </div>
+    </div>
+  </form>
+</div>
 

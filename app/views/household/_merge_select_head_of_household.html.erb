@@ -1,0 +1,10 @@
+<% household.members.each do |person| %>
+    <div class="row">
+      <div class="small-1 columns">
+        <input type="radio" name="head_id" value="<%= person.id %>" />
+      </div>
+      <div class="small-11 columns">
+        <%= person.fullname %>
+      </div>
+    </div>
+<% end %>

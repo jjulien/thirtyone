@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="small-1 columns">
+    <input type="radio" name="address_id" value="<%= household.address_id %>"/>
+  </div>
+  <div class="small-11 columns">
+    <label><strong>Address</strong></label>
+    <% if household.address %>
+        <%= household.address.line1 %><br />
+        <% if !household.address.line2.empty? %><%= household.address.line2 %><br /><% end %>
+        <%= household.address.city_state_zip %>
+    <%else%>
+        None on file
+    <% end %>
+  </div>
+</div>
