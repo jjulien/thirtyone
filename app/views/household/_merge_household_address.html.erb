@@ -5,7 +5,7 @@
 </div>
 <div class="row">
   <div class="small-1 columns">
-    <input type="radio" name="address_id" value="<%= household.address_id %>"/>
+    <input type="radio" name="address_id" value="<%= household.address_id %>" <% if defined?(default) %>checked="checked"<% end %>/>
   </div>
   <div class="small-11 columns">
     <% if household.address %>
