@@ -8,12 +8,6 @@ class LocalResourceSearch
       local_resources = LocalResource.includes(:local_resource_categories)
                             .where("LOWER(local_resources.business_name) LIKE ?", params[:search][:term].downcase + '%')
                             .where(local_resource_categories_resources: {local_resource_category_id: category_ids}).all
-
-
-      #
-      #
-      # local_resources = query.where("local_resources.business_name LIKE ? AND local_resource_categories.id IN (?)", params[:search][:term] + '%', category_ids).all
-
     else
       local_resources = query.all
     end

@@ -10,7 +10,6 @@ $(document).ready(function() {
 
   $("div.expand").click(function () {
     $(this).closest("div.row").find("div.content").slideToggle('slow');
-      //$(this).parent().parent().find("div.content").slideToggle('slow');
     var toggle = $(this).find("span.toggle");
 
     toggle.text(toggle.text() === '▼' ? '►' : '▼')

@@ -1,6 +1,4 @@
 <% @local_resource_categories.each do |local_resource_category| %>
-    <%
-      # next if local_resource_category.local_resources.empty? %>
     <div class="row">
       <div class="large-8 large-centered small-12 columns expand">
         <div class="title dark-grey radius-top" style="padding-left:15px;">
@@ -9,8 +7,9 @@
       </div>
       <div class="large-8 large-push-2 columns small-12 content radius-bottom end">
         <div class="grey" style="padding-left:15px;">
-          <% #local_resource_category.local_resources.each do |local_resource|
-             @local_resources.includes(:local_resource_categories).where(local_resource_categories_resources: {local_resource_category_id: [local_resource_category.id]}).each do |local_resource| %>
+              <% @local_resources.includes(:local_resource_categories)
+                                 .where(local_resource_categories_resources: {local_resource_category_id: [local_resource_category.id]})
+                                 .each do |local_resource| %>
               <strong><%= local_resource.business_name %></strong><br/>
               <% unless local_resource.phone.blank? %>
                   <span class="ui-icon ui-icon-contact icon"></span><%= number_to_phone(local_resource.phone, area_code: true) %><br/>
