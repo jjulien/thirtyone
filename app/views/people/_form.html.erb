@@ -103,9 +103,17 @@
         <input type="hidden" name="redirect_to_url" value="<%= redirect_to_url %>" />
     <% end %>
 
-  <div class="field">
-    <%= f.submit class: 'button' %>
-  </div>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="field left">
+          <%= f.submit class: 'medium button' %>
+        </div>
+        <div class="right">
+          <button class="medium button" onclick="window.location='<%= redirect_to_url ? redirect_to_url : people_url %>';">
+            Cancel</button>
+        </div>
+      </div>
+    </div>
 
 <% end %>
 <script>

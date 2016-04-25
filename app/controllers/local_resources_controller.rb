@@ -6,12 +6,23 @@ class LocalResourcesController < ApplicationController
   # GET /local_resources
   # GET /local_resources.json
   def index
+    @local_resources = LocalResource.all
     @local_resource_categories = LocalResourceCategory.all
   end
 
   # GET /local_resources/1
   # GET /local_resources/1.json
   def show
+  end
+
+  def search
+    @local_resources, @local_resource_categories = LocalResourceSearch.search(params)
+    respond_to do |format|
+      format.html {
+         render partial: 'search_results'
+      }
+      format.json { render action: 'index.json' }
+    end
   end
 
   # GET /local_resources/new
