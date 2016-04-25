@@ -1,7 +1,13 @@
 Thirtyone::Application.routes.draw do
 
   resources :local_resource_categories
-  resources :local_resources
+
+  resources :local_resources do
+    collection do
+      get :search
+    end
+  end
+
   resources :visits
 
   resources :user_roles
