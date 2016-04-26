@@ -114,6 +114,12 @@ class LocalResourcesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def local_resource_params
+      def phone
+        @phone = @phone.gsub(/\D/, '').strip
+      end
+      def phone_ext
+        @phone_ext = @phone_ext.gsub(/\D/, '').strip
+      end
       params.require(:local_resource).permit(:contact_name, :business_name, :phone, :phone_ext, :email, :url,
                                              address_attributes: [:line1, :line2, :city, :zip])
     end

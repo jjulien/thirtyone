@@ -12,7 +12,7 @@
                                  .each do |local_resource| %>
               <strong><%= local_resource.business_name %></strong><br/>
               <% unless local_resource.phone.blank? %>
-                  <span class="ui-icon ui-icon-contact icon"></span><%= number_to_phone(local_resource.phone, area_code: true) %><br/>
+                  <span class="ui-icon ui-icon-contact icon"></span><%= number_to_phone(local_resource.phone, area_code: true, extension: local_resource.phone_ext) %><br/>
               <% end %>
               <% unless local_resource.address.blank? %>
                   <span class="ui-icon ui-icon-pin-s icon"></span><%= link_to local_resource.address.oneline_summary,
