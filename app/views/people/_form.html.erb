@@ -115,6 +115,31 @@
       </div>
     </div>
 
+    <% @person.notes.each do |n| %>
+    <div class="row space-bottom">
+          <div class="small-12 columns">
+            <%= f.fields_for :notes, n do |nf| %>
+                <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
+                <%= nf.text_area :note %>
+            <% end %>
+          </div>
+    </div>
+    <%end%>
+
+    <div class="row space-bottom">
+          <div class="small-12 columns">
+            <%= f.fields_for :notes, @person.notes.build do |nf| %>
+                <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
+                <%= nf.text_area :note %>
+            <% end %>
+          </div>
+    </div>
+
+
+    <div class="field">
+      <%= f.submit class: 'button' %>
+    </div>
+
 <% end %>
 <script>
   $(document).ready(function() {

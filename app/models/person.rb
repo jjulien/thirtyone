@@ -18,6 +18,7 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
   has_one :user, autosave: true
+  accepts_nested_attributes_for :notes
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
   validate :custom_validate

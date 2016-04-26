@@ -129,6 +129,7 @@ class PeopleController < ApplicationController
       return params[:redirect_to_url]
     end
   end
+
   helper_method :redirect_to_url
 
   private
