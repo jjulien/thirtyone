@@ -103,6 +103,10 @@ class HouseholdController < ApplicationController
     @merge_household = Household.find(params[:merge_id])
   end
 
+  def merge
+
+  end
+
   def search
     wild_card_query_fields = %w(people.firstname people.lastname)
     sql_params = []
