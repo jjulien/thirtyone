@@ -42,7 +42,7 @@ Thirtyone::Application.routes.draw do
       get :select
       get '/:id/merge'            => 'household#merge_select',        as: 'merge_select'
       get '/:id/merge/:merge_id'  => 'household#merge_select_fields', as: 'merge_select_fields'
-      patch ':id/merge/:merge_id' => 'housthold#merge',               as: 'merge'
+      patch ':id/merge/:merge_id' => 'household#merge',               as: 'merge'
     end
     resources :addresses
   end
