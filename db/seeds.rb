@@ -115,4 +115,12 @@ if Rails.env == 'development'
 
   disciple_household.person_id = matthew_disciple.id
   disciple_household.save!
+
+  # Add a second household
+  second_household = Household.new(address: Address.new({line1: '2 Pearly Gate Pkwy', city: 'Trinity', state: State.find_by_abbreviation('HI'), zip: '77777'}))
+  first_person = Person.new({firstname: 'John', lastname: 'The Baptist', email: 'ieatlocusts@example.com', household: second_household})
+  Person.new({firstname: 'Luke', lastname: 'The Surgeon', email: 'heals@example.com', household: second_household}).save
+  second_household.head = first_person
+  second_household.save
+
 end
