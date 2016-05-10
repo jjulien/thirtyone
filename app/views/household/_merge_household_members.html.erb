@@ -7,7 +7,7 @@
 <% household.members.each do |person| %>
     <div class="row member-wrap">
       <div class="small-1 columns">
-        <input type="checkbox" checked="checked" onchange="App.Household.mergeMemberChecked(this);" value="<%= person.id %>" />
+        <input name="member_ids[]" type="checkbox" checked="checked" onchange="App.Household.mergeMemberChecked(this);" value="<%= person.id %>" />
       </div>
       <div class="small-11 columns member-name">
         <%= person.fullname %>
