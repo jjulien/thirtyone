@@ -1,7 +1,8 @@
 require 'uri'
 class HouseholdController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_household, only: [:show, :edit, :update, :destroy]
+  before_action :set_household, only: [:show, :edit, :update, :destroy, :merge_select, :merge_select_fields, :merge]
+  before_action :set_merge_household, only: [:merge, :merge_select_fields]
   before_action :authorize_household
 
   def index
@@ -93,6 +94,58 @@ class HouseholdController < ApplicationController
     end
   end
 
+  def merge_select
+    @households = Household.where('id != ?', @household.id).all
+
+    render 'merge', locals: {action: 'merge_household'}
+  end
+
+  def merge_select_fields
+  end
+
+  def merge
+    success = false
+    @household.transaction do
+      @household.address_id = params[:address_id]
+      @household.person_id = params[:head_id]
+      members = Person.where(id: params[:member_ids])
+      if not params[:member_ids].include?(params[:head_id])
+        @household.errors.add(:person, 'You cannot delete the same user you have selected as the head of household')
+        raise ActiveRecord::Rollback
+      end
+      @household.members = members
+      success = @household.save
+      @merge_household.delete
+    end
+    if success
+      respond_to do |format|
+        format.html { redirect_to @household, notice: 'Household was successfully merged.' }
+      end
+    else
+      # Reset household and merge_household back to original state
+      # Without this the @household attribute would show a partially
+      # merged state, while @merge_household would show it's original state
+      #
+      # The goal is to never hit this server side error, but have Javascript that
+      # prevents all errors.  This page is completely checkbox and radio button
+      # operated.  So javascript should be able to catch most potential errors
+      # ahead of time.
+      errors = @household.errors
+      set_household
+      set_merge_household
+
+      # Need to set the errors on @household for display purposes
+      errors.each do |attr, msg|
+        @household.errors.add(attr, msg)
+      end
+      respond_to do |format|
+        format.html {
+          render 'merge_select_fields'
+        }
+      end
+    end
+  end
+
   def search
     wild_card_query_fields = %w(people.firstname people.lastname)
     sql_params = []
@@ -135,6 +188,10 @@ class HouseholdController < ApplicationController
   def set_household
     @household = Household.find(params[:id])
     @all_states = State.all
+  end
+
+  def set_merge_household
+    @merge_household = Household.find(params[:merge_id])
   end
 
   def household_params
