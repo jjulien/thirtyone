@@ -22,6 +22,14 @@ class Address < ActiveRecord::Base
     "#{self.city}, #{self.state.abbv} #{self.zip}"
   end
 
+  def line2
+    if not self[:line2].nil?
+      return self[:line2]
+    else
+      return ''
+    end
+  end
+
   def oneline_summary
     summary = ""
     summary << "#{self.line1}" if self.line1

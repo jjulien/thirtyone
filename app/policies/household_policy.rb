@@ -33,5 +33,17 @@ class HouseholdPolicy < ApplicationPolicy
   def create?
     new?
   end
-  
+
+  def merge_select?
+    edit?
+  end
+
+  def merge_select_fields?
+    merge_select?
+  end
+
+  def merge?
+    merge_select?
+  end
+
 end
