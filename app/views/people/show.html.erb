@@ -25,8 +25,7 @@
         <p>
           <strong>Phone</strong><br/>
           <% if @person.phone %>
-            <%= @person.phone %>
-            x<%= @person.phone_ext %>
+            <%=  number_to_phone(@person.phone, area_code: true, extension: @person.phone_ext) %>
           <% else %>
             <i>No phone on file</i>
           <% end %>

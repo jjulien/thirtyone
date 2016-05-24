@@ -16,7 +16,7 @@ FactoryGirl.define do
   factory :local_resource do
     contact_name "MyString"
     business_name "MyString"
-    phone "123-456-7890"
+    phone "1234567890"
     email "MyString"
     url "MyString"
     address ""
