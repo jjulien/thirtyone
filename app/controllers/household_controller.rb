@@ -105,16 +105,18 @@ class HouseholdController < ApplicationController
 
   def merge
     success = false
+    saved_household = @household.clone
     @household.transaction do
       @household.address_id = params[:address_id]
       @household.person_id = params[:head_id]
-      @household.errors
       # TODO: Need to delete members not in array
       # TODO: Need to validate that user did not unselect the head of household from the member checkboxes
       members = Person.where(id: params[:member_ids])
+      if not params[:member_ids].include?(params[:head_id])
+        @household.errors.add(:person, 'You cannot delete the same user you have selected as the head of household')
+        raise ActiveRecord::Rollback
+      end
       @household.members = members
-      @household.errors.add(:person, 'You cannot delete the same user you have selected as the head of household')
-      raise ActiveRecord::Rollback
       success = @household.save
       @merge_household.delete
     end
@@ -123,9 +125,26 @@ class HouseholdController < ApplicationController
         format.html { redirect_to @household, notice: 'Household was successfully merged.' }
       end
     else
+      # Reset household and merge_household back to original state
+      # Without this the @household attribute would show a partially
+      # merged state, while @merge_household would show it's original state
+      #
+      # The goal is to never hit this server side error, but have Javascript that
+      # prevents all errors.  This page is completely checkbox and radio button
+      # operated.  So javascript should be able to catch most potential errors
+      # ahead of time.
+      errors = @household.errors
+      set_household
+      set_merge_household
+
+      # Need to set the errors on @household for display purposes
+      errors.each do |attr, msg|
+        @household.errors.add(attr, msg)
+      end
       respond_to do |format|
-        flash[:error] = "Failed to save household"
-        render 'merge_select_fileds'
+        format.html {
+          render 'merge_select_fields'
+        }
       end
     end
   end
