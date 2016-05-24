@@ -25,6 +25,7 @@ class Person < ActiveRecord::Base
   validates_associated :household
   number_to_phone(:phone, area_code: true, extension: :phone_ext) # => (123) 123-1234 x 555
   validate :custom_validate
+  before_save :strip_phone
 
   def fullname
     if lastname
@@ -71,5 +72,10 @@ class Person < ActiveRecord::Base
         errors.add(k.to_sym, v)
       end
     end
+  end
+
+  def strip_phone
+    self.phone = phone.gsub(/\D/, '')
+    self.phone_ext = phone_ext.gsub(/\D/, '')
   end
 end
