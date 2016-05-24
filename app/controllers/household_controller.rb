@@ -105,12 +105,9 @@ class HouseholdController < ApplicationController
 
   def merge
     success = false
-    saved_household = @household.clone
     @household.transaction do
       @household.address_id = params[:address_id]
       @household.person_id = params[:head_id]
-      # TODO: Need to delete members not in array
-      # TODO: Need to validate that user did not unselect the head of household from the member checkboxes
       members = Person.where(id: params[:member_ids])
       if not params[:member_ids].include?(params[:head_id])
         @household.errors.add(:person, 'You cannot delete the same user you have selected as the head of household')

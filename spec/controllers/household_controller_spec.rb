@@ -117,6 +117,6 @@ describe HouseholdController, type: :controller do
         expect(response).to render_template :merge_select_fields
       end
     end
-    
+
   end
 end
