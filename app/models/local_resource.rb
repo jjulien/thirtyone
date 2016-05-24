@@ -27,7 +27,11 @@ class LocalResource < ActiveRecord::Base
   accepts_nested_attributes_for :address
 
   def strip_phone
-    self.phone = self.phone.gsub(/\D/, '')
-    self.phone_ext = self.phone_ext.gsub(/\D/, '')
+    unless self.phone.nil?
+      self.phone = self.phone.gsub(/\D/, '')
+    end
+    unless self.phone_ext.nil?
+      self.phone_ext = self.phone_ext.gsub(/\D/, '')
+    end
   end
 end
