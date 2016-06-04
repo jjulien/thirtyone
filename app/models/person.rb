@@ -13,8 +13,6 @@
 #  email        :string
 #
 
-include ActionView::Helpers::NumberHelper
-
 class Person < ActiveRecord::Base
   acts_as_paranoid
 #  has_notes
@@ -23,7 +21,6 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
-  number_to_phone(:phone, area_code: true, extension: :phone_ext) # => (123) 123-1234 x 555
   validate :custom_validate
   before_save :strip_phone
 
