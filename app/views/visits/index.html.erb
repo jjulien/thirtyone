@@ -1,6 +1,6 @@
-<div class="row">
+<div class="row" style="position: relative;">
   <div class="medium-12 columns">
-    <h1 class="page-header">Active Visits</h1>
+    <h1 class="page-header" style="display: inline-block;"><%= @filter ? "Today's" : 'Active' %> Visits</h1>&nbsp;<%= link_to @filter ? 'show active' : 'show all', @filter ? visits_path : visits_path(show: :today) %>
   </div>
 </div>
 <div class="row table-header">
