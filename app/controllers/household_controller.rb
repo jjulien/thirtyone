@@ -69,6 +69,16 @@ class HouseholdController < ApplicationController
     end
   end
 
+  # DELETE /household/1
+  # DELETE /household/1.json
+  def destroy
+    @household.destroy
+    respond_to do |format|
+      format.html { redirect_to households_url, notice: 'Household was deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
   def new
     @household = Household.new
     @household.address = Address.new

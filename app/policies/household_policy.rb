@@ -22,6 +22,10 @@ class HouseholdPolicy < ApplicationPolicy
     @user.has_access? PERM_RW_PERSON
   end
 
+  def destroy?
+    @user.has_access? PERM_RW_PERSON
+  end
+
   def search?
     @user.has_access? PERM_RO_PERSON
   end
