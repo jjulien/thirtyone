@@ -43,7 +43,17 @@ class PeopleSubmissionValidator
   end
 
   def add_person_attributes(person, household)
-    person_params.each{ |key, val| person[key] = val }
+    person.assign_attributes person_params
+
+    notes_attributes = note_params
+    notes = notes_attributes[:notes_attributes]
+    index = notes.keys.sort_by(&:to_i).last.to_s
+
+    if notes[index][:note].empty?
+      notes.delete(index)
+    end
+    person.assign_attributes notes_attributes
+
     person.household = household
   end
 
@@ -104,6 +114,10 @@ class PeopleSubmissionValidator
 
   def person_params
     params.require(:person).permit(:firstname, :lastname, :phone, :phone_ext, :household_id, :email)
+  end
+
+  def note_params
+    params.require(:person).permit(notes_attributes:[:note_type_id, :note, :id, :_destroy])
   end
 
 end

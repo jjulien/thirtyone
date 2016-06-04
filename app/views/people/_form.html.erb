@@ -121,6 +121,35 @@
       </div>
     </div>
 
+    <h3>Notes</h3>
+    <% @person.notes.each do |n| %>
+    <div class="row note">
+          <div class="small-12 columns">
+            <%= f.fields_for :notes, n do |nf| %>
+                <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
+                <%= nf.text_area :note %>
+                <%= nf.check_box :_destroy, class:"delete-note-checkbox" %>
+                <%= nf.label :_destroy, "Delete Note" %>
+            <% end %>
+          </div>
+    </div>
+    <%end%>
+
+    <h4>New Note</h4>
+    <div class="row space-above space-bottom">
+          <div class="small-12 columns new-note">
+            <%= f.fields_for :notes, @person.notes.build do |nf| %>
+                <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
+                <%= nf.text_area :note %>
+            <% end %>
+          </div>
+    </div>
+
+
+    <div class="field">
+      <%= f.submit class: 'button' %>
+    </div>
+
 <% end %>
 <script>
   $(document).ready(function() {

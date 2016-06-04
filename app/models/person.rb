@@ -21,8 +21,9 @@ class Person < ActiveRecord::Base
   has_and_belongs_to_many :notes
   belongs_to :household, autosave: true
   has_one :user, autosave: true
+  accepts_nested_attributes_for :notes, :allow_destroy => true
   validates_presence_of :firstname, :lastname, :household
-  validates_associated :household
+  validates_associated :household, :notes
   validate :custom_validate
   before_save :strip_phone_number
 

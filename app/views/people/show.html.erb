@@ -52,6 +52,19 @@
             </p>
           </div>
       <% end %>
+
+      <% if @person.notes %>
+          <div class="small-12 columns">
+            <p>
+              <strong>Notes</strong><br/>
+              <% @person.notes.each do |n| %>
+                <span style="font-style:italic"><%= NoteType.find(n.note_type_id).name %>: </span>
+                <%= n.note %><br/>
+              <% end %>
+            </p>
+          </div>
+      <% end %>
+
     </div>
   </div>
 </div>
