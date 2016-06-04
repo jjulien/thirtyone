@@ -31,6 +31,24 @@ div.blue{
   margin-bottom:1rem !important;
 }
 
+.row .note, .row .new-note{
+  padding: 10px;
+}
+
+.note + h4{
+  margin-top: 1.25rem;
+}
+
+
+
+.delete-note-checkbox{
+  margin: 0px !important;
+}
+
+.delete-note-checkbox:checked + label{
+  font-weight: bold;
+}
+
 
 .title p{
   display: table-cell;
@@ -113,11 +131,11 @@ input.checkbox {
 li.last-element {
   border-bottom: none;
 }
-li.evenrow {
+li.evenrow, .row .note:nth-child(even)  {
   background-color: #E7E7E7;
 }
 
-li.oddrow {
+li.oddrow, .row .note:nth-child(odd)  {
   background-color: #f9f9f9;
 }
 
