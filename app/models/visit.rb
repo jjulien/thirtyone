@@ -18,6 +18,7 @@ class Visit < ActiveRecord::Base
   belongs_to :host, class_name: 'Person'
 
   scope :active, -> { where(end_at: nil)}
+  scope :today, -> { where(visit_date: Date.today) }
 
   before_create do
     self.start_at = DateTime.now

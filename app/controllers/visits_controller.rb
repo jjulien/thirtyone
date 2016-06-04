@@ -5,7 +5,12 @@ class VisitsController < ApplicationController
   # GET /visits.json
   def index
     # default to showing only active visits (those without an end_at value)
-    @visits = Visit.active.order(start_at: :desc)
+    @filter = params[:show]
+    if params[:show] && params[:show] == 'today'
+      @visits = Visit.today.order(start_at: :desc)
+    else
+      @visits = Visit.active.order(start_at: :desc)
+    end
   end
 
   # GET /visits/1
