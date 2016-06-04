@@ -14,6 +14,8 @@
 #
 
 class Person < ActiveRecord::Base
+  include PhoneMethod
+
   acts_as_paranoid
 #  has_notes
   has_and_belongs_to_many :notes
@@ -22,7 +24,7 @@ class Person < ActiveRecord::Base
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
   validate :custom_validate
-  before_save :strip_phone
+  before_save :strip_phone_number
 
   def fullname
     if lastname
@@ -71,12 +73,8 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def strip_phone
-    unless self.phone.nil?
-      self.phone = phone.gsub(/\D/, '')
-    end
-    unless self.phone_ext.nil?
-      self.phone_ext = phone_ext.gsub(/\D/, '')
-    end
+  def strip_phone_number
+    self.phone = self.strip_phone(self.phone)
+    self.phone_ext = self.strip_phone_ext(self.phone_ext)
   end
 end
