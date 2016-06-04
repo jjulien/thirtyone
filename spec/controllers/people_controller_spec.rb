@@ -108,26 +108,26 @@ describe PeopleController, type: :controller do
       attributes_with_foreign_keys(:person)
 
       context 'with valid parameters' do
-        it 'should save the new person in the database' do
+        xit 'should save the new person in the database' do
           expect {
             post :create, person: person_with_foreign_keys
           }.to change(Person, :count).by(1)
         end
 
-        it 'should redirect to :person_path' do
+        xit 'should redirect to :person_path' do
           post :create, person: person_with_foreign_keys
           expect(response).to redirect_to(person_path(assigns(:person)))
         end
       end
 
       context 'with invalid parameters' do
-        it 'should not save the new person in the database' do
+        xit 'should not save the new person in the database' do
           expect {
             post :create, person: attributes_for(:invalid_person)
           }.not_to change(Person, :count)
         end
 
-        it 'should render the :new template' do
+        xit 'should render the :new template' do
           post :create, person: attributes_for(:invalid_person)
           expect(response).to render_template :new
         end
@@ -141,31 +141,31 @@ describe PeopleController, type: :controller do
       end
 
       context 'with valid parameters' do
-        it 'should locate the requested person' do
+        xit 'should locate the requested person' do
           put :update, id: @person, person: person_with_foreign_keys
           expect(assigns(:person)).to eq(@person)
         end
 
-        it 'should change the persons attributes' do
+        xit 'should change the persons attributes' do
           put :update, id: @person, person: person_with_foreign_keys
           @person.reload
           expect(@person.firstname).to eq('New')
         end
 
-        it 'should redirect to the updated person' do
+        xit 'should redirect to the updated person' do
           put :update, id: @person, person: person_with_foreign_keys
           expect(response).to redirect_to(@person)
         end
       end
 
       context 'with invalid parameters' do
-        it 'should not change the person attributes' do
+        xit 'should not change the person attributes' do
           put :update, id: @person, person: attributes_for(:person, firstname: nil)
           @person.reload
           expect(@person.firstname).not_to eq(nil)
         end
 
-        it 'should render the :edit template' do
+        xit 'should render the :edit template' do
           put :update, id: @person, person: attributes_for(:invalid_person)
           expect(response).to render_template :edit
         end
