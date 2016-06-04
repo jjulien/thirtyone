@@ -10,12 +10,13 @@
           </ul>
         </div>
     <% end %>
+    <div style="color: red;">* denotes required field</div>
     <div class="field">
-      <label for="person_firstname">First Name</label>
+      <label class="required" for="person_firstname">First Name</label>
       <%= f.text_field :firstname, :required => true %>
     </div>
     <div class="field">
-      <label for="person_lastname">Last Name</label>
+      <label class="required" for="person_lastname">Last Name</label>
       <%= f.text_field :lastname, :required => true %>
     </div>
     <div class="field">
