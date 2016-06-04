@@ -4,9 +4,8 @@ class VisitsController < ApplicationController
   # GET /visits
   # GET /visits.json
   def index
-    @visits = Visit.order("visit_date").all
-    @people = Person.all
-    @users = User.all
+    # default to showing only active visits (those without an end_at value)
+    @visits = Visit.active.order(start_at: :desc)
   end
 
   # GET /visits/1
