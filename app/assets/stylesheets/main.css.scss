@@ -16,3 +16,14 @@
 .button_to div {
   display: inline;
 }
+
+.phone_field {
+  .phone_left {
+    display: inline-block;
+    width: 40%;
+  }
+  .phone_right {
+    display: inline-block;
+    width: 40%;
+  }
+}

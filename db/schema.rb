@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405014720) do
+ActiveRecord::Schema.define(version: 20160411235113) do
 
   create_table "addresses", force: :cascade do |t|
     t.string   "line1"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20160405014720) do
     t.integer  "address_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "phone_ext"
   end
 
   create_table "note_types", force: :cascade do |t|
@@ -135,6 +136,7 @@ ActiveRecord::Schema.define(version: 20160405014720) do
     t.integer  "household_id"
     t.string   "email"
     t.datetime "deleted_at"
+    t.string   "phone_ext"
   end
 
   add_index "people", ["deleted_at"], name: "index_people_on_deleted_at"
