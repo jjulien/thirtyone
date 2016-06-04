@@ -2,7 +2,7 @@
 
 <%= render 'form' %>
 
-<button id="save_button" class="tiny" onclick="
+<button id="save_button" class="medium" onclick="
         var form = $('#new_inventory_item');
         var request = $.ajax({
             url: form.attr('action'),
@@ -18,7 +18,7 @@
                 });
 ">Save</button>
 
-<button class="tiny" onclick="$('#editInventoryModal').foundation('reveal', 'close');">Cancel</button>
+<button class="medium" onclick="$('#editInventoryModal').foundation('reveal', 'close');">Cancel</button>
 
 <script>
     $("#new_inventory_item").on('keypress', 'input', function(e) {
