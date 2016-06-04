@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
+  before_action :authenticate_user!, except: [:confirm_email_change]
+  before_action :authorize_user
 
   # GET /user
   # GET /user.json
@@ -21,18 +23,68 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
+    # TODO: Try to update a user's e-mail, it's not working
     # TODO: Check this if else logic and non-happy path
-    if @user.update(user_params)
+    if @user.update user_params
       conditionally_notify_email
 
       conditionally_re_login_user
 
-      format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
-      format.json { head :no_content }
+      # roles_to_add = []
+      # params[:roles].each do |role_id|
+      #   roles_to_add.push(Role.find(role_id))
+      # end
+      # @person.user.roles = roles_to_add
+
+      respond_to do |format|
+        format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
+        format.json { head :no_content }
+      end
     else
-      format.html { render action: 'edit' }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        format.html { render action: 'edit' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
+  end
+
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
+  def send_confirmation_email
+    if @user.has_pending_email_change?
+      @user.send_confirmation_email
+    end
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
+  # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
+  def cancel_pending_email_change
+    @user.cancel_pending_email_change
+    @user.save
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
+  # This page does not require authentication
+  def confirm_email_change
+    if @user.has_pending_email_change?
+      if params[:confirmation_token] != @user.reset_email_token
+        render 'users/email/invalid_token'
+        return
+      end
+      @user.confirm_email_change
+      if @user.save
+        @user.person.email = @user.email
+        @user.person.save
+      end
+      if not @user.valid? or not @user.person.valid?
+        @errors = []
+        @errors += @user.errors.full_messages
+        @errors += @user.person.errors.full_messages
+      end
+      render 'users/email/confirm_email_change'
+      return
+    end
+  else
+    render 'users/email/invalid_token'
   end
     # TODO: Check this if else logic and non-happy path
     if @user.update(user_params)
@@ -61,7 +113,12 @@ class UsersController < ApplicationController
     params[:user].delete(:password) if params[:user][:password].blank?
     params[:user].delete(:password_confirmation) if params[:user][:password_confirmation].blank?
 
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    # Only admins can edit user roles
+    if current_user.has_access?(PERM_ADMIN)
+      params.require(:user).permit(:email, :password, :password_confirmation, :role_ids => [])
+    else
+      params.require(:user).permit(:email, :password, :password_confirmation)
+    end
   end
 
   # Notifies the user by email if they opted to change their email
@@ -81,5 +138,9 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find(params[:id])
+  end
+
+  def authorize_user
+    @user ? (authorize @user) : (authorize :user)
   end
 end

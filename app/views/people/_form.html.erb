@@ -21,33 +21,11 @@
     </div>
     <div class="field">
       <%= f.label :email %>
-      <% if @person.has_pending_email_change? %>
-          <% if @person.user.pending_email_valid? %>
-              <div id="pending_email_change_div" style="border: 1px solid #ccc; padding:10px 10px 0px 10px;">
-                <div class="row">
-                  <div class="small-12 columns">
-                    <p>
-                      This user has a pending email change from <i><%= @person.user.email %></i> to <i><%= @person.user.pending_email %></i>.
-                      A confirmation email has been sent to <i><%= @person.user.pending_email %></i>.  You can can either cancel this change or re-send the confirmation link to this email.
-                    </p>
-                  </div>
-                </div>
-                <div class="row" style="margin-top:20px;">
-                  <div class="small-12 medium-6 columns">
-                    <button class="button tiny center-block" type="button" onclick="resendEmailConfirmation();" >Resend Confirmation Email</button>
-                  </div>
-                  <div class="small-12 medium-6 columns">
-                    <button class="button tiny" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
-                  </div>
-                </div>
-              </div>
-              <%= f.email_field :email, style: "display: none;" %>
-          <% else %>
-              <%= f.email_field :email, :value => @person.user.pending_email %>
-          <% end %>
-      <% else %>
-          <%= f.email_field :email %>
+      <% disabled = !@person.user.nil? %>
+      <% if disabled %>
+      User e-mail must be edited from the <a href="<%= edit_user_path(@person.user) %>">edit user</a> page.
       <% end %>
+      <%= f.email_field :email, :disabled => disabled %>
     </div>
     <div class="phone_field">
       <div class="phone_left">
@@ -153,29 +131,6 @@
 
 <% end %>
 <script>
-  $(document).ready(function() {
-    $('input[type=radio][name=create_user]').change(function() {
-      if (this.value == 'yes') {
-        $('#user_info').show();
-      }
-      else if (this.value == 'no') {
-        $('#user_info').hide();
-      }
-
-      $("input[type=checkbox][roletype=admin]").change(function () {
-        var shouldDisable = $(this)[0].checked;
-        $("input[type=checkbox][roletype=standard]").each(function () {
-          $(this)[0].disabled = shouldDisable;
-        });
-      });
-      if ($("input[type=checkbox][roletype=admin]")[0].checked) {
-        $("input[type=checkbox][roletype=standard]").each(function () {
-          $(this)[0].disabled = true;
-        });
-      }
-    });
-  });
-
   var validator = new FormValidator('new_person', [{
     name: 'person[firstname]',
     display: 'First Name',
@@ -184,7 +139,7 @@
     name: 'person[lastname]',
     display: 'Last Name',
     rules: 'required'
-  }], function(errors, event) {
+  }], function (errors, event) {
     if (errors.length > 0) {
       event.preventDefault();
       var errorString = '';
@@ -202,38 +157,4 @@
       }, 1000);
     }
   });
-
-
-  <% if not @person.id.nil? %>
-
-  function resendEmailConfirmation() {
-    $.ajax({
-      url: '<%= send_confirmation_email_url %>',
-      method: 'POST',
-      accept: 'applicaiton/json'
-    }).done(function (data, textStatus, jqXHR) {
-      $("#notice_content").html("Confirmation email sent");
-      $("#notice").show().delay(3000).fadeOut(1000);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-      $("#error_content").html("Error sending confirmation email");
-      $("#error").show().delay(3000).fadeOut(1000);
-    });
-  }
-
-  function cancelEmailChange() {
-    $.ajax({
-      url: '<%= cancel_pending_email_change_url %>',
-      method: 'DELETE'
-    }).done(function (data, textStatus, jqXHR) {
-      $("#notice_content").html("Pending email change was cancelled");
-      $("#notice").show().delay(3000).fadeOut(1000);
-      $('#person_email').show();
-      $('#person_email').removeAttr("disabled");
-      $('#pending_email_change_div').hide();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-      $("#error_content").html("Error canceling pending email change");
-      $("#error").show().delay(3000).fadeOut(1000);
-    });;
-  }
-  <% end %>
 </script>

@@ -42,23 +42,6 @@ class Person < ActiveRecord::Base
     fn
   end
 
-  def self.users
-    Person.includes(:user).where.not(users: {id: nil})
-  end
-
-  def email=(new_email)
-    #  Do not set email if user has a pending email change.  The
-    #  confirm_email_change on the people controller will set the email
-    #  after the change has been confirmed for the user
-    unless user.nil? || user.has_pending_email_change?
-      self[:email] = new_email
-    end
-  end
-
-  def has_pending_email_change?
-    user.nil? ? false : user.has_pending_email_change?
-  end
-
   def add_custom_error(attribute, message)
     if @custom_errors.nil?
       @custom_errors = {}
