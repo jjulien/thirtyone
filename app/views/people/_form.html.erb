@@ -1,4 +1,6 @@
 <%= form_for(@person, :html => {:name => 'new_person'}) do |f| %>
+    <% is_user = !@person.user.nil? %>
+    <h5>Want to edit user attributes? Go to the <a href="<%= edit_user_url(@person.user) %>">edit user</a> page.</h5>
     <% if @person.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
@@ -21,11 +23,10 @@
     </div>
     <div class="field">
       <%= f.label :email %>
-      <% disabled = !@person.user.nil? %>
-      <% if disabled %>
-      User e-mail must be edited from the <a href="<%= edit_user_path(@person.user) %>">edit user</a> page.
+      <% if is_user %>
+          User e-mail must be edited from the <a href="<%= edit_user_path(@person.user) %>">edit user</a> page.
       <% end %>
-      <%= f.email_field :email, :disabled => disabled %>
+      <%= f.email_field :email, :disabled => is_user %>
     </div>
     <div class="phone_field">
       <div class="phone_left">
@@ -44,48 +45,38 @@
 
     <div class="field">
       <div id="select_household_message" class="field <%= 'hide' if @person.household %>">
-        You must select a household to associate this person with.  If this is the first visit from a household, you can create a new one.<br />
+        You must select a household to associate this person with. If this is the first visit from a household, you can create a new one.<br/>
       </div>
       <button type="button" id="select_or_create_household_button" onclick="$('#selectHouseholdModal')
-        .foundation('reveal',
-        'open',
-        {url: '<%= select_households_url  %>',
-          data: {ajax: true},
-          complete: function(xhr, status) {
-            $('#selectHouseholdModal')
-              .append('<a class=\'close-reveal-modal\'>&#215;</a>');
+          .foundation('reveal',
+          'open',
+          {url: '<%= select_households_url  %>',
+              data: {ajax: true},
+              complete: function(xhr, status) {
+                  $('#selectHouseholdModal')
+                      .append('<a class=\'close-reveal-modal\'>&#215;</a>');
 
             } });" class="medium button" >Select or Create Household</button>
       </div>
     <div id="household_div" class="row">
       <%=
-          if @person.household
-            @household = @person.household
-            if @person.household.new_record?
-              render 'household/new'
-            else
-              render 'household/show'
-            end
+        if @person.household
+          @household = @person.household
+          if @person.household.new_record?
+            render 'household/new'
+          else
+            render 'household/show'
           end
+        end
       %>
     </div>
-  <h3>Allow User to Login</h3>
-  <div>Do you want to allow this user to login as a volunteer?
-            <%= radio_button_tag(:create_user, :yes, ( !!@person.user || params[:create_user] == 'yes' ) )  %><label for="create_user_yes">Yes</label>
-            <%= radio_button_tag(:create_user, :no, ( !@person.user  && params[:create_user] != 'yes' ) ) %><label for="create_user_no">No</label>
-  </div>
-  <div id="user_info" style="<%= 'display:none;' if not @person.user and params[:create_user] != 'yes'%>" >
-          <strong>Select one or more roles for the user</strong>
-          <div class="12-small columns">
-                <% @roles.each do |role| %>
-                   <div>
-                     <input id="role_checkbox_<%= role.id %>" <%= ' checked="checked" ' if @selected_roles.include?(role)  %>type="checkbox" name="roles[]" value="<%= role.id %>" /><label for="role_checkbox_<%= role.id %>"><%= role.name %></label>
-                   </div>
-                <% end %>
-          </div>
-  </div>
+    <h3>Allow User to Login</h3>
+    <div>Do you want to allow this user to login as a volunteer?
+      <%= radio_button_tag(:create_user, :yes, (!!@person.user || params[:create_user] == 'yes')) %><label for="create_user_yes">Yes</label>
+      <%= radio_button_tag(:create_user, :no, (!@person.user && params[:create_user] != 'yes')) %><label for="create_user_no">No</label>
+    </div>
     <% if redirect_to_url %>
-        <input type="hidden" name="redirect_to_url" value="<%= redirect_to_url %>" />
+        <input type="hidden" name="redirect_to_url" value="<%= redirect_to_url %>"/>
     <% end %>
 
     <div class="row">
@@ -95,33 +86,34 @@
         </div>
         <div class="right">
           <button class="medium button" onclick="window.location='<%= redirect_to_url ? redirect_to_url : people_url %>';">
-            Cancel</button>
+            Cancel
+          </button>
         </div>
       </div>
     </div>
 
     <h3>Notes</h3>
     <% @person.notes.each do |n| %>
-    <div class="row note">
+        <div class="row note">
           <div class="small-12 columns">
             <%= f.fields_for :notes, n do |nf| %>
                 <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
                 <%= nf.text_area :note %>
-                <%= nf.check_box :_destroy, class:"delete-note-checkbox" %>
+                <%= nf.check_box :_destroy, class: "delete-note-checkbox" %>
                 <%= nf.label :_destroy, "Delete Note" %>
             <% end %>
           </div>
-    </div>
-    <%end%>
+        </div>
+    <% end %>
 
     <h4>New Note</h4>
     <div class="row space-above space-bottom">
-          <div class="small-12 columns new-note">
-            <%= f.fields_for :notes, @person.notes.build do |nf| %>
-                <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
-                <%= nf.text_area :note %>
-            <% end %>
-          </div>
+      <div class="small-12 columns new-note">
+        <%= f.fields_for :notes, @person.notes.build do |nf| %>
+            <%= nf.collection_select :note_type_id, NoteType.all, :id, :name %>
+            <%= nf.text_area :note %>
+        <% end %>
+      </div>
     </div>
 
 

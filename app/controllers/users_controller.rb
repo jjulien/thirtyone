@@ -5,10 +5,6 @@ class UsersController < ApplicationController
 
   # GET /user
   # GET /user.json
-  before_action :set_user, only: [:edit, :update]
-
-  # GET /user
-  # GET /user.json
   def index
     @people = Person.includes(:user).where.not(users: {id: nil})
     @new_person = Person.new
@@ -23,18 +19,10 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
-    # TODO: Try to update a user's e-mail, it's not working
-    # TODO: Check this if else logic and non-happy path
     if @user.update user_params
       conditionally_notify_email
 
       conditionally_re_login_user
-
-      # roles_to_add = []
-      # params[:roles].each do |role_id|
-      #   roles_to_add.push(Role.find(role_id))
-      # end
-      # @person.user.roles = roles_to_add
 
       respond_to do |format|
         format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
@@ -85,19 +73,6 @@ class UsersController < ApplicationController
     end
   else
     render 'users/email/invalid_token'
-  end
-    # TODO: Check this if else logic and non-happy path
-    if @user.update(user_params)
-      conditionally_notify_email
-
-      conditionally_re_login_user
-
-      format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
-      format.json { head :no_content }
-    else
-      format.html { render action: 'edit' }
-      format.json { render json: @user.errors, status: :unprocessable_entity }
-    end
   end
 
   private

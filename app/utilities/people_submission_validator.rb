@@ -93,13 +93,8 @@ class PeopleSubmissionValidator
     user.email = user_email
     user.password = Devise.friendly_token.first(8)
     user.confirm_email_change
-    user.roles = check_for_and_add_roles
+    user.roles = [Role.default_role]
     is_invalid?(user) ? nil : user
-  end
-
-  def check_for_and_add_roles
-    roles = params[:roles].map { |role| Role.find_by(id: role)  }
-    roles.reject(&:nil?)
   end
 
   def compute_errors(person)

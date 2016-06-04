@@ -38,7 +38,6 @@ class PeopleController < ApplicationController
   # GET /people/1.json
   def show
     @household = @person.household
-    @roles = Role.all
   end
 
   # GET /people/new
@@ -59,7 +58,6 @@ class PeopleController < ApplicationController
     end
 
     @person.household ||= @new_household
-    set_necessary_view_data
   end
 
   # GET /people/1/edit
@@ -91,90 +89,15 @@ class PeopleController < ApplicationController
     end
   end
 
-  private
-
-  def update_person
-    errors = []
-    @person.transaction do
-      begin
-        if params[:person][:household_id]
-          @person.household_id = params[:person][:household_id]
-          @person.save
-        else
-          household = Household.new
-          begin
-            household.address = Address.new(address_params)
-            household.address.state = State.find(params[:state][:id])
-          rescue ActionController::ParameterMissing => e
-            # No need to do anything, we just want to catch this error so it doesnt' bubble up
-            # the validation of @person will fail since @person.household.address isn't present
-            # We will present the error message to the use based on the model validation failuer
-          end
-          @person.household = household
-          if @person.save
-            household.person = @person
-            household.save
-          end
-        end
-        if params[:create_user] == 'yes'
-          if params[:person][:email].blank?
-            @person.add_custom_error(:email, 'is required when the person is also allowed to login')
-            # If email is blank, we will have a harsher error if we try to create a new user later
-            raise ActiveRecord::Rollback
-          elsif not params[:person][:email] =~ Devise.email_regexp
-            @person.add_custom_error(:email, 'is not valid')
-          end
-          if not @person.user
-            new_user = User.new({email: params[:person][:email], password: Devise.friendly_token.first(8)})
-            new_user.confirm_email_change
-            new_user.roles.append(Role.default_role)
-            if new_user.valid?
-              @person.user = new_user
-            else
-              errors += new_user.errors.full_messages
-            end
-          else
-            # We need to make sure the users email is always in-sync with the persons email
-            # ideally we'd just store this in one place but devise requires email to be in the
-            # users table.  We might also at one point want to allows users to have a different
-            # email that they use for being a pantry guest and a pantry user
-            @person.user.email = params[:person][:email];
-          end
-        else
-          if @person.user
-            @person.user.delete
-          end
-        end
-        @person.update(person_params)
-        if not @person.user.nil? and @person.user.should_send_confirmation_email?
-          @person.user.send_confirmation_email
-        end
-
-        # We need to raise a rollback exception if we don't validate
-        # It will get caught by the broader Exception rescue and then get re-escalated
-        # which may seem redunant, and it is, but we still need the broader Exception
-        # rescue in case something happens before we get to the validation code and
-        # an ActiveRecord::Rollback exception is called.
-        if not @person.valid?
-          raise ActiveRecord::Rollback
-        end
-      rescue ActiveRecord::Rollback
-        # We need to catch this so that we don't end up in the unknown error rescue
-        # which is for everything except a rollback.  A rollback means we saw a problem
-        # and have populated the errors array and intend to tell the user what happened
-        #
-        # We still have to actually raise ActiveRecord::Rollback though, so that Rails will
-        # catch it and perform the rollback.
-        raise ActiveRecord::Rollback
-      rescue Exception => e
-        logger.error e.message
-        logger.error e.backtrace.join("\n")
-        errors << 'An unknown error occurred: ' + e.message
-        raise ActiveRecord::Rollback
-      end
+  def redirect_to_url
+    if params[:redirect_to_url]
+      return params[:redirect_to_url]
     end
-    return errors
   end
+
+  helper_method :redirect_to_url
+
+  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_person
@@ -196,11 +119,6 @@ class PeopleController < ApplicationController
     @person ? (authorize @person) : (authorize :person)
   end
 
-  def set_necessary_view_data
-    @selected_roles = [Role.default_role]
-    @roles = Role.all
-  end
-
   def manage_create_or_update(is_update = false)
     @person ||= Person.new
     psv = PeopleSubmissionValidator.new(params)
@@ -218,7 +136,6 @@ class PeopleController < ApplicationController
           format.json { render action: "show", status: :created, location: @person }
         end
       else
-        set_necessary_view_data
         format.html { render action: is_update ? "edit" : "new" }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
