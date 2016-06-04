@@ -103,7 +103,7 @@ class PeopleSubmissionValidator
   end
 
   def person_params
-    params.require(:person).permit(:firstname, :lastname, :phone, :household_id, :email)
+    params.require(:person).permit(:firstname, :lastname, :phone, :phone_ext, :household_id, :email)
   end
 
 end

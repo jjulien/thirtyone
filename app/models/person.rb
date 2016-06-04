@@ -6,6 +6,7 @@
 #  firstname    :string
 #  lastname     :string
 #  phone        :string
+#  phone_ext    :string
 #  created_at   :datetime
 #  updated_at   :datetime
 #  household_id :integer
@@ -13,6 +14,8 @@
 #
 
 class Person < ActiveRecord::Base
+  include PhoneMethod
+
   acts_as_paranoid
 #  has_notes
   has_and_belongs_to_many :notes
@@ -20,8 +23,8 @@ class Person < ActiveRecord::Base
   has_one :user, autosave: true
   validates_presence_of :firstname, :lastname, :household
   validates_associated :household
-  validates_format_of :phone, :with => /[0-9]{3}-[0-9]{3}-[0-9]{4}/
   validate :custom_validate
+  before_save :strip_phone_number
 
   def fullname
     if lastname
@@ -70,4 +73,8 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def strip_phone_number
+    self.phone = self.strip_phone(self.phone)
+    self.phone_ext = self.strip_phone_ext(self.phone_ext)
+  end
 end

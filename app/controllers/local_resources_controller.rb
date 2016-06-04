@@ -114,7 +114,7 @@ class LocalResourcesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def local_resource_params
-      params.require(:local_resource).permit(:contact_name, :business_name, :phone, :email, :url,
+      params.require(:local_resource).permit(:contact_name, :business_name, :phone, :phone_ext, :email, :url,
                                              address_attributes: [:line1, :line2, :city, :zip])
     end
 
