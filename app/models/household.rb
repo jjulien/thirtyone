@@ -17,7 +17,9 @@ class Household < ActiveRecord::Base
   alias_method :head, :person
   alias_method :head=, :person=
   has_many :members, class_name: 'Person', foreign_key: 'household_id'
+  has_many :household_limits
   accepts_nested_attributes_for :address
+  accepts_nested_attributes_for :household_limits, allow_destroy: true
   validates_associated :address
 
   acts_as_paranoid
