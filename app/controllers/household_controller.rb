@@ -64,6 +64,8 @@ class HouseholdController < ApplicationController
 
   def update
     @household.address.update(address_params)
+    @household.update(household_limit_params)
+
     respond_to do |format|
       format.html { redirect_to @household, notice: 'Household was successfully updated.' }
     end
@@ -205,12 +207,16 @@ class HouseholdController < ApplicationController
   end
 
   def household_params
-    params.require(:household).permit(:address)
+    params.require(:household).permit(:address, :household_limit => [])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def address_params
     params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
+  end
+
+  def household_limit_params
+    params.require(:household).permit(household_limits_attributes:[:inventory_item_id, :quantity, :id, :_destroy])
   end
 
   def authorize_household

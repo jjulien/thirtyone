@@ -20,3 +20,8 @@
     <a class="close-reveal-modal">&#215;</a>
   </div>
 </div>
+<div class="row space-above">
+  <div class="large-10 small-12 large-offset-2 columns">
+    <%= link_to('Add Inventory Limit Override', edit_household_path(@household), :class => 'button medium') if current_user and current_user.has_access?(PERM_RW_PERSON) %>
+  </div>
+</div>

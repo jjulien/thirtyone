@@ -1,0 +1,17 @@
+<div class="fields text-center">
+  <div class="small-5 columns">
+    <div class="field">
+      <%= f.label :household_limit_inventroy_item, "Iventory Item" %>
+      <%= f.collection_select :inventory_item_id, InventoryItem.all, :id, :name %>
+    </div>
+  </div>
+  <div class="small-5 columns">
+    <div class="field">
+      <%= f.label :household_limit_item, "Quantity Override" %>
+      <%= f.text_field :quantity %>
+    </div>
+  </div>
+  <div class="small-2 columns" >
+    <p><%= link_to_remove_fields "Remove", f %></p>
+  </div>
+</div>
