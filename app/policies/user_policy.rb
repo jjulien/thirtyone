@@ -32,4 +32,3 @@ class UserPolicy < ApplicationPolicy
     true
   end
 end
-

@@ -1,6 +1,8 @@
 <%= form_for(@person, :html => {:name => 'new_person'}) do |f| %>
     <% is_user = !@person.user.nil? %>
-    <h5>Want to edit user attributes? Go to the <a href="<%= edit_user_url(@person.user) %>">edit user</a> page.</h5>
+    <% if is_user %>
+        <h5>Want to edit user attributes? Go to the <a href="<%= edit_user_url(@person.user) %>">edit user</a> page.</h5>
+    <% end %>
     <% if @person.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@person.errors.count, "error") %> prohibited this person from being saved:</h2>
@@ -79,19 +81,6 @@
         <input type="hidden" name="redirect_to_url" value="<%= redirect_to_url %>"/>
     <% end %>
 
-    <div class="row">
-      <div class="small-12 columns">
-        <div class="field left">
-          <%= f.submit class: 'medium button' %>
-        </div>
-        <div class="right">
-          <button class="medium button" onclick="window.location='<%= redirect_to_url ? redirect_to_url : people_url %>';">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </div>
-
     <h3>Notes</h3>
     <% @person.notes.each do |n| %>
         <div class="row note">
@@ -116,9 +105,17 @@
       </div>
     </div>
 
-
-    <div class="field">
-      <%= f.submit class: 'button' %>
+    <div class="row">
+      <div class="small-12 columns">
+        <div class="field left">
+          <%= f.submit class: 'medium button' %>
+        </div>
+        <div class="right">
+          <button class="medium button" onclick="window.location='<%= redirect_to_url ? redirect_to_url : people_url %>';">
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
 
 <% end %>

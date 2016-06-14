@@ -60,7 +60,6 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    docile (1.1.5)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.5.0)
@@ -136,9 +135,6 @@ GEM
       slop (~> 3.4)
     pundit (1.0.1)
       activesupport (>= 3.0.0)
-    pundit-matchers (1.0.2)
-      pundit (~> 1.0, >= 1.0.0)
-      rspec-rails (>= 3.0.0)
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -227,11 +223,6 @@ GEM
     shellany (0.0.1)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    simplecov (0.11.2)
-      docile (~> 1.1.0)
-      json (~> 1.8)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.0)
     slop (3.6.0)
     spring (1.4.0)
     spring-commands-rspec (1.0.4)
@@ -276,7 +267,6 @@ DEPENDENCIES
   jquery-ui-rails
   paranoia (~> 2.0)
   pundit
-  pundit-matchers
   quiet_assets
   rails (~> 4)
   rails-assets-fullcalendar!
@@ -288,7 +278,6 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   sdoc
   shoulda-matchers
-  simplecov
   spring
   spring-commands-rspec
   sqlite3

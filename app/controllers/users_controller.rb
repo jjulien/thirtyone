@@ -14,12 +14,13 @@ class UsersController < ApplicationController
 
   # GET /user/1/edit
   def edit
+    @can_edit_password = can_edit_password
   end
 
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
-    if @user.update user_params
+    if @user.update user_params(@user)
       conditionally_notify_email
 
       conditionally_re_login_user
@@ -85,8 +86,12 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params[:user].delete(:password) if params[:user][:password].blank?
-    params[:user].delete(:password_confirmation) if params[:user][:password_confirmation].blank?
+    # Remove password fields if it is blank because the user is not trying to change the password
+    # Or if the user is not allowed to edit the password
+    if params[:user][:password].blank? || !can_edit_password
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
 
     # Only admins can edit user roles
     if current_user.has_access?(PERM_ADMIN)
@@ -94,6 +99,10 @@ class UsersController < ApplicationController
     else
       params.require(:user).permit(:email, :password, :password_confirmation)
     end
+  end
+
+  def can_edit_password
+    current_user.has_access?(PERM_ADMIN) || current_user == @user
   end
 
   # Notifies the user by email if they opted to change their email
