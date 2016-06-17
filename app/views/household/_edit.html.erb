@@ -5,6 +5,7 @@
         <label class="required" for="household_name">Household Name</label>
         <input disabled="disabled" type="text" value="<% if not @household.new_record? %><%= @household.name %><% end %>" />
       </div>
+    </div>
       <div class="small-12 columns">
         <%= fields_for :address, @household.address do |a| %>
             <div class="field">
@@ -29,7 +30,6 @@
             </div>
         <% end %>
       </div>
-    </div>
     <input type="hidden" id="person_household_id" name="person[household_id]" value="" />
 <% end %>
 </div>

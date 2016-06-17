@@ -3,14 +3,26 @@
   <div style="margin-top:20px;" class="row">
     <div class="small-12 medium-8 large-8 columns small-centered">
       <%= render :partial => 'household/new', :locals => {:f => form} %>
-      <%= form.fields_for :household_limits do |builder| %>
-          <%= render 'household_limit_fields', :f => builder %>
-      <% end %>
-      <div class="small-12 columns">
-        <%= link_to_add_fields "Add Inventory Override", form, :household_limits %>
-      </div>
     </div>
   </div>
+
+    <div class="row">
+      <div class="small-12 medium-8 large-8 columns small-centered">
+        <table id="household_limits_table" class="layout-wrapper">
+            <%= form.fields_for :household_limits do |builder| %>
+                <%= render 'household_limit_fields', :f => builder %>
+            <% end %>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 medium-8 large-8 columns small-centered">
+        <div class="small-12 columns">
+          <p><%= link_to_add_fields "Add Inventory Override", form, :household_limits, "#household_limits_table" %></p>
+        </div>
+      </div>
+    </div>
 
   <div class="row">
     <div class="large-8 small-12 columns small-centered">

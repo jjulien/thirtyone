@@ -30,8 +30,20 @@ function remove_fields(link) {
     $(link).closest(".fields").hide();
 }
 
-function add_fields(link, association, content) {
+function add_fields(link, association, content, parent_selector) {
+    if ( parent_selector != null ) {
+        parent = $(parent_selector);
+    } else {
+        parent = $(link).parent().parent();
+    }
     var new_id = new Date().getTime();
     var regexp = new RegExp("new_" + association, "g")
-    $(link).parent().before(content.replace(regexp, new_id));
+    $(parent).append(content.replace(regexp, new_id));
 }
+
+$(function () {
+    $('.center-vertical').each(function (index) {
+        var row = $(this).closest('.row');
+        $(this).height($(row).height());
+    });
+});

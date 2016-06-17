@@ -56,3 +56,16 @@
     background-color: #ececec;
   }
 }
+
+.layout-wrapper {
+  border: none;
+  margin: 0em;
+  padding: 0em;
+  background: rgba(0, 0, 0, 0.0); /* Transparent */
+  tr {
+    background: rgba(0, 0, 0, 0.0) !important; /* Transparent */
+  }
+  td {
+    padding: 0em;
+  }
+}
