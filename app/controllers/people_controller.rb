@@ -2,10 +2,10 @@ class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :init
+  before_action :authorize_person
 
   def init
     @errors = []
-    authorize_person
   end
 
   # GET /people

@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
-    if @user.update user_params(@user)
+    if @user.update user_params
       conditionally_notify_email
 
       conditionally_re_login_user

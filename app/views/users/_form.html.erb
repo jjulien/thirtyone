@@ -43,15 +43,15 @@
       <% end %>
     </div>
     <div class="field">
-      TODO: Does can_edit_password work? (Try it on a user with RW permissions)
-      TODO: Also add a notice if can_edit_password is false to tell them they are not allowed to change the password
-      TODO: What if they submit and aren't allowed to edit, does the new controller logic work?
+      <% unless @can_edit_password %>
+        <strong>You cannot edit the password because you do not have sufficient permissions</strong>
+      <% end %>
       <%= f.label :password, 'Password (Optional, leave blank to remain unchanged)' %>
-      <%= f.password_field :password, autofocus: true, autocomplete: 'off', enabled: @can_edit_password %>
+      <%= f.password_field :password, autofocus: true, autocomplete: 'off', disabled: !@can_edit_password %>
     </div>
     <div class="field">
       <%= f.label :password_confirmation, 'Confirm Password' %>
-      <%= f.password_field :password_confirmation, autofocus: true, autocomplete: 'off', enabled: @can_edit_password %>
+      <%= f.password_field :password_confirmation, autofocus: true, autocomplete: 'off', disabled: !@can_edit_password %>
     </div>
     <div class="field">
       <strong>Select one or more roles for the user</strong>
