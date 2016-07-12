@@ -117,7 +117,7 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if psv.process(@person)
         @person.user.send_new_account_instructions unless(@person.user.nil? || is_update)
-        url = @person.user if psv.is_new_user
+        url = @person.user if @person.user and @person.user.new_record?
         url ||= params[:redirect_to_url] || @person
         msg = is_update ? "updated" : "created"
         format.html { redirect_to url, notice: "Person was successfully #{msg}." }
