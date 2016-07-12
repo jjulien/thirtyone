@@ -106,15 +106,6 @@ class PeopleController < ApplicationController
     redirect_to action: 'index' unless @person
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def person_params
-    params.require(:person).permit(:firstname, :lastname, :phone, :phone_ext, :household_id, :email)
-  end
-
-  def address_params
-    params.require(:address).permit(:line1, :line2, :city, :state, :zip, :state_id)
-  end
-
   def authorize_person
     @person ? (authorize @person) : (authorize :person)
   end
