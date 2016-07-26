@@ -64,6 +64,7 @@ class PeopleController < ApplicationController
   def edit
     @household = @person.household
     @all_states = State.all
+    @is_user = !@person.user.nil?
   end
 
   # POST /people

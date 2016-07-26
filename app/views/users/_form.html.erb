@@ -27,14 +27,14 @@
                 </div>
                 <div class="row" style="margin-top:20px;">
                   <div class="small-12 medium-6 columns">
-                    <button class="button tiny center-block" type="button" onclick="resendEmailConfirmation();">Resend Confirmation Email</button>
+                    <button class="button medium center-block" type="button" onclick="resendEmailConfirmation();">Resend Confirmation Email</button>
                   </div>
                   <div class="small-12 medium-6 columns">
-                    <button class="button tiny" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
+                    <button class="button medium" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
                   </div>
                 </div>
               </div>
-              <%= f.email_field :email, style: "display: none;" %>
+              <%= f.email_field :email, style: 'display: none;' %>
           <% else %>
               <%= f.email_field :email, :value => @user.pending_email %>
           <% end %>
@@ -57,13 +57,12 @@
       <strong>Select one or more roles for the user</strong>
       <div class="12-small columns">
         <div>
-          <% disabled = !current_user.has_access?(PERM_ADMIN) %>
-          <% if disabled %>
+          <% if @disable_roles %>
               <div>Only admins can edit user permissions.</div>
           <% end %>
           <%= f.collection_check_boxes :role_ids, Role.all, :id, :name, checked: @user.roles.map(&:id) do |b| %>
               <%= b.label do %>
-                  <%= b.check_box(:disabled => disabled) + b.text %>
+                  <%= b.check_box(:disabled => @disable_roles) + b.text %>
               <% end %>
           <% end %>
         </div>
@@ -71,7 +70,7 @@
     </div>
     <div class="actions">
       <div class="left">
-        <%= f.submit 'Update User', :class => 'button tiny' %>
+        <%= f.submit 'Update User', :class => 'button medium' %>
       </div>
     </div>
 <% end %>

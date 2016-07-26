@@ -1,6 +1,5 @@
 <%= form_for(@person, :html => {:name => 'new_person'}) do |f| %>
-    <% is_user = !@person.user.nil? %>
-    <% if is_user %>
+    <% if @is_user %>
         <h5>Want to edit user attributes? Go to the <a href="<%= edit_user_url(@person.user) %>">edit user</a> page.</h5>
     <% end %>
     <% if @person.errors.any? %>
@@ -25,10 +24,10 @@
     </div>
     <div class="field">
       <%= f.label :email %>
-      <% if is_user %>
+      <% if @is_user %>
           User e-mail must be edited from the <a href="<%= edit_user_path(@person.user) %>">edit user</a> page.
       <% end %>
-      <%= f.email_field :email, :disabled => is_user %>
+      <%= f.email_field :email, :disabled => @is_user %>
     </div>
     <div class="phone_field">
       <div class="phone_left">

@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   # GET /user/1/edit
   def edit
     @can_edit_password = can_edit_password
+    @disable_roles = !current_user.has_access?(PERM_ADMIN)
   end
 
   # PATCH/PUT /user/1
@@ -31,6 +32,7 @@ class UsersController < ApplicationController
       end
     else
       respond_to do |format|
+        # TODO: This line is broken. It needs to redirect to the edit page and have errors
         format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end

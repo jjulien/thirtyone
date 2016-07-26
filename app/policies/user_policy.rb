@@ -5,8 +5,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    # Using PERSON permission because index forwards to people index
-    @logged_in_user.has_access?(PERM_RO_PERSON)
+    @logged_in_user.has_access?(PERM_RO_USER)
   end
 
   def update?
