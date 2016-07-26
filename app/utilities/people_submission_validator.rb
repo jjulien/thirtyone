@@ -1,5 +1,5 @@
 class PeopleSubmissionValidator
-  attr_reader :params, :errors, :is_new_user
+  attr_reader :params, :errors
   def initialize(params)
     @params = params
     @errors = {}
@@ -78,13 +78,16 @@ class PeopleSubmissionValidator
       return
     end
 
-    user_email = person_params[:email]
-    if user_email.blank?
+    user = person.user || User.new
+
+    user_email = user.new_record? ? person_params[:email] : user.email
+
+    # Only validate email being required when the user is new
+    if user_email.blank? and user.new_record?
       @errors[:email] = "is required when the person is also allowed to login"
     elsif user_email !~ Devise.email_regexp
       @errors[:email] = "is not valid"
     else
-      user = person.user || User.new
       person.user = setup_user(user, user_email)
     end
   end
@@ -93,13 +96,8 @@ class PeopleSubmissionValidator
     user.email = user_email
     user.password = Devise.friendly_token.first(8)
     user.confirm_email_change
-    user.roles = check_for_and_add_roles
+    user.roles = [Role.default_role]
     is_invalid?(user) ? nil : user
-  end
-
-  def check_for_and_add_roles
-    roles = params[:roles].map { |role| Role.find_by(id: role)  }
-    roles.reject(&:nil?)
   end
 
   def compute_errors(person)

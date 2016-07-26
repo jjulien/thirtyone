@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
   has_many :roles, :through => :user_roles
   belongs_to :person, autosave: true
 
+  accepts_nested_attributes_for :user_roles, allow_destroy: true
+
   @send_confirmation = false
 
   def send_new_account_instructions
