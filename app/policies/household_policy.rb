@@ -51,6 +51,6 @@ class HouseholdPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    edit?
   end
 end
