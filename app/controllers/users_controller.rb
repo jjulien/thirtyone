@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         # TODO: This line is broken. It needs to redirect to the edit page and have errors
-        format.html { render action: 'edit' }
+        format.html { redirect_to edit_user_path(@user.id) }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
