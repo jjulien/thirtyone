@@ -73,7 +73,7 @@ class PeopleSubmissionValidator
   end
 
   def check_create_new_user(person)
-    unless params[:create_user] == "yes"
+    unless params[:create_user] == 'yes'
       person.user.destroy if person.user
       return
     end
