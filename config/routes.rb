@@ -28,6 +28,8 @@ Thirtyone::Application.routes.draw do
 
   root  'static_pages#index'
 
+  # If user refreshes the user 'update' page after getting an error, we want to send them to the edit page
+  match '/user/:id', :controller => 'users', :action => 'edit', via: :get
   resources :user, controller: 'users', only: [:index, :edit, :update]
   resources :role, as: "roles", controller: "roles", via: :all
 
