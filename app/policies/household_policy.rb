@@ -50,4 +50,7 @@ class HouseholdPolicy < ApplicationPolicy
     merge_select?
   end
 
+  def update?
+    edit?
+  end
 end

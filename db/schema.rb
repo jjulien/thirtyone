@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160604003857) do
-
+ActiveRecord::Schema.define(version: 20160604024620) do
   create_table "addresses", force: :cascade do |t|
     t.string   "line1"
     t.string   "line2"
@@ -30,6 +29,18 @@ ActiveRecord::Schema.define(version: 20160604003857) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "household_limits", force: :cascade do |t|
+    t.integer  "inventory_item_id"
+    t.integer  "household_id"
+    t.integer  "quantity"
+    t.integer  "reset_after_days"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "household_limits", ["household_id"], name: "index_household_limits_on_household_id"
+  add_index "household_limits", ["inventory_item_id"], name: "index_household_limits_on_inventory_item_id"
 
   create_table "households", force: :cascade do |t|
     t.string   "name"
@@ -49,6 +60,8 @@ ActiveRecord::Schema.define(version: 20160604003857) do
     t.string   "unit"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "default_limit"
+    t.integer  "limit_reset_after_days"
   end
 
   create_table "inventory_stock_records", force: :cascade do |t|
