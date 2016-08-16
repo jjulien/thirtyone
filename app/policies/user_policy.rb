@@ -25,6 +25,11 @@ class UserPolicy < ApplicationPolicy
     update?
   end
 
+  # Emulate what is in PersonPolicy#show?
+  def show_person?
+    @logged_in_user.has_access?(PERM_RO_PERSON)
+  end
+
   # Email confirmations should not require a login, so we will always authorize.
   # The token in the URL is the real authorization mechanism.
   def confirm_email_change?

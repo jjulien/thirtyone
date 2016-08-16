@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
+  before_action :set_user, only: [:edit, :update, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change, :show_person]
   before_action :authenticate_user!, except: [:confirm_email_change]
   before_action :authorize_user
   before_action :set_common_vars, only: [:edit, :update]
@@ -35,6 +35,12 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # GET /user/1
+  # Redirect to the person show page
+  def show_person
+    redirect_to @user.person
   end
 
   # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
