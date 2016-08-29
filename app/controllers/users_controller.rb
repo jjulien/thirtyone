@@ -26,7 +26,7 @@ class UsersController < ApplicationController
       conditionally_re_login_user
 
       respond_to do |format|
-        format.html { redirect_to edit_user_path(@user.id), notice: 'User was successfully updated.' }
+        format.html { redirect_to @user.person, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       end
     else
@@ -119,9 +119,9 @@ class UsersController < ApplicationController
     end
   end
 
-  # Logs the user back in if they opted to change their password
+  # Logs the user back in if they opted to change their password and the logged in user is the same user being edited
   def conditionally_re_login_user
-    if user_params[:password] && user_params[:password_confirmation]
+    if user_params[:password] && user_params[:password_confirmation] && current_user == @user
       sign_in @user, :bypass => true
     end
   end

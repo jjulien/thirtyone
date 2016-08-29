@@ -26,7 +26,7 @@ class PeopleController < ApplicationController
           render partial: 'search_results'
         else
           @new_person = Person.new
-          @search_string = params[:search] ? params[:search].join(" ") : ""
+          @search_string = params[:search] ? params[:search].join(' ') : ''
           render action: 'index'
         end
       }
@@ -53,7 +53,7 @@ class PeopleController < ApplicationController
       @person.household = Household.find_by(id: params[:household_id])
     elsif params[:household_data]
       household_data = JSON.load(params[:household_data])
-      address_data = household_data["address"]
+      address_data = household_data['address']
       @new_household.address = Address.new(address_data)
     end
 
@@ -118,17 +118,18 @@ class PeopleController < ApplicationController
     respond_to do |format|
       if psv.process(@person)
         @person.user.send_new_account_instructions unless(@person.user.nil? || is_update)
-        url = @person.user if @person.user and @person.user.new_record?
+        # Redirect to the edit user page if they are creating a new user
+        url = edit_user_path(@person.user) if params[:create_user] == 'yes'
         url ||= params[:redirect_to_url] || @person
-        msg = is_update ? "updated" : "created"
+        msg = is_update ? 'updated' : 'created'
         format.html { redirect_to url, notice: "Person was successfully #{msg}." }
         if is_update
           format.json { head :no_content }
         else
-          format.json { render action: "show", status: :created, location: @person }
+          format.json { render action: 'show', status: :created, location: @person }
         end
       else
-        format.html { render action: is_update ? "edit" : "new" }
+        format.html { render action: is_update ? 'edit' : 'new' }
         format.json { render json: @person.errors, status: :unprocessable_entity }
       end
     end
