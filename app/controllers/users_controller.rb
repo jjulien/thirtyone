@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change]
+  before_action :set_user, only: [:edit, :update, :cancel_pending_email_change, :send_confirmation_email, :confirm_email_change, :show_person]
   before_action :authenticate_user!, except: [:confirm_email_change]
   before_action :authorize_user
+  before_action :set_common_vars, only: [:edit, :update]
 
   # GET /user
   # GET /user.json
@@ -14,8 +15,6 @@ class UsersController < ApplicationController
 
   # GET /user/1/edit
   def edit
-    @can_edit_password = can_edit_password
-    @disable_roles = !current_user.has_access?(PERM_ADMIN)
   end
 
   # PATCH/PUT /user/1
@@ -32,11 +31,16 @@ class UsersController < ApplicationController
       end
     else
       respond_to do |format|
-        # TODO: This line is broken. It needs to redirect to the edit page and have errors
         format.html { render action: 'edit' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  # GET /user/1
+  # Redirect to the person show page
+  def show_person
+    redirect_to @user.person
   end
 
   # This is an AJAX only method, there is no page to be displayed.  It just invokes an action.
@@ -128,5 +132,10 @@ class UsersController < ApplicationController
 
   def authorize_user
     @user ? (authorize @user) : (authorize :user)
+  end
+
+  def set_common_vars
+    @can_edit_password = can_edit_password
+    @disable_roles = !current_user.has_access?(PERM_ADMIN)
   end
 end
