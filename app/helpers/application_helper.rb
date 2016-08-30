@@ -13,6 +13,13 @@ module ApplicationHelper
     is_duplicate?(person) ? "#{person.fullname} (#{person.household.address.line1})" : person.fullname
   end
 
+  def admin_setup_complete?
+    if user_signed_in? and current_user.email == 'admin'
+      return false
+    end
+    return true
+  end
+
   private
   def is_duplicate?(person)
     Person.select { |p| p.id != person.id && p.fullname == person.fullname }.any?

@@ -31,6 +31,7 @@ Thirtyone::Application.routes.draw do
   resources :user, controller: 'users', only: [:index, :edit, :update]
   resources :role, as: "roles", controller: "roles", via: :all
 
+  match '/adminsetup', :controller => 'adminsetup', :action => 'setup', :via => 'get'
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_new', via: :get
   match '/roles/bulk', :controller => 'roles', :action => 'bulk_assign_create', via: :post
 

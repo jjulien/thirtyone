@@ -12,7 +12,8 @@
     <%= csrf_meta_tags %>
   </head>
   <body class="<%= controller_name %> <%= action_name %>">
-  <%= if(user_signed_in?)
+  <% puts "maybe: #{self.class.name}" %>
+  <%= if user_signed_in?
     render "static_pages/topnav"
   else
     render "static_pages/unauthTopnav"
