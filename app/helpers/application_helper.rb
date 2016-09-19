@@ -20,6 +20,13 @@ module ApplicationHelper
     return true
   end
 
+  # This is used to determine if the current user is the default admin and if they are trying to update
+  # the account without knowning this, we would just put the user in an endless loop of redirecting to
+  # a GET of the adminsetup page
+  def requested_admin_setup_page?
+    return ( params[:controller] == 'users' and params[:action] == 'update' and current_user.email == 'admin' )
+  end
+
   private
   def is_duplicate?(person)
     Person.select { |p| p.id != person.id && p.fullname == person.fullname }.any?

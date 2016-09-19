@@ -21,6 +21,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /user/1
   # PATCH/PUT /user/1.json
   def update
+    puts "In update user"
     if @user.update user_params
       conditionally_notify_email
 

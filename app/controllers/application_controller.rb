@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!(opts={})
     super
-    if not admin_setup_complete?
+    if not admin_setup_complete? and not requested_admin_setup_page?
       session['admin_setup_redirect_to'] = request.original_url
       redirect_to adminsetup_url
     end
