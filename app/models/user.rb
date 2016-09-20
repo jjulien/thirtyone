@@ -77,7 +77,11 @@ class User < ActiveRecord::Base
 
   def cancel_pending_email_change(change_email = false)
     values = {reset_email_token: nil, reset_email_token_sent_at: nil, pending_email: nil}
-    values[:email] = pending_email if change_email
+
+    # We have to use self[:email] here because the setter for email will redirect all changes to pending_email
+    # this is the only spot where the email attribute actually gets set
+    self[:email] = pending_email if change_email
+
     update(values)
   end
 

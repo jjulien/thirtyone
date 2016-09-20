@@ -63,15 +63,20 @@ class UsersController < ApplicationController
         return
       end
       @user.confirm_email_change
-      if @user.save!({validate: (not @user.admin)})
-        puts "Saving"
+      if @user.admin
+        @user.save!({validate: false})
         @user.person.email = @user.email
-        @user.person.save
-      end
-      if not @user.valid? or not @user.person.valid?
-        @errors = []
-        @errors += @user.errors.full_messages
-        @errors += @user.person.errors.full_messages
+        @user.person.save!({validate: false})
+      else
+        if @user.save
+          @user.person.email = @user.email
+          @user.person.save
+        end
+        if not @user.valid? or not @user.person.valid?
+          @errors = []
+          @errors += @user.errors.full_messages
+          @errors += @user.person.errors.full_messages
+        end
       end
       render 'users/email/confirm_email_change'
       return
