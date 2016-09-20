@@ -24,7 +24,8 @@ module ApplicationHelper
   # the account without knowning this, we would just put the user in an endless loop of redirecting to
   # a GET of the adminsetup page
   def requested_admin_setup_page?
-    return ( params[:controller] == 'users' and params[:action] == 'update' and current_user.email == 'admin' )
+    valid_actions = ['update', 'send_confirmation_email']
+    return ( params[:controller] == 'users' and current_user.email == 'admin' and valid_actions.include?(params[:action])  )
   end
 
   private

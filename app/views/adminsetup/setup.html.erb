@@ -11,14 +11,49 @@
 <div class="row space-above">
   <div class="small-12 medium-6 medium-centered columns">
     <%= form_for(@user) do |f| %>
-        <div class="field">
-          <%= f.label :email %>
-          <%= f.email_field :email %>
-        </div>
-        <div class="field">
-          <%= f.label :email, 'Confirm Email' %>
-          <%= f.email_field :email %>
-        </div>
+
+        <% if @user.has_pending_email_change? %>
+            <% if @user.pending_email_valid? %>
+                <div id="pending_email_change_div">
+                  <div class="row">
+                    <div class="small-12 columns">
+                      <p>
+                        This user has a pending email change from <i><%= @user.email %></i> to <i><%= @user.pending_email %></i>.
+                        A confirmation email has been sent to <i><%= @user.pending_email %></i>. You can can either cancel this change or re-send the
+                        confirmation link to this email.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top:20px;">
+                    <div class="small-12 medium-6 columns">
+                      <button class="button medium center-block" type="button" onclick="resendEmailConfirmation();">Resend Confirmation Email</button>
+                    </div>
+                    <div class="small-12 medium-6 columns">
+                      <button class="button medium" type="button" onclick="cancelEmailChange();">Cancel Email Change</button>
+                    </div>
+                  </div>
+                </div>
+                <%= f.email_field :email, style: 'display: none;' %>
+            <% else %>
+                <div class="field">
+                  <%= f.label :email %>
+                  <%= f.email_field :email, :value => @user.pending_email %>
+                </div>
+                <div class="field">
+                  <%= f.label :email, 'Confirm Email' %>
+                  <%= f.email_field :email, :value => @user.pending_email %>
+                </div>
+            <% end %>
+        <% else %>
+            <div class="field">
+              <%= f.label :email %>
+              <%= f.email_field :email %>
+            </div>
+            <div class="field">
+              <%= f.label :email, 'Confirm Email' %>
+              <%= f.email_field :email %>
+            </div>
+        <% end %>
         <div class="field">
           <%= f.label :password, 'Password' %>
           <%= f.password_field :password, autofocus: true %>
@@ -31,3 +66,36 @@
     <% end %>
   </div>
 </div>
+
+<script type="text/javascript">
+  function resendEmailConfirmation() {
+    $.ajax({
+      url: '<%= send_confirmation_email_url(@user) %>',
+      method: 'POST',
+      accept: 'application/json'
+    }).done(function (data, textStatus, jqXHR) {
+      $("#notice_content").html("Confirmation email sent");
+      $("#notice").show().delay(3000).fadeOut(1000);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $("#error_content").html("Error sending confirmation email");
+      $("#error").show().delay(3000).fadeOut(1000);
+    });
+  }
+
+  function cancelEmailChange() {
+    $.ajax({
+      url: '<%= cancel_pending_email_change_url(@user) %>',
+      method: 'DELETE'
+    }).done(function (data, textStatus, jqXHR) {
+      $("#notice_content").html("Pending email change was cancelled");
+      $("#notice").show().delay(3000).fadeOut(1000);
+      $('#user_email').show();
+      $('#user_email').removeAttr("disabled");
+      $('#pending_email_change_div').hide();
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      $("#error_content").html("Error canceling pending email change");
+      $("#error").show().delay(3000).fadeOut(1000);
+    });
+    ;
+  }
+</script>

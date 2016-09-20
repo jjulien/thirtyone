@@ -63,7 +63,8 @@ class UsersController < ApplicationController
         return
       end
       @user.confirm_email_change
-      if @user.save
+      if @user.save!({validate: (not @user.admin)})
+        puts "Saving"
         @user.person.email = @user.email
         @user.person.save
       end

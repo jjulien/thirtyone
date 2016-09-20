@@ -87,6 +87,7 @@ user.roles << admin_role if not user.roles.include?(admin_role)
 if not user.person
   user.person = Person.new({firstname: "Pantry", lastname: "Administrator", email: 'admin'})
 end
+user.admin = true
 user.save!({validate: false})
 
 local_resource_categories = [{:name => 'Automotive'},
